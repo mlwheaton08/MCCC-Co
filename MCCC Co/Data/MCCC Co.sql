@@ -22,8 +22,8 @@ DROP TABLE IF EXISTS [User];
 DROP TABLE IF EXISTS [Item];
 DROP TABLE IF EXISTS [ItemTypeSeries];
 DROP TABLE IF EXISTS [Type];
-DROP TABLE IF EXISTS [Category];
 DROP TABLE IF EXISTS [Series];
+DROP TABLE IF EXISTS [Category];
 
 CREATE TABLE [User] (
   [Id] int PRIMARY KEY identity,
@@ -89,16 +89,8 @@ CREATE TABLE [Application] (
 )
 GO
 
-CREATE TABLE [Category] (
-  [Id] int PRIMARY KEY identity,
-  [Name] nvarchar(255) not null,
-  [Image] nvarchar(255)
-)
-GO
-
 CREATE TABLE [Type] (
   [Id] int PRIMARY KEY identity,
-  [CategoryId] int not null,
   [Name] nvarchar(255) not null,
   [Image] nvarchar(255)
 )
@@ -137,7 +129,8 @@ GO
 CREATE TABLE [OrderItem] (
   [Id] int PRIMARY KEY identity,
   [OrderId] int not null,
-  [ItemId] int not null
+  [ItemId] int not null,
+  [ItemQuantity] int not null
 )
 GO
 
@@ -168,9 +161,6 @@ CREATE TABLE [Distributor] (
 GO
 
 ALTER TABLE [UserShippingAddress] ADD FOREIGN KEY ([UserId]) REFERENCES [User] ([Id])
-GO
-
-ALTER TABLE [Type] ADD FOREIGN KEY ([CategoryId]) REFERENCES [Category] ([Id])
 GO
 
 ALTER TABLE [Item] ADD FOREIGN KEY ([TypeId]) REFERENCES [Type] ([Id])
@@ -240,21 +230,15 @@ VALUES
 	(5,'','','6705 Elit Rd.','','Idaho Falls','Idaho','32751','United States','0')
 GO
 
-INSERT INTO Category ([Name],[Image])
+INSERT INTO [Type] ([Name],[Image])
 VALUES
-	('Cymbals',null),
-	('Accessories',null)
-GO
-
-INSERT INTO [Type] (CategoryId,[Name],[Image])
-VALUES
-	(1,'Ride',null),
-	(1,'Crash',null),
-	(1,'Splash',null),
-	(1,'Hi Hats',null),
-	(1,'China',null),
-	(1,'Stack',null),
-	(1,'Bell',null)
+	('Ride',null),
+	('Crash',null),
+	('Splash',null),
+	('Hi Hats',null),
+	('China',null),
+	('Stack',null),
+	('Bell',null)
 GO
 
 INSERT INTO Series ([Name],Alloy,BrightnessLevel,[Description],[Image])
@@ -423,58 +407,58 @@ VALUES
   (5,null,'2022-06-01T10:52:33.000Z',null,null,null,null,null)
 GO
 
-INSERT INTO OrderItem (OrderId,ItemId)
+INSERT INTO OrderItem (OrderId,ItemId,ItemQuantity)
 VALUES
-	(1,4),
-	(1,3),
-	(2,5),
-	(2,5),
-	(3,1),
-	(3,2),
-	(4,7),
-	(4,10),
-	(5,15),
-	(5,11),
-	(6,2),
-	(6,23),
-	(7,4),
-	(7,6),
-	(8,8),
-	(8,9),
-	(9,10),
-	(9,1),
-	(10,1),
-	(10,4),
-	(11,6),
-	(11,7),
-	(12,8),
-	(12,10),
-	(13,15),
-	(13,16),
-	(14,19),
-	(14,21),
-	(15,25),
-	(15,24),
-	(16,1),
-	(16,24),
-	(17,1),
-	(17,52),
-	(18,51),
-	(18,24),
-	(19,44),
-	(19,34),
-	(20,38),
-	(20,39),
-	(21,24),
-	(21,49),
-	(22,52),
-	(22,23),
-	(23,34),
-	(23,35),
-	(24,36),
-	(24,37),
-	(25,20),
-	(25,12)
+	(1,4,2),
+	(1,3,2),
+	(2,5,2),
+	(2,5,2),
+	(3,1,2),
+	(3,2,2),
+	(4,7,2),
+	(4,10,2),
+	(5,15,2),
+	(5,11,2),
+	(6,2,2),
+	(6,23,2),
+	(7,4,2),
+	(7,6,2),
+	(8,8,2),
+	(8,9,2),
+	(9,10,2),
+	(9,1,2),
+	(10,1,2),
+	(10,4,2),
+	(11,6,2),
+	(11,7,2),
+	(12,8,2),
+	(12,10,2),
+	(13,15,2),
+	(13,16,2),
+	(14,19,2),
+	(14,21,2),
+	(15,25,2),
+	(15,24,2),
+	(16,1,2),
+	(16,24,2),
+	(17,1,2),
+	(17,52,2),
+	(18,51,2),
+	(18,24,2),
+	(19,44,2),
+	(19,34,2),
+	(20,38,2),
+	(20,39,2),
+	(21,24,2),
+	(21,49,2),
+	(22,52,2),
+	(22,23,2),
+	(23,34,2),
+	(23,35,2),
+	(24,36,2),
+	(24,37,2),
+	(25,20,2),
+	(25,12,2)
 GO
 
 INSERT INTO Pack ([Name],[Description],Price,PurchaseCount)
