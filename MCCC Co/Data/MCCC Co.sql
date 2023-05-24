@@ -23,11 +23,10 @@ DROP TABLE IF EXISTS [Item];
 DROP TABLE IF EXISTS [ItemTypeSeries];
 DROP TABLE IF EXISTS [Type];
 DROP TABLE IF EXISTS [Series];
-DROP TABLE IF EXISTS [Category];
 
 CREATE TABLE [User] (
   [Id] int PRIMARY KEY identity,
-  [FirebaseId] nvarchar(255) not null,
+  [FirebaseId] nvarchar(255) unique not null,
   [IsAdmin] bit not null,
   [Name] nvarchar(255) not null,
   [Email] nvarchar(255) not null,
@@ -68,7 +67,7 @@ GO
 
 CREATE TABLE [Series] (
   [Id] int PRIMARY KEY identity,
-  [Name] nvarchar(255) not null,
+  [Name] nvarchar(255) unique not null,
   [Alloy] nvarchar(255),
   [BrightnessLevel] int,
   [Description] nvarchar(500),
@@ -91,7 +90,7 @@ GO
 
 CREATE TABLE [Type] (
   [Id] int PRIMARY KEY identity,
-  [Name] nvarchar(255) not null,
+  [Name] nvarchar(255) unique not null,
   [Image] nvarchar(255)
 )
 GO
@@ -119,7 +118,7 @@ GO
 
 CREATE TABLE [Pack] (
   [Id] int PRIMARY KEY identity,
-  [Name] nvarchar(255) not null,
+  [Name] nvarchar(255) unique not null,
   [Description] nvarchar(255),
   [Price] float not null,
   [PurchaseCount] int
@@ -211,11 +210,11 @@ GO
 
 INSERT INTO [User] (FirebaseId,IsAdmin,[Name],Email,RewardsPoints)
 VALUES
-  ('','1','Damon Blanchard','damonblanchard@aol.net',null),
-  ('','0','Amela Wall','amelawall@yahoo.edu',2),
-  ('','0','Hedley Waters','hedleywaters4172@protonmail.net',12),
-  ('','0','Aaron Hancock','aaronhancock@yahoo.org',31),
-  ('','0','Portia Dudley','portiadudley@protonmail.com',49)
+  ('aaaaa','1','Damon Blanchard','damonblanchard@aol.net',null),
+  ('bbbbb','0','Amela Wall','amelawall@yahoo.edu',2),
+  ('ccccc','0','Hedley Waters','hedleywaters4172@protonmail.net',12),
+  ('ddddd','0','Aaron Hancock','aaronhancock@yahoo.org',31),
+  ('eeeee','0','Portia Dudley','portiadudley@protonmail.com',49)
 GO
 
 INSERT INTO UserShippingAddress (UserId, NickName, CompanyName, LineOne, LineTwo, City, [State], ZIPCode, Country, IsDefault)
