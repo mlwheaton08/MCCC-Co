@@ -42,7 +42,7 @@ CREATE TABLE [UserShippingAddress] (
   [LineOne] nvarchar(255) not null,
   [LineTwo] nvarchar(255),
   [City] nvarchar(255) not null,
-  [State] nvarchar(255) not null,
+  [State] nvarchar(255),
   [ZIPCode] nvarchar(255) not null,
   [Country] nvarchar(255) not null,
   [IsDefault] bit
@@ -214,7 +214,8 @@ VALUES
   ('bbbbb','0','Amela Wall','amelawall@yahoo.edu',2),
   ('ccccc','0','Hedley Waters','hedleywaters4172@protonmail.net',12),
   ('ddddd','0','Aaron Hancock','aaronhancock@yahoo.org',31),
-  ('eeeee','0','Portia Dudley','portiadudley@protonmail.com',49)
+  ('eeeee','0','Portia Dudley','portiadudley@protonmail.com',49),
+  ('fffff','0','Portia Dudley','portiadudley@protonmail.com',49)
 GO
 
 INSERT INTO UserShippingAddress (UserId, NickName, CompanyName, LineOne, LineTwo, City, [State], ZIPCode, Country, IsDefault)
