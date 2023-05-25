@@ -5,6 +5,7 @@ namespace MCCC_Co_.Repositories
     public interface IUserRepository
     {
         User GetByFirebaseId(string firebaseId);
+        User GetByFirebaseIdWithAddresses(string firebaseId);
         void Add(User user);
     }
 }

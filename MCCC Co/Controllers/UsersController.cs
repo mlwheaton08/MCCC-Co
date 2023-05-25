@@ -26,6 +26,17 @@ namespace MCCC_Co_.Controllers
             return Ok(user);
         }
 
+        [HttpGet("{firebaseId}/expandAddresses")]
+        public IActionResult GetByFirebaseIdWithAddresses(string firebaseId)
+        {
+            var user = _userRepo.GetByFirebaseIdWithAddresses(firebaseId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
+        }
+
         [HttpPost]
         public IActionResult Post(User user)
         {
