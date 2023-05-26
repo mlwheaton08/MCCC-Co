@@ -9,7 +9,7 @@ USE [MCCC Co]
 GO
 
 DROP TABLE IF EXISTS [OrderItem];
-DROP TABLE IF EXISTS [UserItemReview];
+DROP TABLE IF EXISTS [UserItemComment];
 DROP TABLE IF EXISTS [UserItemFavorite];
 DROP TABLE IF EXISTS [PackItem];
 DROP TABLE IF EXISTS [SeriesApplication];
@@ -49,12 +49,11 @@ CREATE TABLE [UserShippingAddress] (
 )
 GO
 
-CREATE TABLE [UserItemReview] (
+CREATE TABLE [UserItemComment] (
   [Id] int PRIMARY KEY identity,
   [UserId] int not null,
   [ItemId] int not null,
-  [Rating] int not null,
-  [Comment] nvarchar(255)
+  [Text] nvarchar(255)
 )
 GO
 
@@ -174,13 +173,13 @@ GO
 ALTER TABLE [SeriesApplication] ADD FOREIGN KEY ([ApplicationId]) REFERENCES [Application] ([Id])
 GO
 
-ALTER TABLE [UserItemReview] ADD FOREIGN KEY ([UserId]) REFERENCES [User] ([Id])
+ALTER TABLE [UserItemComment] ADD FOREIGN KEY ([UserId]) REFERENCES [User] ([Id])
 GO
 
 ALTER TABLE [UserItemFavorite] ADD FOREIGN KEY ([UserId]) REFERENCES [User] ([Id])
 GO
 
-ALTER TABLE [UserItemReview] ADD FOREIGN KEY ([ItemId]) REFERENCES [Item] ([Id])
+ALTER TABLE [UserItemComment] ADD FOREIGN KEY ([ItemId]) REFERENCES [Item] ([Id])
 GO
 
 ALTER TABLE [UserItemFavorite] ADD FOREIGN KEY ([ItemId]) REFERENCES [Item] ([Id])
