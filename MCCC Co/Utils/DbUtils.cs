@@ -25,6 +25,17 @@ public static class DbUtils
         return reader.GetDouble(reader.GetOrdinal(column));
     }
 
+    public static double? GetNullableDouble(SqlDataReader reader, string column)
+    {
+        var ordinal = reader.GetOrdinal(column);
+        if (reader.IsDBNull(ordinal))
+        {
+            return null;
+        }
+
+        return reader.GetDouble(ordinal);
+    }
+
     public static bool GetBoolean(SqlDataReader reader, string column)
     {
         return reader.GetBoolean(reader.GetOrdinal(column));

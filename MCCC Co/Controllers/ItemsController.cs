@@ -20,5 +20,13 @@ namespace MCCC_Co_.Controllers
         {
             return Ok(_itemRepo.GetAll(sortBy, asc));
         }
+
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            var item = _itemRepo.GetById(id);
+            if (item != null) return Ok(item);
+            return BadRequest();
+        }
     }
 }
