@@ -183,4 +183,79 @@ public class OrderRepository : BaseRepository, IOrderRepository
             }
         }
     }
+
+    public void Add(Order order)
+    {
+        using (var conn = Connection)
+        {
+            conn.Open();
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = @"INSERT INTO [Order]
+	                                    (UserId,
+	                                    ShippingAddressId,
+	                                    DateCreated,
+	                                    DateCompleted,
+	                                    RewardsUsed,
+	                                    TotalValue,
+	                                    TotalPaid,
+	                                    ConfirmationNumber)
+                                    OUTPUT INSERTED.ID
+                                    VALUES
+	                                    (@UserId,
+	                                    @ShippingAddressId,
+	                                    @DateCreated,
+	                                    @DateCompleted,
+	                                    @RewardsUsed,
+	                                    @TotalValue,
+	                                    @TotalPaid,
+	                                    @ConfirmationNumber)";
+
+                DbUtils.AddParameter(cmd, "@UserId", order.UserId);
+                DbUtils.AddParameter(cmd, "@ShippingAddressId", order.ShippingAddressId);
+                DbUtils.AddParameter(cmd, "@DateCreated", order.DateCreated);
+                DbUtils.AddParameter(cmd, "@DateCompleted", order.DateCompleted);
+                DbUtils.AddParameter(cmd, "@RewardsUsed", order.RewardsUsed);
+                DbUtils.AddParameter(cmd, "@TotalValue", order.TotalValue);
+                DbUtils.AddParameter(cmd, "@TotalPaid", order.TotalPaid);
+                DbUtils.AddParameter(cmd, "@ConfirmationNumber", order.ConfirmationNumber);
+
+                order.Id = (int)cmd.ExecuteScalar();
+            }
+        }
+    }
+
+    public void Update(Order order)
+    {
+        using (var conn = Connection)
+        {
+            conn.Open();
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = @"UPDATE [Order]
+	                                    SET
+		                                    UserId = @UserId,
+		                                    ShippingAddressId = @ShippingAddressId,
+		                                    DateCreated = @DateCreated,
+		                                    DateCompleted = @DateCompleted,
+		                                    RewardsUsed = @RewardsUsed,
+		                                    TotalValue = @TotalValue,
+		                                    TotalPaid = @TotalPaid,
+		                                    ConfirmationNumber = @ConfirmationNumber
+                                    WHERE Id = @Id";
+
+                DbUtils.AddParameter(cmd, "@Id", order.Id);
+                DbUtils.AddParameter(cmd, "@UserId", order.UserId);
+                DbUtils.AddParameter(cmd, "@ShippingAddressId", order.ShippingAddressId);
+                DbUtils.AddParameter(cmd, "@DateCreated", order.DateCreated);
+                DbUtils.AddParameter(cmd, "@DateCompleted", order.DateCompleted);
+                DbUtils.AddParameter(cmd, "@RewardsUsed", order.RewardsUsed);
+                DbUtils.AddParameter(cmd, "@TotalValue", order.TotalValue);
+                DbUtils.AddParameter(cmd, "@TotalPaid", order.TotalPaid);
+                DbUtils.AddParameter(cmd, "@ConfirmationNumber", order.ConfirmationNumber);
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+    }
 }
