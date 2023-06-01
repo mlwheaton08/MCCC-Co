@@ -4,13 +4,14 @@ import { Login } from "./auth/Login";
 import { Register } from "./auth/Register";
 import { UserViews } from "./views/UserViews";
 import { Home } from "./home/Home";
+import { Nav } from "./nav/Nav";
 
 export const MCCCCo = () => {
 	return (
         <Routes>
             <Route path="/" element={
                 <>
-                    {/* <NavBar /> */}
+                    <Nav />
                     <Outlet />
                 </>
             }>

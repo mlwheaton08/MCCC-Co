@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    --bg-primary-color: rgb(20, 20, 20);
+    --bg-secondary-color: rgb(30, 30, 30);
+
+    --text-primary-color: rgb(240, 240, 240);
+    
+    --nav-height: 80px;
+
+    background-color: var(--bg-primary-color);
+    color: var(--text-primary-color);
+}
