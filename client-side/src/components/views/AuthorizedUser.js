@@ -1,6 +1,6 @@
 export const AuthorizedUser = ({ children }) => {
 
-	if (localStorage.getItem("capstone_user")) {
+	if (localStorage.getItem("user")) {
 		return children;
 	} else {
 		return (
