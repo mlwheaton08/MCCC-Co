@@ -5,11 +5,26 @@
 body {
     --bg-primary-color: rgb(20, 20, 20);
     --bg-secondary-color: rgb(30, 30, 30);
+    --bg-tint-color: rgba(128, 128, 128, 0.1);
 
     --text-primary-color: rgb(240, 240, 240);
+    --text-secondary-color: rgb(210, 210, 210);
+
+    --accent-primary-color-light: rgb(239, 68, 68); /* red-500 */
+    --accent-primary-color-dark: rgb(185, 28, 28); /* red-700 */
+    --accent-secondary-color-light: rgb(45, 212, 191); /* teal-400 */
     
     --nav-height: 80px;
+    --nav-height-plus: calc(var(--nav-height) + 7%);
 
     background-color: var(--bg-primary-color);
     color: var(--text-primary-color);
+}
+
+input {
+    border-radius: 0.25rem;
+}
+
+button {
+    border-radius: 0.25rem;
 }

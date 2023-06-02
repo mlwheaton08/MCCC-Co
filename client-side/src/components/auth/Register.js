@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { googleAuth } from "../helpers/googleAuth";
 import { emailAuth } from "../helpers/emailAuth";
-import "./Login.css";
+import { emailIcon, googleIcon, passwordIcon, userIcon } from "../../icons";
 
 export const Register = () => {
   const [user, setUser] = useState({
@@ -25,57 +25,75 @@ export const Register = () => {
   };
 
   // Register with google (same as sign in)
-  const onSubmitLogin = async () => {
+  const onSubmitLoginGoogle = async () => {
     googleAuth.signInRegister(navigate);
   };
 
   return (
-    <main style={{ textAlign: "center" }}>
-      <form className="form--login" onSubmit={handleRegister}>
-        <h1 className="h3 mb-3 font-weight-normal">Please Register</h1>
-        <fieldset>
-          <label htmlFor="fullName"> Full Name </label>
+    <main className="mt-nav-height-plus flex flex-col justify-center items-center gap-24 text-center text-xl">
+      <h2 className="text-4xl">Register</h2>
+      <form className="flex flex-col gap-8" onSubmit={handleRegister}>
+        <fieldset className="flex justify-center items-center gap-2">
+          <span>{userIcon()}</span>
           <input
             onChange={updateUser}
             type="text"
             id="fullName"
-            className="form-control"
-            placeholder="Enter your name"
+            className="w-72 pl-1 bg-transparent border-b border-text-primary-color rounded-none placeholder:font-light placeholder:text-text-secondary-color focus:outline-none"
+            placeholder="Full name"
             required
             autoFocus
           />
         </fieldset>
-        <fieldset>
-          <label htmlFor="email"> Email address </label>
+        <fieldset className="flex justify-center items-center gap-2">
+          <span>{emailIcon()}</span>
           <input
             onChange={updateUser}
             type="email"
             id="email"
-            className="form-control"
+            className="w-72 pl-1 bg-transparent border-b border-text-primary-color rounded-none placeholder:font-light placeholder:text-text-secondary-color focus:outline-none"
             placeholder="Email address"
-            required
           />
         </fieldset>
-        <fieldset>
-          <label htmlFor="password"> Password </label>
-          <input
-            onChange={updateUser}
-            type="text"
-            id="password"
-            className="form-control"
-            placeholder="Must Be 6 Characters"
-            required
-            autoFocus
-          />
+        <fieldset className="flex flex-col items-end gap-1">
+          <div className="flex justify-center items-center gap-2">
+            <span>{passwordIcon()}</span>
+            <input
+              onChange={updateUser}
+              type="text"
+              id="password"
+              className="w-72 pl-1 bg-transparent border-b border-text-primary-color rounded-none placeholder:font-light placeholder:text-text-secondary-color focus:outline-none"
+              placeholder="Password"
+              required
+            />
+          </div>
+          <span
+            className="text-sm font-thin text-accent-secondary-color-light"
+          >
+            Password must be at least 6 characters
+          </span>
         </fieldset>
         <fieldset>
-          <button type="submit"> Register </button>
+          <button
+            type="submit"
+            className="px-3 py-0.5 border border-accent-secondary-color-light text-accent-secondary-color-light"
+          >
+            Register
+          </button>
         </fieldset>
       </form>
-      <h2>Register With Google?</h2>
-      <button type="submit" onClick={onSubmitLogin}>
-        Let's Do It!
-      </button>
+
+      <section className="flex flex-col gap-4">
+        <span className="text-base text-text-secondary-color">or</span>
+        <button
+          type="submit"
+          className="w-auto px-4 py-1 flex justify-center items-center gap-2 border border-text-primary-color text-lg text-text-secondary-color transition-property:all duration-300 hover:bg-bg-tint-color hover:text-text-primary-color"
+          onClick={onSubmitLoginGoogle}
+        >
+          <span>{googleIcon()}</span>
+          <span>Register with Google</span>
+        </button>
+      </section>
     </main>
   );
 };
