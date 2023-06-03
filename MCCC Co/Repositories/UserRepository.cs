@@ -15,14 +15,20 @@ public class UserRepository : BaseRepository, IUserRepository
             using (var cmd = conn.CreateCommand())
             {
                 cmd.CommandText = @"SELECT
-                                        Id,
-	                                    FirebaseId,
-	                                    IsAdmin,
-	                                    [Name],
-	                                    Email,
-	                                    RewardsPoints
-                                    FROM [User]
-                                    WHERE FirebaseId = @firebaseId";
+                                        u.Id,
+	                                    u.FirebaseId,
+	                                    u.IsAdmin,
+	                                    u.[Name],
+	                                    u.Email,
+	                                    u.RewardsPoints,
+	                                    SUM(ItemQuantity) as OpenOrderItemTotal
+                                    FROM [User] u
+                                    LEFT JOIN [Order] o
+	                                    ON u.Id = o.UserId
+                                    LEFT JOIN OrderItem oi
+	                                    ON o.Id = oi.OrderId
+                                    WHERE FirebaseId = @firebaseId AND o.DateCompleted IS NULL
+                                    GROUP BY u.Id, u.FirebaseId, u.IsAdmin, u.[Name], u.Email, u.RewardsPoints";
                 DbUtils.AddParameter(cmd, "@firebaseId", firebaseId);
 
                 var reader = cmd.ExecuteReader();
@@ -37,7 +43,8 @@ public class UserRepository : BaseRepository, IUserRepository
                         IsAdmin = DbUtils.GetBoolean(reader, "IsAdmin"),
                         Name = DbUtils.GetString(reader, "Name"),
                         Email = DbUtils.GetString(reader, "Email"),
-                        RewardsPoints = DbUtils.GetNullableInt(reader, "RewardsPoints")
+                        RewardsPoints = DbUtils.GetNullableInt(reader, "RewardsPoints"),
+                        OpenOrderItemTotal = DbUtils.GetNullableInt(reader, "OpenOrderItemTotal")
                     };
                 }
 

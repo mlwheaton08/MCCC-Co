@@ -9,5 +9,6 @@ public class User
     public string Email { get; set; }
     public int? RewardsPoints { get; set; }
 
+    public int? OpenOrderItemTotal { get; set; }
     public List<UserShippingAddress> Addresses { get; set; } = new List<UserShippingAddress>();
 }
