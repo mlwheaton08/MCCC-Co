@@ -16,6 +16,7 @@ export const googleAuth = {
       signInWithPopup(auth, provider)
         .then(async (userCredential) => {
           let dbUser = await fetchUserByFirebaseId(userCredential.user.uid)
+          // if user not in DB, add them
           if (dbUser.title === "Not Found") {
             dbUser = {
               firebaseId: userCredential.user.uid,
@@ -27,7 +28,9 @@ export const googleAuth = {
             await AddUser(dbUser)
             const NewlyAddedDbUser = await fetchUserByFirebaseId(userCredential.user.uid)
             dbUser.id = NewlyAddedDbUser.id
+            dbUser.openOrderItemTotal = NewlyAddedDbUser.openOrderItemTotal
           }
+          // add user to local storage
           const userAuth = {
             id: dbUser.id,
             firebaseId: userCredential.user.uid,
@@ -35,6 +38,7 @@ export const googleAuth = {
             name: dbUser.name,
             email: userCredential.user.email,
             rewardsPoints: dbUser.rewardsPoints,
+            openOrderItemTotal: dbUser.openOrderItemTotal,
             type: "google",
           }
           localStorage.setItem("user", JSON.stringify(userAuth))
@@ -45,7 +49,7 @@ export const googleAuth = {
           console.log("error code", error.code);
           console.log("error message", error.message);
           console.log("error email", error.email);
-          window.alert('GOOGLE SIGN IN ERROR', `code: ${error.code}`, `message: ${error.message}`, `email: ${error.email}`)
+          window.alert(`GOOGLE SIGN IN ERROR\ncode: ${error.code}\nmessage: ${error.message}`)
         })
     })
   },
@@ -62,7 +66,7 @@ export const googleAuth = {
         console.log("Google SignOut Error")
         console.log("error code", error.code)
         console.log("error message", error.message)
-        window.alert('GOOGLE SIGN OUT ERROR', `code: ${error.code}`, `message: ${error.message}`)
+        window.alert(`GOOGLE SIGN OUT ERROR\ncode: ${error.code}\nmessage: ${error.message}`)
       })
   },
 }

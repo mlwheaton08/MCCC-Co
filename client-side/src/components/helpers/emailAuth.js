@@ -37,6 +37,7 @@ export const emailAuth = {
               name: dbUser.name,
               email: userCredential.user.email,
               rewardsPoints: dbUser.rewardsPoints,
+              openOrderItemTotal: 0,
               type: "email",
             }
             localStorage.setItem("user", JSON.stringify(userAuth))
@@ -46,7 +47,7 @@ export const emailAuth = {
             console.log("Email Register Name Error")
             console.log("error code", error.code)
             console.log("error message", error.message)
-            window.alert('REGISTER ERROR', `code: ${error.code}`, `message: ${error.message}`)
+            window.alert(`REGISTER ERROR\ncode: ${error.code}\nmessage: ${error.message}`)
           }
         )
       })
@@ -54,7 +55,7 @@ export const emailAuth = {
         console.log("Email Register Error")
         console.log("error code", error.code)
         console.log("error message", error.message)
-        window.alert('REGISTER ERROR', `code: ${error.code}`, `message: ${error.message}`)
+        window.alert(`REGISTER ERROR\ncode: ${error.code}\nmessage: ${error.message}`)
       })
   },
   // Sign in
@@ -71,6 +72,7 @@ export const emailAuth = {
             name: dbUser.name,
             email: userCredential.user.email,
             rewardsPoints: dbUser.rewardsPoints,
+            openOrderItemTotal: dbUser.openOrderItemTotal,
             type: "email",
           }
           console.log(dbUser)
@@ -81,7 +83,7 @@ export const emailAuth = {
           console.log("Email SignIn Error")
           console.log("error code", error.code)
           console.log("error message", error.message)
-          window.alert('SIGN IN ERROR', `code: ${error.code}`, `message: ${error.message}`)
+          window.alert(`SIGN IN ERROR\ncode: ${error.code}\nmessage: ${error.message}`)
         })
     })
   },
@@ -98,7 +100,7 @@ export const emailAuth = {
         console.log("signOut Error")
         console.log("error code", error.code)
         console.log("error message", error.message)
-        window.alert('SIGN OUT ERROR', `code: ${error.code}`, `message: ${error.message}`)
+        window.alert(`SIGN OUT ERROR\ncode: ${error.code}\nmessage: ${error.message}`)
       })
   },
 }
