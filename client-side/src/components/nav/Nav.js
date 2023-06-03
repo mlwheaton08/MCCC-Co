@@ -1,14 +1,38 @@
 import { Search } from "./Search"
 import logo from "../../images/MCCC Logo.png"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { chevronDownIcon, gearIcon, shoppingCartIcon } from "../../icons"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { logout } from "../helpers/logout"
 
 export const Nav = () => {
     const navigate = useNavigate()
-    const localUser = localStorage.getItem("user")
+    const localStorageUser = localStorage.getItem("user")
+    const localUser = JSON.parse(localStorageUser)
 
+    let location = useLocation()
+
+    const [user, setUser] = useState({
+        id: 0,
+        firebaseId: "",
+        isAdmin: false,
+        name: "",
+        email: "",
+        rewardsPoints: 0
+    })
     const [showCymbalsNavDropdown, setShowCymbalsNavDropdown] = useState(false)
+
+    useEffect(() => {
+        setUser(localUser)
+        console.log(localUser)
+    },[location])
+
+    const toLogin = () => {
+        if (location.pathname !== "/register") {
+            sessionStorage.setItem("prevLocation", location.pathname)
+        }
+        navigate("/login")
+    }
 
 
     return (
@@ -31,16 +55,18 @@ export const Nav = () => {
             <Link to="/distributors">Distributors</Link>
             <Search />
             {
-                !localUser
-                    ? <Link
+                !user
+                    ? <span
                         to="/login"
-                        className="transition-property:text duration-300 hover:text-accent-primary-color-light"
+                        className="transition-property:text duration-300 hover:text-accent-primary-color-light hover:cursor-pointer"
+                        onClick={toLogin}
                     >
                         Sign In
-                    </Link>
+                    </span>
                     : <div className="flex gap-8">
                         <Link to="/cart">{shoppingCartIcon()}</Link>
                         <span>{gearIcon()}</span>
+                        <button onClick={() => logout.logout(setUser)}>{user.name} Logout</button>
                     </div>
             }
         </main>
