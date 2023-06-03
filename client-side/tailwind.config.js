@@ -14,7 +14,8 @@ module.exports = {
         'text-secondary-color': 'var(--text-secondary-color)',
         'accent-primary-color-light': 'var(--accent-primary-color-light)',
         'accent-primary-color-dark': 'var(--accent-primary-color-dark)',
-        'accent-secondary-color-light': 'var(--accent-secondary-color-light)'
+        'accent-secondary-color-light': 'var(--accent-secondary-color-light)',
+        'accent-secondary-color-dark': 'var(--accent-secondary-color-dark)'
       },
       height: {
         'nav-height': 'var(--nav-height)'
