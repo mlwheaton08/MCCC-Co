@@ -6,28 +6,28 @@ import { emailIcon, googleIcon, passwordIcon, userIcon } from "../../icons";
 
 export const Register = () => {
   const [user, setUser] = useState({
+    name: "",
     email: "",
-    fullName: "",
     password: "",
-  });
-  let navigate = useNavigate();
+  })
+  let navigate = useNavigate()
 
   // Register with email and password
   const handleRegister = async (e) => {
     e.preventDefault();
-    emailAuth.register(user, navigate);
-  };
+    emailAuth.register(user, navigate)
+  }
 
   const updateUser = (evt) => {
     const copy = { ...user };
     copy[evt.target.id] = evt.target.value;
-    setUser(copy);
-  };
+    setUser(copy)
+  }
 
   // Register with google (same as sign in)
   const onSubmitLoginGoogle = async () => {
-    googleAuth.signInRegister(navigate);
-  };
+    googleAuth.signInRegister(navigate)
+  }
 
   return (
     <main className="mt-nav-height-plus flex flex-col justify-center items-center gap-24 text-center text-xl">
@@ -38,7 +38,7 @@ export const Register = () => {
           <input
             onChange={updateUser}
             type="text"
-            id="fullName"
+            id="name"
             className="w-72 pl-1 bg-transparent border-b border-text-primary-color rounded-none placeholder:font-light placeholder:text-text-secondary-color focus:outline-none"
             placeholder="Full name"
             required

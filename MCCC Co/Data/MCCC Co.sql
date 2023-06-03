@@ -209,12 +209,11 @@ GO
 
 INSERT INTO [User] (FirebaseId,IsAdmin,[Name],Email,RewardsPoints)
 VALUES
-  ('aaaaa','1','Damon Blanchard','damonblanchard@aol.net',null),
-  ('bbbbb','0','Amela Wall','amelawall@yahoo.edu',2),
-  ('ccccc','0','Hedley Waters','hedleywaters4172@protonmail.net',12),
-  ('ddddd','0','Aaron Hancock','aaronhancock@yahoo.org',31),
-  ('eeeee','0','Portia Dudley','portiadudley@protonmail.com',49),
-  ('fffff','0','Portia Dudley','portiadudley@protonmail.com',49)
+  ('Q4j4NrUNyrVKtAmXv48ZRBqBt9H2','1','Damon Blanchard','damonblanchard@aol.net',null),
+  ('1CKJ2yl8sfd8CfDNzWTtTngodUA2','0','Amela Wall','amelawall@yahoo.edu',2),
+  ('3zFml2YSUmXV4TjtCGXySYzMug32','0','Hedley Waters','hedleywaters4172@protonmail.net',12),
+  ('0XE9kTSmHRMcj1ycsqflshk944g2','0','Aaron Hancock','aaronhancock@yahoo.org',31),
+  ('meCdmJMgIfNIblqkc6fBbl2yjln1','0','Portia Dudley','portiadudley@protonmail.com',49)
 GO
 
 INSERT INTO UserShippingAddress (UserId, NickName, CompanyName, LineOne, LineTwo, City, [State], ZIPCode, Country, IsDefault)

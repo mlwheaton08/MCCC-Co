@@ -9,6 +9,7 @@ module.exports = {
         'bg-primary-color': 'var(--bg-primary-color)',
         'bg-secondary-color': 'var(--bg-secondary-color)',
         'bg-tint-color': 'var(--bg-tint-color)',
+        'bg-tint-color-2': 'var(--bg-tint-color-2)',
         'text-primary-color': 'var(--text-primary-color)',
         'text-secondary-color': 'var(--text-secondary-color)',
         'accent-primary-color-light': 'var(--accent-primary-color-light)',
