@@ -12,7 +12,7 @@ export const Home = () => {
                 <h2 className="text-6xl font-light">Play cheaper. Play better.</h2>
                 <button
                     className="flex items-center gap-2 px-3 py-1 bg-accent-primary-color-dark text-xl rounded transition-property:gap duration-300 hover:gap-3"
-                    onClick={() => navigate("/items")}
+                    onClick={() => navigate("/items/PurchaseCount/false")}
                 >
                     <span>Shop Cymbals</span>
                     <span>{arrowRightIcon()}</span>

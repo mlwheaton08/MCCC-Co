@@ -5,7 +5,7 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
-import { AddUser, fetchUserByFirebaseId } from "../../APIManager.js"
+import { addUser, fetchUserByFirebaseId } from "../../APIManager.js"
 
 
 export const emailAuth = {
@@ -27,7 +27,7 @@ export const emailAuth = {
               email: userCredential.user.email,
               rewardsPoints: 0
             }
-            await AddUser(dbUserToAdd)
+            await addUser(dbUserToAdd)
             // add to local storage
             const dbUser = await fetchUserByFirebaseId(userCredential.user.uid)
             const userAuth = {
@@ -75,8 +75,7 @@ export const emailAuth = {
             openOrderItemTotal: dbUser.openOrderItemTotal,
             type: "email",
           }
-          console.log(dbUser)
-          localStorage.setItem("user", JSON.stringify(userAuth));
+          localStorage.setItem("user", JSON.stringify(userAuth))
           navigate(sessionStorage.getItem("prevLocation"))
         })
         .catch((error) => {
@@ -88,13 +87,14 @@ export const emailAuth = {
     })
   },
   // Sign out
-  signOut: function(setUserState) {
-    const auth = getAuth();
+  signOut: function(setUserState, navigate) {
+    const auth = getAuth()
     signOut(auth)
       .then(() => {
         localStorage.removeItem("user")
         setUserState(null)
         window.alert("Sign out successful")
+        navigate("/")
       })
       .catch((error) => {
         console.log("signOut Error")
