@@ -5,7 +5,7 @@ import { chevronDownIcon, gearIcon, shoppingCartIcon, signOutIcon } from "../../
 import { useEffect, useState } from "react"
 import { logout } from "../helpers/logout"
 
-export const Nav = () => {
+export const Nav = ({ cartItemCount }) => {
     const navigate = useNavigate()
     const localStorageUser = localStorage.getItem("user")
     const localUser = JSON.parse(localStorageUser)
@@ -23,7 +23,7 @@ export const Nav = () => {
     })
     const [showCymbalsNavDropdown, setShowCymbalsNavDropdown] = useState(false)
     const [showProfileNavDropdown, setShowProfileNavDropdown] = useState(false)
-    const [topDropdownHover, setTopDropdownHover] = useState("")
+    const [topDropdownHover, setTopDropdownHover] = useState("bg-black")
     const [signOutHover, setSignOutHover] = useState("")
 
     useEffect(() => {
@@ -37,6 +37,12 @@ export const Nav = () => {
         navigate("/login")
     }
 
+    window.addEventListener("storage", () => {
+        // When local storage changes, dump the list to
+        // the console.
+        console.log("quantity changed");
+    })
+
 
     return (
         <main className="fixed top-0 w-full h-nav-height flex justify-around items-center bg-bg-secondary-color text-xl">
@@ -46,15 +52,19 @@ export const Nav = () => {
                 alt="MCCC logo"
                 onClick={() => navigate("/")}
             />
+
+            {/* Cymbals */}
             <Link
-                to="/items"
-                className="flex items-center gap-2"
+                to="/items/PurchaseCount/false"
+                className="px-3 py-2 flex items-center gap-2 rounded hover:bg-bg-tint-color-2"
                 onMouseOver={() => setShowCymbalsNavDropdown(true)}
                 onMouseOut={() => setShowCymbalsNavDropdown(false)}
             >
                 <span>Cymbals</span>
                 <span>{chevronDownIcon()}</span>
             </Link>
+            
+            {/* Distributors */}
             <Link to="/distributors">Distributors</Link>
             <Search />
             
@@ -63,7 +73,7 @@ export const Nav = () => {
                 !user
                     ? <span
                         to="/login"
-                        className="transition-property:text duration-300 hover:text-accent-secondary-color-light hover:cursor-pointer"
+                        className="px-3 py-2 text-accent-secondary-color-light rounded hover:bg-bg-tint-color-2 hover:cursor-pointer"
                         onClick={toLogin}
                     >
                         Sign In
@@ -78,7 +88,7 @@ export const Nav = () => {
                         >
                             <Link
                                 to={`/account/${user.firebaseId}`}
-                                className="flex items-center gap-2"
+                                className="px-3 py-2 flex items-center gap-2 rounded hover:bg-bg-tint-color-2"
                             >
                                 {
                                     !user.name
@@ -92,15 +102,15 @@ export const Nav = () => {
                                     ? ""
                                     : <div className="absolute -right-5 w-48 flex flex-col">
                                         {/* Dropdown gap */}
-                                        <span className="py-3"></span>
+                                        <span className="py-2"></span>
                                         {/* Dropdown diamond */}
-                                        <div className={`absolute top-4 right-1/2 translate-x-1/2 w-4 h-4 mx-auto bg-bg-primary-color rotate-45 ${topDropdownHover}`}></div>
+                                        <div className={`absolute top-3 right-1/2 translate-x-1/2 w-4 h-4 mx-auto rotate-45 ${topDropdownHover}`}></div>
                                         {/* Dropdown options container */}
-                                        <div className="z-10 float-right min-w-fit flex flex-col rounded bg-bg-primary-color font-thin">
+                                        <div className="z-10 float-right min-w-fit flex flex-col rounded bg-black font-thin">
                                             <span
                                                 className="w-full p-3 rounded-none hover:bg-accent-secondary-color-dark hover:text-bg-primary-color hover:font-normal hover:cursor-pointer"
                                                 onMouseOver={() => setTopDropdownHover("bg-accent-secondary-color-dark")}
-                                                onMouseOut={() => setTopDropdownHover("")}
+                                                onMouseOut={() => setTopDropdownHover("bg-black")}
                                                 onClick={() => {
                                                     navigate(`/account/${user.firebaseId}`)
                                                     setShowProfileNavDropdown(false)
@@ -122,7 +132,7 @@ export const Nav = () => {
                                                 onMouseOut={() => setSignOutHover("")}
                                                 onClick={() => {
                                                     setSignOutHover("")
-                                                    logout.logout(setUser)
+                                                    logout.logout(setUser, navigate)
                                                     setShowProfileNavDropdown(false)
                                                 }}
                                                 className="w-full mx-auto p-3 flex justify-between items-center gap-2 rounded-none text-center text-accent-secondary-color-light hover:bg-bg-tint-color-2"
@@ -144,7 +154,7 @@ export const Nav = () => {
                             <div className="absolute top-0 right-0 w-4 h-4 flex flex-col justify-center items-center rounded-full bg-accent-secondary-color-light">
                                 <span
                                     className="text-sm font-semibold text-bg-primary-color">
-                                        {user.openOrderItemTotal}
+                                        {cartItemCount}
                                 </span>
                             </div>
                         </Link>

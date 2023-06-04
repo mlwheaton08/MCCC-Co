@@ -5,6 +5,7 @@
 body {
     --bg-primary-color: rgb(20, 20, 20);
     --bg-secondary-color: rgb(30, 30, 30);
+    --bg-tertiary-color: rgb(75, 85, 99); /* gray-600 */
     --bg-tint-color: rgba(128, 128, 128, 0.1);
     --bg-tint-color-2: rgba(128, 128, 128, 0.2);
 
@@ -12,12 +13,14 @@ body {
     --text-secondary-color: rgb(210, 210, 210);
 
     --accent-primary-color-light: rgb(239, 68, 68); /* red-500 */
+    --accent-primary-color: rgb(220, 38, 38); /* red-600 */
     --accent-primary-color-dark: rgb(185, 28, 28); /* red-700 */
     --accent-secondary-color-light: rgb(45, 212, 191); /* teal-400 */
+    --accent-secondary-color: rgb(20, 184, 166); /* teal-500 */
     --accent-secondary-color-dark: rgb(13, 148, 136); /* teal-600 */
     
     --nav-height: 80px;
-    --nav-height-plus: calc(var(--nav-height) + 7%);
+    --nav-height-plus: calc(var(--nav-height) + 5%);
 
     background-color: var(--bg-primary-color);
     color: var(--text-primary-color);

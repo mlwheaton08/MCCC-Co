@@ -4,7 +4,7 @@ import {
   GoogleAuthProvider,
   signOut,
 } from "firebase/auth";
-import { AddUser, fetchUserByFirebaseId } from "../../APIManager";
+import { addUser, fetchUserByFirebaseId } from "../../APIManager";
 
 
 export const googleAuth = {
@@ -25,7 +25,7 @@ export const googleAuth = {
               email: userCredential.user.email,
               rewardsPoints: 0
             }
-            await AddUser(dbUser)
+            await addUser(dbUser)
             const NewlyAddedDbUser = await fetchUserByFirebaseId(userCredential.user.uid)
             dbUser.id = NewlyAddedDbUser.id
             dbUser.openOrderItemTotal = NewlyAddedDbUser.openOrderItemTotal
@@ -54,13 +54,14 @@ export const googleAuth = {
     })
   },
   // Sign out
-  signOut: function(setUserState) {
+  signOut: function(setUserState, navigate) {
     const auth = getAuth()
     signOut(auth)
       .then(() => {
         localStorage.removeItem("user")
         setUserState(null)
         window.alert("Sign out successful")
+        navigate("/")
       })
       .catch((error) => {
         console.log("Google SignOut Error")
