@@ -132,48 +132,63 @@ public class ItemRepository : BaseRepository, IItemRepository
 	                                    s.Alloy as SeriesAlloy,
 	                                    s.BrightnessLevel as SeriesBrightnessLevel,
 	                                    s.[Description] as SeriesDescription,
-	                                    s.[Image] as SeriesImage
+	                                    s.[Image] as SeriesImage,
+	                                    a.[Case] as [Application]
                                     FROM Item i
                                     JOIN [Type] t
 	                                    ON i.TypeId = t.Id
                                     JOIN Series s
 	                                    ON i.SeriesId = s.Id
-                                    WHERE i.Id = @id";
+                                    JOIN SeriesApplication sa
+	                                    ON s.Id = sa.SeriesId
+                                    JOIN [Application] a
+	                                    ON sa.ApplicationId = a.Id
+                                    WHERE i.Id = @id
+                                    ORDER BY [Application]";
                 DbUtils.AddParameter(cmd, "@id", id);
 
                 var reader = cmd.ExecuteReader();
 
                 Item item = null;
-                if (reader.Read())
+                while (reader.Read())
                 {
-                    item = new Item()
+                    if (item == null)
                     {
-                        Id = DbUtils.GetInt(reader, "Id"),
-                        TypeId = DbUtils.GetNullableInt(reader, "TypeId"),
-                        SeriesId = DbUtils.GetNullableInt(reader, "SeriesId"),
-                        Height = DbUtils.GetNullableInt(reader, "Height"),
-                        Width = DbUtils.GetNullableInt(reader, "Width"),
-                        Depth = DbUtils.GetNullableInt(reader, "Depth"),
-                        Description = DbUtils.GetString(reader, "Description"),
-                        Image = DbUtils.GetString(reader, "Image"),
-                        Price = DbUtils.GetDouble(reader, "Price"),
-                        PurchaseCount = DbUtils.GetNullableInt(reader, "PurchaseCount"),
-                        Type = new Models.Type()
+                        item = new Item()
                         {
-                            Id = DbUtils.GetInt(reader, "TypeId"),
-                            Name = DbUtils.GetString(reader, "TypeName"),
-                            Image = DbUtils.GetString(reader, "TypeImage")
-                        },
-                        Series = new Series()
-                        {
-                            Id = DbUtils.GetInt(reader, "SeriesId"),
-                            Name = DbUtils.GetString(reader, "SeriesName"),
-                            Alloy = DbUtils.GetString(reader, "SeriesAlloy"),
-                            BrightnessLevel = DbUtils.GetNullableInt(reader, "SeriesBrightnessLevel"),
-                            Description = DbUtils.GetString(reader, "SeriesDescription"),
-                            Image = DbUtils.GetString(reader, "SeriesImage")
-                        }
-                    };
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            TypeId = DbUtils.GetNullableInt(reader, "TypeId"),
+                            SeriesId = DbUtils.GetNullableInt(reader, "SeriesId"),
+                            Height = DbUtils.GetNullableInt(reader, "Height"),
+                            Width = DbUtils.GetNullableInt(reader, "Width"),
+                            Depth = DbUtils.GetNullableInt(reader, "Depth"),
+                            Description = DbUtils.GetString(reader, "Description"),
+                            Image = DbUtils.GetString(reader, "Image"),
+                            Price = DbUtils.GetDouble(reader, "Price"),
+                            PurchaseCount = DbUtils.GetNullableInt(reader, "PurchaseCount"),
+                            Type = new Models.Type()
+                            {
+                                Id = DbUtils.GetInt(reader, "TypeId"),
+                                Name = DbUtils.GetString(reader, "TypeName"),
+                                Image = DbUtils.GetString(reader, "TypeImage")
+                            },
+                            Series = new Series()
+                            {
+                                Id = DbUtils.GetInt(reader, "SeriesId"),
+                                Name = DbUtils.GetString(reader, "SeriesName"),
+                                Alloy = DbUtils.GetString(reader, "SeriesAlloy"),
+                                BrightnessLevel = DbUtils.GetNullableInt(reader, "SeriesBrightnessLevel"),
+                                Description = DbUtils.GetString(reader, "SeriesDescription"),
+                                Image = DbUtils.GetString(reader, "SeriesImage")
+                            },
+                            Applications = new List<string>()
+                        };
+                    }
+
+                    if (DbUtils.IsNotDbNull(reader, "Application"))
+                    {
+                        item.Applications.Add(DbUtils.GetString(reader, "Application"));
+                    }
                 }
 
                 reader.Close();
