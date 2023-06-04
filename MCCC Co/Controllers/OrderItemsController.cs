@@ -16,6 +16,17 @@ namespace MCCC_Co_.Controllers
             _orderItemRepo = orderItemRepo;
         }
 
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            var orderItem = _orderItemRepo.GetById(id);
+            if (orderItem == null)
+            {
+                return NotFound();
+            }
+            return Ok(orderItem);
+        }
+
         [HttpPost]
         public IActionResult Post(OrderItem orderItem)
         {

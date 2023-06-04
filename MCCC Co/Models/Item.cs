@@ -15,4 +15,5 @@ public class Item
 
     public Type? Type { get; set; }
     public Series? Series { get; set; }
+    public List<string> Applications { get; set; } = new List<string>();
 }

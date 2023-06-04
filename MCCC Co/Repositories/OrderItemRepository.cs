@@ -7,6 +7,42 @@ public class OrderItemRepository : BaseRepository, IOrderItemRepository
 {
     public OrderItemRepository(IConfiguration configuration) : base(configuration) { }
 
+    public OrderItem GetById(int id)
+    {
+        using (var conn = Connection)
+        {
+            conn.Open();
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = @"SELECT
+	                                    Id,
+	                                    OrderId,
+	                                    ItemId,
+	                                    ItemQuantity
+                                    FROM OrderItem
+                                    WHERE Id = @id";
+                DbUtils.AddParameter(cmd, "@id", id);
+
+                var reader = cmd.ExecuteReader();
+
+                OrderItem orderItem = null;
+                if (reader.Read())
+                {
+                    orderItem = new OrderItem()
+                    {
+                        Id = DbUtils.GetInt(reader, "Id"),
+                        OrderId = DbUtils.GetInt(reader, "OrderId"),
+                        ItemId = DbUtils.GetInt(reader, "ItemId"),
+                        ItemQuantity = DbUtils.GetInt(reader, "ItemQuantity")
+                    };
+                }
+
+                reader.Close();
+                return orderItem;
+            }
+        }
+    }
+
     public void Add(OrderItem orderItem)
     {
         using (var conn = Connection)

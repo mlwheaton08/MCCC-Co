@@ -4,6 +4,7 @@ namespace MCCC_Co_.Repositories
 {
     public interface IOrderItemRepository
     {
+        OrderItem GetById(int id);
         void Add(OrderItem orderItem);
         void Delete(int id);
         void Update(OrderItem orderItem);
