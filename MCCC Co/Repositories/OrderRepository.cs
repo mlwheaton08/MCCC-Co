@@ -117,7 +117,7 @@ public class OrderRepository : BaseRepository, IOrderRepository
                             OrderItems = new List<OrderItem>()
                         };
 
-                        if (isComplete)
+                        if (isComplete && DbUtils.IsNotDbNull(reader, "ShippingAddressId"))
                         {
                             existingOrder.ShippingAddress = new UserShippingAddress()
                             {

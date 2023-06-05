@@ -104,7 +104,7 @@ export const ItemDetail = ({ getNavCartItemTotal }) => {
                             <p className="text-xl font-thin">{item.series.description}</p>
                         </div>
                         <div className="text-right">
-                            <h4 className="text-2xl font-semibold">Applications</h4>
+                            <h4 className="mb-1 text-2xl font-semibold">Applications</h4>
                             <ul>
                                 {
                                     itemApplications.map((app, index) => {

@@ -46,10 +46,17 @@ export const Cart = ({ getNavCartItemTotal }) => {
     }
 
     const getConfirmationNumber = () => {
-        return "2134kjhl2h34;lkj34;lh2134"
+        let result = ''
+        const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        for (let i = 20; i > 0; --i) {
+            result += chars[Math.floor(Math.random() * chars.length)]
+        }
+        return result;
     }
 
     const handlePurchase = async () => {
+        const newConfirmationNumber = getConfirmationNumber()
+
         const currentOrder = {
             id: order.id,
             userId: order.userId,
@@ -59,7 +66,7 @@ export const Cart = ({ getNavCartItemTotal }) => {
             rewardsUsed: null,
             totalValue: getCartTotalPrice(),
             totalPaid: null,
-            confirmationNumber: getConfirmationNumber()
+            confirmationNumber: newConfirmationNumber
         }
 
         await updateOrder(order.id, currentOrder)
@@ -80,7 +87,7 @@ export const Cart = ({ getNavCartItemTotal }) => {
             await addOrder(newOpenOrder)
         }
 
-        window.alert("complete")
+        window.alert(`ORDER COMPLETE\nCONFIRMATION NUMBER: ${newConfirmationNumber}`)
         await getNavCartItemTotal(localUser.firebaseId)
         navigate("/")
     }
