@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { addOrder, addOrderItem, fetchItem, fetchOrders, fetchUserByFirebaseId } from "../../APIManager"
 
-export const ItemDetail = ({ setCartItemCount }) => {
+export const ItemDetail = ({ getNavCartItemTotal }) => {
     const localStorageUser = localStorage.getItem("user")
     const localUser = JSON.parse(localStorageUser)
 
@@ -60,22 +60,7 @@ export const ItemDetail = ({ setCartItemCount }) => {
     }
 
     const handleAddToCart = async () => {
-        let userOpenOrder = await fetchOrders(localUser.firebaseId, false)
-        if (!userOpenOrder[0]) {
-            const newOpenOrder = {
-                userId: localUser.id,
-                shippingAddressId: null,
-                dateCreated: new Date(),
-                dateCompleted: null,
-                rewardsUsed: null,
-                totalValue: null,
-                totalPaid: null,
-                confirmationNumber: null
-            }
-            await addOrder(newOpenOrder)
-            userOpenOrder = await fetchOrders(localUser.firebaseId, false)
-        }
-        
+        const userOpenOrder = await fetchOrders(localUser.firebaseId, false)
         const orderItemToAdd = {
             orderId: userOpenOrder[0].id,
             itemId: orderItem.itemId,
@@ -83,20 +68,7 @@ export const ItemDetail = ({ setCartItemCount }) => {
         }
         await addOrderItem(orderItemToAdd)
         window.alert("item added to cart")
-
-        const dbUser = await fetchUserByFirebaseId(localUser.firebaseId)
-        const updatedLocalUser = {
-            id: dbUser.id,
-            firebaseId: dbUser.firebaseId,
-            isAdmin: dbUser.isAdmin,
-            name: dbUser.name,
-            email: dbUser.email,
-            rewardsPoints: dbUser.rewardsPoints,
-            openOrderItemTotal: dbUser.openOrderItemTotal,
-            type: "email",
-          }
-        localStorage.setItem("user", JSON.stringify(updatedLocalUser))
-        setCartItemCount(dbUser.openOrderItemTotal)
+        await getNavCartItemTotal(localUser.firebaseId)
     }
 
 
@@ -111,7 +83,7 @@ export const ItemDetail = ({ setCartItemCount }) => {
                     className="w-1/2"
                 />
                 {/* Item Details Container */}
-                <section className="w-1/2 px-8 flex flex-col justify-between items-center">
+                <section className="w-1/2 pl-8 pr-24 flex flex-col justify-between items-center">
                     {/* Item Header */}
                     <div className="w-full flex justify-between">
                         {/* Header Left */}

@@ -47,6 +47,23 @@ export const addOrder = async (orderObj) => {
     await fetch('https://localhost:7240/Orders', options)
 }
 
+export const updateOrder = async (id, orderObj) => {
+    const options = {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(orderObj)
+    }
+    await fetch(`https://localhost:7240/Orders/${id}`, options)
+}
+
+export const fetchOpenOrderItemTotal = async (firebaseId) => {
+    const response = await fetch(`https://localhost:7240/openOrderItemTotal/${firebaseId}`)
+    const total = await response.json()
+    return total
+}
+
 export const addOrderItem = async (orderItemObj) => {
     const options = {
         method: "POST",
@@ -57,4 +74,21 @@ export const addOrderItem = async (orderItemObj) => {
     }
 
     await fetch('https://localhost:7240/OrderItems', options)
+}
+
+export const updateOrderItem = async (id, orderItemObj) => {
+    const options = {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(orderItemObj)
+    }
+    await fetch(`https://localhost:7240/OrderItems/${id}`, options)
+}
+
+export const deleteOrderItem = async (id) => {
+    await fetch(`https://localhost:7240/OrderItems/${id}`, {
+        method: "DELETE"
+    })
 }

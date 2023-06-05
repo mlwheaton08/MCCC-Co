@@ -4,12 +4,12 @@ import {
   GoogleAuthProvider,
   signOut,
 } from "firebase/auth";
-import { addUser, fetchUserByFirebaseId } from "../../APIManager";
+import { addOrder, addUser, fetchOrders, fetchUserByFirebaseId } from "../../APIManager";
 
 
 export const googleAuth = {
   // Sign in/Register
-  signInRegister: function(navigate) {
+  signInRegister: function(getNavCartItemTotal, navigate) {
     return new Promise((res) => {
       const provider = new GoogleAuthProvider();
       const auth = getAuth();
@@ -28,7 +28,21 @@ export const googleAuth = {
             await addUser(dbUser)
             const NewlyAddedDbUser = await fetchUserByFirebaseId(userCredential.user.uid)
             dbUser.id = NewlyAddedDbUser.id
-            dbUser.openOrderItemTotal = NewlyAddedDbUser.openOrderItemTotal
+          }
+          // check for user open order. if none, create one
+          const userOpenOrder = await fetchOrders(userCredential.user.uid, false)
+          if (!userOpenOrder[0]) {
+              const newOpenOrder = {
+                  userId: dbUser.id,
+                  shippingAddressId: null,
+                  dateCreated: new Date(),
+                  dateCompleted: null,
+                  rewardsUsed: null,
+                  totalValue: null,
+                  totalPaid: null,
+                  confirmationNumber: null
+              }
+              await addOrder(newOpenOrder)
           }
           // add user to local storage
           const userAuth = {
@@ -37,11 +51,10 @@ export const googleAuth = {
             isAdmin: dbUser.isAdmin,
             name: dbUser.name,
             email: userCredential.user.email,
-            rewardsPoints: dbUser.rewardsPoints,
-            openOrderItemTotal: dbUser.openOrderItemTotal,
             type: "google",
           }
           localStorage.setItem("user", JSON.stringify(userAuth))
+          await getNavCartItemTotal(userCredential.user.uid)
           navigate(sessionStorage.getItem("prevLocation"))
         })
         .catch((error) => {

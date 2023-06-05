@@ -8,6 +8,7 @@ import { Nav } from "./nav/Nav";
 import { Items } from "./items/Items";
 import { ItemDetail } from "./items/ItemDetail";
 import { useEffect, useState } from "react";
+import { fetchOpenOrderItemTotal } from "../APIManager";
 
 export const MCCCCo = () => {
 	const localStorageUser = localStorage.getItem("user")
@@ -15,9 +16,14 @@ export const MCCCCo = () => {
 
 	const [cartItemCount, setCartItemCount] = useState()
 
+	const getNavCartItemTotal = async (firebaseId) => {
+		const total = await fetchOpenOrderItemTotal(firebaseId)
+		setCartItemCount(total)
+	}
+
 	useEffect(() => {
 		if (localUser) {
-			setCartItemCount(localUser.openOrderItemTotal)
+			getNavCartItemTotal(localUser.firebaseId)
 		}
 	},[])
 
@@ -32,17 +38,17 @@ export const MCCCCo = () => {
             }>
 
             	<Route path="/" element={ <Home /> } />
-            	<Route path="/login" element={ <Login /> } />
-            	<Route path="/register" element={ <Register /> } />
+            	<Route path="/login" element={ <Login getNavCartItemTotal={getNavCartItemTotal} /> } />
+            	<Route path="/register" element={ <Register getNavCartItemTotal={getNavCartItemTotal} /> } />
             	<Route path="/items/:sortBy/:asc" element={ <Items /> } />
-            	<Route path="/item/:id" element={ <ItemDetail setCartItemCount={setCartItemCount} /> } />
+            	<Route path="/item/:id" element={ <ItemDetail getNavCartItemTotal={getNavCartItemTotal} /> } />
 
 				<Route
 					path="*"
 					element={
 					<AuthorizedUser>
 						<>
-							<UserViews />
+							<UserViews getNavCartItemTotal={getNavCartItemTotal} />
 						</>
 					</AuthorizedUser>
 					}

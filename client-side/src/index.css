@@ -20,7 +20,7 @@ body {
     --accent-secondary-color-dark: rgb(13, 148, 136); /* teal-600 */
     
     --nav-height: 80px;
-    --nav-height-plus: calc(var(--nav-height) + 5%);
+    --nav-height-plus: calc(var(--nav-height) + 4%);
 
     background-color: var(--bg-primary-color);
     color: var(--text-primary-color);

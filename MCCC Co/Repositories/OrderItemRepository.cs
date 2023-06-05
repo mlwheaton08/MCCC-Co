@@ -43,6 +43,37 @@ public class OrderItemRepository : BaseRepository, IOrderItemRepository
         }
     }
 
+    public int? GetOpenOrderItemTotalByUserFirebaseId(string firebaseId)
+    {
+        using (var conn = Connection)
+        {
+            conn.Open();
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = @"SELECT
+	                                    SUM(ItemQuantity) as OpenOrderItemTotal
+                                    FROM [User] u
+                                    JOIN [Order] o
+	                                    ON u.Id = o.UserId
+                                    JOIN OrderItem oi
+	                                    ON o.Id = oi.OrderId
+                                    WHERE FirebaseId = @firebaseId AND o.DateCompleted IS NULL";
+                DbUtils.AddParameter(cmd, "@firebaseId", firebaseId);
+
+                var reader = cmd.ExecuteReader();
+
+                int? total = null;
+                if (reader.Read())
+                {
+                    total = DbUtils.GetNullableInt(reader, "OpenOrderItemTotal");
+                }
+
+                reader.Close();
+                return total;
+            }
+        }
+    }
+
     public void Add(OrderItem orderItem)
     {
         using (var conn = Connection)

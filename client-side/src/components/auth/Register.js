@@ -4,7 +4,7 @@ import { googleAuth } from "../helpers/googleAuth";
 import { emailAuth } from "../helpers/emailAuth";
 import { emailIcon, googleIcon, passwordIcon, userIcon } from "../../icons";
 
-export const Register = () => {
+export const Register = ({ getNavCartItemTotal }) => {
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -15,7 +15,7 @@ export const Register = () => {
   // Register with email and password
   const handleRegister = async (e) => {
     e.preventDefault();
-    emailAuth.register(user, navigate)
+    emailAuth.register(user, getNavCartItemTotal, navigate)
   }
 
   const updateUser = (evt) => {
@@ -26,7 +26,7 @@ export const Register = () => {
 
   // Register with google (same as sign in)
   const onSubmitLoginGoogle = async () => {
-    googleAuth.signInRegister(navigate)
+    googleAuth.signInRegister(getNavCartItemTotal, navigate)
   }
 
   return (
@@ -60,7 +60,7 @@ export const Register = () => {
             <span>{passwordIcon()}</span>
             <input
               onChange={updateUser}
-              type="text"
+              type="password"
               id="password"
               className="w-72 pl-1 bg-transparent border-b border-text-primary-color rounded-none placeholder:font-light placeholder:text-text-secondary-color focus:outline-none"
               placeholder="Password"

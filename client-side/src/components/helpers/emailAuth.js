@@ -5,12 +5,12 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
-import { addUser, fetchUserByFirebaseId } from "../../APIManager.js"
+import { addOrder, addUser, fetchOrders, fetchUserByFirebaseId } from "../../APIManager.js"
 
 
 export const emailAuth = {
   // Register
-  register: function(userObj, navigate) {
+  register: function(userObj, getNavCartItemTotal, navigate) {
     const auth = getAuth()
     createUserWithEmailAndPassword(auth, userObj.email, userObj.password)
       .then(async (userCredential) => {
@@ -28,19 +28,33 @@ export const emailAuth = {
               rewardsPoints: 0
             }
             await addUser(dbUserToAdd)
-            // add to local storage
+            // check for user open order. if none, create one
             const dbUser = await fetchUserByFirebaseId(userCredential.user.uid)
+            const userOpenOrder = await fetchOrders(userCredential.user.uid, false)
+            if (!userOpenOrder[0]) {
+                const newOpenOrder = {
+                    userId: dbUser.id,
+                    shippingAddressId: null,
+                    dateCreated: new Date(),
+                    dateCompleted: null,
+                    rewardsUsed: null,
+                    totalValue: null,
+                    totalPaid: null,
+                    confirmationNumber: null
+                }
+                await addOrder(newOpenOrder)
+            }
+            // add to local storage
             const userAuth = {
               id: dbUser.id,
               firebaseId: userCredential.user.uid,
               isAdmin: dbUser.isAdmin,
               name: dbUser.name,
               email: userCredential.user.email,
-              rewardsPoints: dbUser.rewardsPoints,
-              openOrderItemTotal: 0,
               type: "email",
             }
             localStorage.setItem("user", JSON.stringify(userAuth))
+            await getNavCartItemTotal(userCredential.user.uid)
             navigate(sessionStorage.getItem("prevLocation"))
           },
           function(error) {
@@ -59,23 +73,37 @@ export const emailAuth = {
       })
   },
   // Sign in
-  signIn: function(userObj, navigate) {
+  signIn: function(userObj, getNavCartItemTotal, navigate) {
     return new Promise((res) => {
       const auth = getAuth()
       signInWithEmailAndPassword(auth, userObj.email, userObj.password)
         .then(async (userCredential) => {
+          // check for user open order. if none, create one
           const dbUser = await fetchUserByFirebaseId(userCredential.user.uid)
+          const userOpenOrder = await fetchOrders(userCredential.user.uid, false)
+          if (!userOpenOrder[0]) {
+              const newOpenOrder = {
+                  userId: dbUser.id,
+                  shippingAddressId: null,
+                  dateCreated: new Date(),
+                  dateCompleted: null,
+                  rewardsUsed: null,
+                  totalValue: null,
+                  totalPaid: null,
+                  confirmationNumber: null
+              }
+              await addOrder(newOpenOrder)
+          }
           const userAuth = {
             id: dbUser.id,
             firebaseId: userCredential.user.uid,
             isAdmin: dbUser.isAdmin,
             name: dbUser.name,
             email: userCredential.user.email,
-            rewardsPoints: dbUser.rewardsPoints,
-            openOrderItemTotal: dbUser.openOrderItemTotal,
             type: "email",
           }
           localStorage.setItem("user", JSON.stringify(userAuth))
+          await getNavCartItemTotal(userCredential.user.uid)
           navigate(sessionStorage.getItem("prevLocation"))
         })
         .catch((error) => {

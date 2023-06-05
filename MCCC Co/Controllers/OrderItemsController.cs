@@ -27,6 +27,17 @@ namespace MCCC_Co_.Controllers
             return Ok(orderItem);
         }
 
+        [HttpGet("/openOrderItemTotal/{firebaseId}")]
+        public IActionResult GetOpenOrderItemTotalByUserFirebaseId(string firebaseId)
+        {
+            int? total = _orderItemRepo.GetOpenOrderItemTotalByUserFirebaseId(firebaseId);
+            if (total == null)
+            {
+                return Ok(0);
+            }
+            return Ok(total);
+        }
+
         [HttpPost]
         public IActionResult Post(OrderItem orderItem)
         {
