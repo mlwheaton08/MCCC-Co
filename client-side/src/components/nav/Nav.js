@@ -37,12 +37,6 @@ export const Nav = ({ cartItemCount }) => {
         navigate("/login")
     }
 
-    window.addEventListener("storage", () => {
-        // When local storage changes, dump the list to
-        // the console.
-        console.log("quantity changed");
-    })
-
 
     return (
         <main className="fixed top-0 w-full h-nav-height flex justify-around items-center bg-bg-secondary-color text-xl">
@@ -154,7 +148,11 @@ export const Nav = ({ cartItemCount }) => {
                             <div className="absolute top-0 right-0 w-4 h-4 flex flex-col justify-center items-center rounded-full bg-accent-secondary-color-light">
                                 <span
                                     className="text-sm font-semibold text-bg-primary-color">
-                                        {cartItemCount}
+                                        {
+                                            !cartItemCount
+                                                ? 0
+                                                : cartItemCount
+                                        }
                                 </span>
                             </div>
                         </Link>

@@ -5,29 +5,29 @@ import { emailAuth } from "../helpers/emailAuth";
 import { googleAuth } from "../helpers/googleAuth";
 import { emailIcon, googleIcon, passwordIcon } from "../../icons";
 
-export const Login = () => {
+export const Login = ({ getNavCartItemTotal }) => {
   const [login, setLogin] = useState({
     email: "",
     password: "",
-  });
-  const navigate = useNavigate();
+  })
+  const navigate = useNavigate()
 
   const updateLogin = (evt) => {
-    const copy = { ...login };
-    copy[evt.target.id] = evt.target.value;
-    setLogin(copy);
-  };
+    const copy = { ...login }
+    copy[evt.target.id] = evt.target.value
+    setLogin(copy)
+  }
 
   // Login With Email & Password
   const onSubmitLoginEmail = async (e) => {
-    e.preventDefault();
-    emailAuth.signIn(login, navigate);
-  };
+    e.preventDefault()
+    emailAuth.signIn(login, getNavCartItemTotal, navigate)
+  }
 
   // Login with Google
   const onSubmitLoginGoogle = async () => {
-    googleAuth.signInRegister(navigate);
-  };
+    googleAuth.signInRegister(getNavCartItemTotal, navigate)
+  }
 
   return (
     <main className="mt-nav-height-plus flex flex-col items-center gap-24 text-center text-xl">
