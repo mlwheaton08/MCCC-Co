@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom"
 import { exitIcon } from "../../icons"
 import { useState } from "react"
-import { deleteOrderItem, fetchUserByFirebaseId, updateOrderItem } from "../../APIManager"
+import { deleteOrderItem, updateOrderItem } from "../../APIManager"
 
-export const CartItem = ({ orderItem, getOrder, getNavCartItemTotal, localUser }) => {
+export const CartItem = ({ orderItem, getOrder, getNavCartItemTotal, localUser, isLastItem }) => {
     const navigate = useNavigate()
 
     const [orderItemState, setOrderItemState] = useState({
@@ -13,8 +13,14 @@ export const CartItem = ({ orderItem, getOrder, getNavCartItemTotal, localUser }
         itemQuantity: orderItem.itemQuantity
     })
 
+    const showDividerLine = () => {
+        if (!isLastItem) {
+            return <span className="w-11/12 h-px mx-auto bg-bg-tint-color-2"></span>
+        }
+    }
 
-    return (
+
+    return <>
         <main className="flex justify-between">
             {/* Image */}
             <img
@@ -75,5 +81,7 @@ export const CartItem = ({ orderItem, getOrder, getNavCartItemTotal, localUser }
                 </span>
             </div>
         </main>
-    )
+
+        {showDividerLine()}
+    </>
 }

@@ -39,9 +39,9 @@ export const Nav = ({ cartItemCount }) => {
 
 
     return (
-        <main className="fixed top-0 w-full h-nav-height flex justify-around items-center bg-bg-secondary-color text-xl">
+        <main className="fixed top-0 w-full h-nav-height flex justify-between items-center bg-bg-secondary-color text-xl">
             <img
-                className="h-3/4 hover:cursor-pointer"
+                className="h-full hover:cursor-pointer"
                 src={logo}
                 alt="MCCC logo"
                 onClick={() => navigate("/")}
@@ -50,7 +50,7 @@ export const Nav = ({ cartItemCount }) => {
             {/* Cymbals */}
             <Link
                 to="/items/PurchaseCount/false"
-                className="px-3 py-2 flex items-center gap-2 rounded hover:bg-bg-tint-color-2"
+                className="h-full px-3 flex items-center gap-2 hover:bg-bg-tint-color-2"
                 onMouseOver={() => setShowCymbalsNavDropdown(true)}
                 onMouseOut={() => setShowCymbalsNavDropdown(false)}
             >
@@ -67,22 +67,24 @@ export const Nav = ({ cartItemCount }) => {
                 !user
                     ? <span
                         to="/login"
-                        className="px-3 py-2 text-accent-secondary-color-light rounded hover:bg-bg-tint-color-2 hover:cursor-pointer"
+                        className="h-full px-5 flex items-center text-accent-secondary-color-light hover:bg-bg-tint-color-2 hover:cursor-pointer"
                         onClick={toLogin}
                     >
-                        Sign In
+                        <span>
+                            Sign In
+                        </span>
                     </span>
-                    : <div className="flex items-center gap-8">
+                    : <div className="h-full flex items-center gap-8 mr-6">
 
                         {/* User Dropdown */}
                         <div
-                            className="relative"
+                            className="h-full relative"
                             onMouseOver={() => setShowProfileNavDropdown(true)}
                             onMouseOut={() => setShowProfileNavDropdown(false)}
                         >
                             <Link
                                 to={`/account/${user.firebaseId}`}
-                                className="px-3 py-2 flex items-center gap-2 rounded hover:bg-bg-tint-color-2"
+                                className="h-full px-5 flex items-center gap-2 hover:bg-bg-tint-color-2"
                             >
                                 {
                                     !user.name
@@ -95,10 +97,8 @@ export const Nav = ({ cartItemCount }) => {
                                 !showProfileNavDropdown
                                     ? ""
                                     : <div className="absolute -right-5 w-48 flex flex-col">
-                                        {/* Dropdown gap */}
-                                        <span className="py-2"></span>
                                         {/* Dropdown diamond */}
-                                        <div className={`absolute top-3 right-1/2 translate-x-1/2 w-4 h-4 mx-auto rotate-45 ${topDropdownHover}`}></div>
+                                        <div className={`absolute -top-1 right-11 translate-x-1/2 w-4 h-4 mx-auto rotate-45 ${topDropdownHover}`}></div>
                                         {/* Dropdown options container */}
                                         <div className="z-10 float-right min-w-fit flex flex-col rounded bg-black font-thin">
                                             <span
@@ -119,7 +119,16 @@ export const Nav = ({ cartItemCount }) => {
                                                     setShowProfileNavDropdown(false)
                                                 }}
                                             >
-                                                Favorites
+                                                Saved
+                                            </span>
+                                            <span
+                                                className="w-full p-3 rounded-none hover:bg-accent-secondary-color-dark hover:text-bg-primary-color hover:font-normal hover:cursor-pointer"
+                                                onClick={() => {
+                                                    navigate("/orderHistory")
+                                                    setShowProfileNavDropdown(false)
+                                                }}
+                                            >
+                                                Order History
                                             </span>
                                             <button
                                                 onMouseOver={() => setSignOutHover("-rotate-180")}

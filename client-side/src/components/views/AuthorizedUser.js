@@ -4,7 +4,7 @@ export const AuthorizedUser = ({ children }) => {
 		return children;
 	} else {
 		return (
-			<p>You do not have access to this page.</p>
+			<p className="mt-nav-height">You do not have access to this page.</p>
 		);
 	}
 }

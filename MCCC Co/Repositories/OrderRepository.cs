@@ -81,6 +81,8 @@ public class OrderRepository : BaseRepository, IOrderRepository
                     sql += " IS NULL";
                 }
 
+                sql += " ORDER BY DateCompleted DESC";
+
                 cmd.CommandText = sql;
                 DbUtils.AddParameter(cmd, "@userFirebaseId", userFirebaseId);
                 var reader = cmd.ExecuteReader();

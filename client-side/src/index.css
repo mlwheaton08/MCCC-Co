@@ -19,7 +19,7 @@ body {
     --accent-secondary-color: rgb(20, 184, 166); /* teal-500 */
     --accent-secondary-color-dark: rgb(13, 148, 136); /* teal-600 */
     
-    --nav-height: 80px;
+    --nav-height: 65px;
     --nav-height-plus: calc(var(--nav-height) + 4%);
 
     background-color: var(--bg-primary-color);

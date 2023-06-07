@@ -56,6 +56,7 @@ export const Cart = ({ getNavCartItemTotal }) => {
 
     const handlePurchase = async () => {
         const newConfirmationNumber = getConfirmationNumber()
+        const cartPrice = getCartTotalPrice()
 
         const currentOrder = {
             id: order.id,
@@ -64,8 +65,8 @@ export const Cart = ({ getNavCartItemTotal }) => {
             dateCreated: order.dateCreated,
             dateCompleted: new Date(),
             rewardsUsed: null,
-            totalValue: getCartTotalPrice(),
-            totalPaid: null,
+            totalValue: cartPrice,
+            totalPaid: cartPrice,
             confirmationNumber: newConfirmationNumber
         }
 
@@ -113,28 +114,16 @@ export const Cart = ({ getNavCartItemTotal }) => {
                     <div className="flex flex-col rounded border border-text-secondary-color">
                         {
                             orderItems.map((orderItem, index) => {
-                                if (index < (orderItems.length - 1)) {
-                                    return <>
-                                        <CartItem
-                                            key={`cartItem--${orderItem.id}`}
-                                            orderItem={orderItem}
-                                            getOrder={getOrder}
-                                            getNavCartItemTotal={getNavCartItemTotal}
-                                            localUser={localUser}
-                                        />
-                                        <span className="w-11/12 h-px mx-auto bg-bg-tint-color-2"></span>
-                                    </>
-                                } else {
-                                    return (
-                                        <CartItem
-                                            key={`cartItem--${orderItem.id}`}
-                                            orderItem={orderItem}
-                                            getOrder={getOrder}
-                                            getNavCartItemTotal={getNavCartItemTotal}
-                                            localUser={localUser}
-                                        />
-                                    )
-                                }
+                                return (
+                                    <CartItem
+                                        key={orderItem.id}
+                                        orderItem={orderItem}
+                                        getOrder={getOrder}
+                                        getNavCartItemTotal={getNavCartItemTotal}
+                                        localUser={localUser}
+                                        isLastItem={index === (orderItems.length - 1)}
+                                    />
+                                )
                             })
                         }
                     </div>
