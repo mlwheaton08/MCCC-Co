@@ -92,3 +92,15 @@ export const deleteOrderItem = async (id) => {
         method: "DELETE"
     })
 }
+
+export const fetchTypes = async () => {
+    const response = await fetch('https://localhost:7240/Types')
+    const typesArray = await response.json()
+    return typesArray
+}
+
+export const fetchSeries = async () => {
+    const response = await fetch('https://localhost:7240/Series')
+    const seriesArray = await response.json()
+    return seriesArray
+}

@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom"
 import { chevronDownIcon, gearIcon, shoppingCartIcon, signOutIcon } from "../../icons"
 import { useEffect, useState } from "react"
 import { logout } from "../helpers/logout"
+import { fetchSeries, fetchTypes } from "../../APIManager"
 
 export const Nav = ({ cartItemCount }) => {
     const navigate = useNavigate()
@@ -21,10 +22,23 @@ export const Nav = ({ cartItemCount }) => {
         rewardsPoints: 0,
         openOrderItemTotal: 0
     })
+    const [types, setTypes] = useState([])
+    const [series, setSeries] = useState([])
     const [showCymbalsNavDropdown, setShowCymbalsNavDropdown] = useState(false)
     const [showProfileNavDropdown, setShowProfileNavDropdown] = useState(false)
     const [topDropdownHover, setTopDropdownHover] = useState("bg-black")
     const [signOutHover, setSignOutHover] = useState("")
+
+    const getCymbalNavOptions = async () => {
+        const typesArray = await fetchTypes()
+        setTypes(typesArray)
+        const seriesArray = await fetchSeries()
+        setSeries(seriesArray)
+    }
+
+    useEffect(() => {
+        getCymbalNavOptions()
+    },[])
 
     useEffect(() => {
         setUser(localUser)
@@ -39,24 +53,82 @@ export const Nav = ({ cartItemCount }) => {
 
 
     return (
-        <main className="fixed top-0 w-full h-nav-height flex justify-between items-center bg-bg-secondary-color text-xl">
+        <main className="fixed z-50 top-0 w-full h-nav-height flex justify-between items-center bg-bg-secondary-color text-xl">
             <img
                 className="h-full hover:cursor-pointer"
                 src={logo}
                 alt="MCCC logo"
                 onClick={() => navigate("/")}
             />
-
-            {/* Cymbals */}
-            <Link
-                to="/items/PurchaseCount/false"
-                className="h-full px-3 flex items-center gap-2 hover:bg-bg-tint-color-2"
+            
+            {/* Cymbals Dropdown */}
+            <div
+                className="h-full relative"
                 onMouseOver={() => setShowCymbalsNavDropdown(true)}
                 onMouseOut={() => setShowCymbalsNavDropdown(false)}
             >
-                <span>Cymbals</span>
-                <span>{chevronDownIcon()}</span>
-            </Link>
+                <Link
+                    to="/items/PurchaseCount/false"
+                    className="h-full px-5 flex items-center gap-2 hover:bg-bg-tint-color-2"
+                >
+                    <span>Cymbals</span>
+                    <span>{chevronDownIcon(showCymbalsNavDropdown)}</span>
+                </Link>
+                {
+                    !showCymbalsNavDropdown
+                        ? ""
+                        : <div className="relative">
+                            {/* Dropdown diamond */}
+                            <div className="absolute w-4 h-4 right-4 -top-1 mx-auto rotate-45 bg-bg-nullary-color"></div>
+                            <div className="absolute w-96 flex justify-around bg-bg-nullary-color">
+                                {/* Type options container */}
+                                <div className="w-1/2 flex flex-col text-center">
+                                    <h4 className="py-4 border-b border-bg-secondary-color text-accent-primary-color-light font-thin text-base">By Type</h4>
+                                    <div className="flex flex-col">
+                                        {
+                                            types.map((type) => {
+                                                return (
+                                                    <span
+                                                        key={type.id}
+                                                        className="w-full p-3 rounded-none hover:bg-accent-primary-color-dark hover:font-normal hover:cursor-pointer"
+                                                        onClick={() => {
+                                                            navigate(`/items`)
+                                                            setShowCymbalsNavDropdown(false)
+                                                        }}
+                                                    >
+                                                        {type.name}
+                                                    </span>
+                                                )
+                                            })
+                                        }
+                                    </div>
+                                </div>
+                                {/* Series options container */}
+                                <div className="w-1/2 flex flex-col text-center">
+                                    <h4 className="py-4 border-b border-bg-secondary-color text-accent-primary-color-light font-thin text-base">By Series</h4>
+                                    <div className="flex flex-col">
+                                        {
+                                            series.map((series) => {
+                                                return (
+                                                    <span
+                                                        key={series.id}
+                                                        className="w-full p-3 rounded-none hover:bg-accent-primary-color-dark hover:font-normal hover:cursor-pointer"
+                                                        onClick={() => {
+                                                            navigate(`/items`)
+                                                            setShowCymbalsNavDropdown(false)
+                                                        }}
+                                                    >
+                                                        {series.name}
+                                                    </span>
+                                                )
+                                            })
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                }
+            </div>
             
             {/* Distributors */}
             <Link to="/distributors">Distributors</Link>
@@ -98,13 +170,13 @@ export const Nav = ({ cartItemCount }) => {
                                     ? ""
                                     : <div className="absolute -right-5 w-48 flex flex-col">
                                         {/* Dropdown diamond */}
-                                        <div className={`absolute -top-1 right-11 translate-x-1/2 w-4 h-4 mx-auto rotate-45 ${topDropdownHover}`}></div>
+                                        <div className={`absolute -top-1 right-9 w-4 h-4 mx-auto rotate-45 ${topDropdownHover}`}></div>
                                         {/* Dropdown options container */}
-                                        <div className="z-10 float-right min-w-fit flex flex-col rounded bg-black font-thin">
+                                        <div className="min-w-fit flex flex-col bg-bg-nullary-color font-thin">
                                             <span
                                                 className="w-full p-3 rounded-none hover:bg-accent-secondary-color-dark hover:text-bg-primary-color hover:font-normal hover:cursor-pointer"
                                                 onMouseOver={() => setTopDropdownHover("bg-accent-secondary-color-dark")}
-                                                onMouseOut={() => setTopDropdownHover("bg-black")}
+                                                onMouseOut={() => setTopDropdownHover("bg-bg-nullary-color")}
                                                 onClick={() => {
                                                     navigate(`/account/${user.firebaseId}`)
                                                     setShowProfileNavDropdown(false)

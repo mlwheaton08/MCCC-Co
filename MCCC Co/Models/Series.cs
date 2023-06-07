@@ -8,4 +8,6 @@ public class Series
     public int? BrightnessLevel { get; set; }
     public string? Description { get; set; }
     public string? Image { get; set; }
+
+    public List<string> Applications { get; set; } = new List<string>();
 }

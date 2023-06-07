@@ -9,6 +9,7 @@ module.exports = {
     },
     extend: {
       colors: {
+        'bg-nullary-color': 'var(--bg-nullary-color)',
         'bg-primary-color': 'var(--bg-primary-color)',
         'bg-secondary-color': 'var(--bg-secondary-color)',
         'bg-tertiary-color': 'var(--bg-tertiary-color)',
