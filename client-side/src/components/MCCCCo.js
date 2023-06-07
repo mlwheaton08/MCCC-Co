@@ -2,13 +2,13 @@ import { Outlet, Route, Routes } from "react-router-dom";
 import { AuthorizedUser } from "./views/AuthorizedUser";
 import { Login } from "./auth/Login";
 import { Register } from "./auth/Register";
-import { UserViews } from "./views/UserViews";
 import { Home } from "./home/Home";
 import { Nav } from "./nav/Nav";
 import { Items } from "./items/Items";
 import { ItemDetail } from "./items/ItemDetail";
 import { useEffect, useState } from "react";
 import { fetchOpenOrderItemTotal } from "../APIManager";
+import { UserViews } from "./views/UserViews";
 
 export const MCCCCo = () => {
 	const localStorageUser = localStorage.getItem("user")
