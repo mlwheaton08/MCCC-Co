@@ -16,7 +16,7 @@ export const OrderItem = ({ orderItem }) => {
             <div className="flex flex-col justify-center">
                 <h4
                     className="text-xl hover:underline hover:cursor-pointer"
-                    onClick={() => navigate(`/item/${orderItem.itemId}`)}
+                    onClick={() => navigate(`/cymbal/${orderItem.itemId}`)}
                 >
                     {orderItem.item.width}" {orderItem.item.series.name} {orderItem.item.type.name}
                 </h4>

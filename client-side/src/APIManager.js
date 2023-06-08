@@ -17,8 +17,8 @@ export const addUser = async (userObj) => {
     await fetch('https://localhost:7240/Users', options)
 }
 
-export const fetchItems = async (sortBy, isAsc) => {
-    const response = await fetch(`https://localhost:7240/Items?sortBy=${sortBy}&asc=${isAsc}`)
+export const fetchItems = async () => {
+    const response = await fetch('https://localhost:7240/Items?sortBy=PurchaseCount&asc=false')
     const itemsArray = await response.json()
     return itemsArray
 }

@@ -7,7 +7,7 @@ export const ItemCard = ({ item }) => {
     return (
         <div
             className="w-96 flex flex-col justify-between items-center rounded text-xl hover:bg-bg-tint-color-2 hover:cursor-pointer"
-            onClick={() => navigate(`/item/${item.id}`)}
+            onClick={() => navigate(`/cymbal/${item.id}`)}
         >
             {/* Image */}
             <img

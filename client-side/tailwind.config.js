@@ -9,12 +9,13 @@ module.exports = {
     },
     extend: {
       colors: {
-        'bg-nullary-color': 'var(--bg-nullary-color)',
         'bg-primary-color': 'var(--bg-primary-color)',
         'bg-secondary-color': 'var(--bg-secondary-color)',
         'bg-tertiary-color': 'var(--bg-tertiary-color)',
+        'bg-quaternary-color': 'var(--bg-quaternary-color)',
         'bg-tint-color': 'var(--bg-tint-color)',
         'bg-tint-color-2': 'var(--bg-tint-color-2)',
+        'bg-tint-color-3': 'var(--bg-tint-color-3)',
         'text-primary-color': 'var(--text-primary-color)',
         'text-secondary-color': 'var(--text-secondary-color)',
         'accent-primary-color-light': 'var(--accent-primary-color-light)',
@@ -25,7 +26,8 @@ module.exports = {
         'accent-secondary-color-dark': 'var(--accent-secondary-color-dark)'
       },
       height: {
-        'nav-height': 'var(--nav-height)'
+        'nav-height': 'var(--nav-height)',
+        'screen-minus-nav-height': 'var(--screen-minus-nav-height)'
       },
       margin: {
         'nav-height': 'var(--nav-height)',

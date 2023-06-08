@@ -32,7 +32,7 @@ export const CartItem = ({ orderItem, getOrder, getNavCartItemTotal, localUser, 
             <div className="mr-auto my-4 flex flex-col justify-between">
                 <h4
                     className="text-2xl hover:underline hover:cursor-pointer"
-                    onClick={() => navigate(`/item/${orderItem.itemId}`)}
+                    onClick={() => navigate(`/cymbal/${orderItem.itemId}`)}
                 >
                     {orderItem.item.width}" {orderItem.item.series.name} {orderItem.item.type.name}
                 </h4>

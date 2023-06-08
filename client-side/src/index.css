@@ -3,12 +3,13 @@
 @tailwind utilities;
 
 body {
-    --bg-nullary-color: rgb(0, 0, 0);
-    --bg-primary-color: rgb(20, 20, 20);
-    --bg-secondary-color: rgb(30, 30, 30);
-    --bg-tertiary-color: rgb(75, 85, 99); /* gray-600 */
+    --bg-primary-color: rgb(0, 0, 0);
+    --bg-secondary-color: rgb(15, 15, 15);
+    --bg-tertiary-color: rgb(22, 22, 22);
+    --bg-quaternary-color: rgb(30, 30, 30);
     --bg-tint-color: rgba(128, 128, 128, 0.1);
     --bg-tint-color-2: rgba(128, 128, 128, 0.2);
+    --bg-tint-color-3: rgba(128, 128, 128, 0.3);
 
     --text-primary-color: rgb(240, 240, 240);
     --text-secondary-color: rgb(210, 210, 210);
@@ -22,6 +23,7 @@ body {
     
     --nav-height: 65px;
     --nav-height-plus: calc(var(--nav-height) + 4%);
+    --screen-minus-nav-height: calc(100vh - var(--nav-height));
 
     background-color: var(--bg-primary-color);
     color: var(--text-primary-color);

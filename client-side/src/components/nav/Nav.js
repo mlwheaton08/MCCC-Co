@@ -68,7 +68,7 @@ export const Nav = ({ cartItemCount }) => {
                 onMouseOut={() => setShowCymbalsNavDropdown(false)}
             >
                 <Link
-                    to="/items/PurchaseCount/false"
+                    to="/cymbals"
                     className="h-full px-5 flex items-center gap-2 hover:bg-bg-tint-color-2"
                 >
                     <span>Cymbals</span>
@@ -79,8 +79,8 @@ export const Nav = ({ cartItemCount }) => {
                         ? ""
                         : <div className="relative">
                             {/* Dropdown diamond */}
-                            <div className="absolute w-4 h-4 right-4 -top-1 mx-auto rotate-45 bg-bg-nullary-color"></div>
-                            <div className="absolute w-96 flex justify-around bg-bg-nullary-color">
+                            <div className="absolute w-4 h-4 right-4 -top-1 mx-auto rotate-45 bg-bg-quaternary-color"></div>
+                            <div className="absolute w-96 flex justify-around bg-bg-quaternary-color">
                                 {/* Type options container */}
                                 <div className="w-1/2 flex flex-col text-center">
                                     <h4 className="py-4 border-b border-bg-secondary-color text-accent-primary-color-light font-thin text-base">By Type</h4>
@@ -92,7 +92,7 @@ export const Nav = ({ cartItemCount }) => {
                                                         key={type.id}
                                                         className="w-full p-3 rounded-none hover:bg-accent-primary-color-dark hover:font-normal hover:cursor-pointer"
                                                         onClick={() => {
-                                                            navigate(`/items`)
+                                                            navigate(`/cymbals/${type.name}`)
                                                             setShowCymbalsNavDropdown(false)
                                                         }}
                                                     >
@@ -114,7 +114,7 @@ export const Nav = ({ cartItemCount }) => {
                                                         key={series.id}
                                                         className="w-full p-3 rounded-none hover:bg-accent-primary-color-dark hover:font-normal hover:cursor-pointer"
                                                         onClick={() => {
-                                                            navigate(`/items`)
+                                                            navigate(`/cymbals/${series.name}`)
                                                             setShowCymbalsNavDropdown(false)
                                                         }}
                                                     >
@@ -172,11 +172,11 @@ export const Nav = ({ cartItemCount }) => {
                                         {/* Dropdown diamond */}
                                         <div className={`absolute -top-1 right-9 w-4 h-4 mx-auto rotate-45 ${topDropdownHover}`}></div>
                                         {/* Dropdown options container */}
-                                        <div className="min-w-fit flex flex-col bg-bg-nullary-color font-thin">
+                                        <div className="min-w-fit flex flex-col bg-bg-quaternary-color font-thin">
                                             <span
                                                 className="w-full p-3 rounded-none hover:bg-accent-secondary-color-dark hover:text-bg-primary-color hover:font-normal hover:cursor-pointer"
                                                 onMouseOver={() => setTopDropdownHover("bg-accent-secondary-color-dark")}
-                                                onMouseOut={() => setTopDropdownHover("bg-bg-nullary-color")}
+                                                onMouseOut={() => setTopDropdownHover("bg-bg-quaternary-color")}
                                                 onClick={() => {
                                                     navigate(`/account/${user.firebaseId}`)
                                                     setShowProfileNavDropdown(false)
