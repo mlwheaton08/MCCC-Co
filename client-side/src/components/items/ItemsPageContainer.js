@@ -2,21 +2,20 @@ import { Route, Routes, useParams } from "react-router-dom"
 import { Items } from "./Items"
 import { ItemsFilter } from "./ItemsFilter"
 
-export const ItemsPageContainer = () => {
+export const ItemsPageContainer = ({ isFilterActive, setIsFilterActive }) => {
 
-    const {filter} = useParams()
     const {seriesFilter} = useParams()
     const {typeFilter} = useParams()
 
 
     return <>
         <ItemsFilter
-            filter={filter}
             seriesFilter={seriesFilter}
             typeFilter={typeFilter}
+            isFilterActive={isFilterActive}
+            setIsFilterActive={setIsFilterActive}
         />
         <Items
-            filter={filter}
             seriesFilter={seriesFilter}
             typeFilter={typeFilter}
         />

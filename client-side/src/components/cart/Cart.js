@@ -3,7 +3,7 @@ import { addOrder, fetchOrders, updateOrder } from "../../APIManager"
 import { useNavigate } from "react-router-dom"
 import { CartItem } from "./CartItem"
 
-export const Cart = ({ getNavCartItemTotal }) => {
+export const Cart = ({ getNavCartItemTotal, setIsItemFilterActive }) => {
     const localStorageUser = localStorage.getItem("user")
     const localUser = JSON.parse(localStorageUser)
 
@@ -102,7 +102,10 @@ export const Cart = ({ getNavCartItemTotal }) => {
                     <h3 className="mb-8 font-light text-3xl">There are no items in your cart.</h3>
                     <button
                         className="px-4 py-1 flex items-center gap-2 bg-accent-primary-color-dark text-2xl text-text-secondary-color transition-all duration-300 hover:bg-accent-primary-color hover:text-text-primary-color"
-                        onClick={() => navigate("/cymbals")}
+                        onClick={() => {
+                            setIsItemFilterActive(false)
+                            navigate("/cymbals")
+                        }}
                     >
                         Start Shopping!
                     </button>

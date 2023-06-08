@@ -16,6 +16,7 @@ export const MCCCCo = () => {
     const localUser = JSON.parse(localStorageUser)
 
 	const [cartItemCount, setCartItemCount] = useState()
+	const [isItemFilterActive, setIsItemFilterActive] = useState(false)
 
 	const getNavCartItemTotal = async (firebaseId) => {
 		const total = await fetchOpenOrderItemTotal(firebaseId)
@@ -33,17 +34,43 @@ export const MCCCCo = () => {
         <Routes>
             <Route path="/" element={
                 <>
-                    <Nav cartItemCount={cartItemCount} />
+                    <Nav
+						cartItemCount={cartItemCount}
+						setIsItemFilterActive={setIsItemFilterActive}
+					/>
                     <Outlet />
                 </>
             }>
 
-            	<Route path="/" element={ <Home /> } />
+            	<Route path="/" element={ <Home setIsItemFilterActive={setIsItemFilterActive} /> } />
             	<Route path="/login" element={ <Login getNavCartItemTotal={getNavCartItemTotal} /> } />
             	<Route path="/register" element={ <Register getNavCartItemTotal={getNavCartItemTotal} /> } />
-            	<Route path="/cymbals" element={ <ItemsPageContainer /> } />
-            	<Route path="/cymbals/:filter" element={ <ItemsPageContainer /> } />
-            	<Route path="/cymbals/:seriesFilter/:typeFilter" element={ <ItemsPageContainer /> } />
+
+            	<Route path="/cymbals"
+					element={ <ItemsPageContainer
+						isFilterActive={isItemFilterActive}
+						setIsFilterActive={setIsItemFilterActive}
+					/> }
+				/>
+            	<Route path="/cymbals/series/:seriesFilter"
+					element={ <ItemsPageContainer
+						isFilterActive={isItemFilterActive}
+						setIsFilterActive={setIsItemFilterActive}
+					/> }
+				/>
+            	<Route path="/cymbals/type/:typeFilter"
+					element={ <ItemsPageContainer
+						isFilterActive={isItemFilterActive}
+						setIsFilterActive={setIsItemFilterActive}
+					/> }
+				/>
+            	<Route path="/cymbals/series/:seriesFilter/type/:typeFilter"
+					element={ <ItemsPageContainer
+						isFilterActive={isItemFilterActive}
+						setIsFilterActive={setIsItemFilterActive}
+					/> }
+				/>
+
             	<Route path="/cymbal/:id" element={ <ItemDetail getNavCartItemTotal={getNavCartItemTotal} /> } />
 
 				<Route
@@ -51,7 +78,10 @@ export const MCCCCo = () => {
 					element={
 					<AuthorizedUser>
 						<>
-							<UserViews getNavCartItemTotal={getNavCartItemTotal} />
+							<UserViews
+								getNavCartItemTotal={getNavCartItemTotal}
+								setIsItemFilterActive={setIsItemFilterActive}
+							/>
 						</>
 					</AuthorizedUser>
 					}

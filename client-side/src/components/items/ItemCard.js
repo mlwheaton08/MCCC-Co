@@ -15,7 +15,7 @@ export const ItemCard = ({ item }) => {
                 alt={`Cymbal - ${item.width} ${item.series.name} ${item.type.name}`}
             />
             {/* Dividing line */}
-            <span className="w-4/5 h-px bg-bg-tertiary-color"></span>
+            <span className="w-4/5 h-px bg-border-color-1"></span>
             {/* Description */}
             <div className="py-3 flex flex-col items-center">
                 <div>

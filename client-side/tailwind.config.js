@@ -18,6 +18,7 @@ module.exports = {
         'bg-tint-color-3': 'var(--bg-tint-color-3)',
         'text-primary-color': 'var(--text-primary-color)',
         'text-secondary-color': 'var(--text-secondary-color)',
+        'border-color-1': 'var(--border-color-1)',
         'accent-primary-color-light': 'var(--accent-primary-color-light)',
         'accent-primary-color': 'var(--accent-primary-color)',
         'accent-primary-color-dark': 'var(--accent-primary-color-dark)',
@@ -33,6 +34,12 @@ module.exports = {
         'nav-height': 'var(--nav-height)',
         'nav-height-plus': 'var(--nav-height-plus)'
       },
+      spacing: {
+        'nav-height': 'var(--nav-height)',
+        'nav-height-plus': 'var(--nav-height-plus)',
+        'half-vw': '50vw',
+        'third-vw': '33vw'
+      }
     },
   },
   plugins: [require('flowbite/plugin')],

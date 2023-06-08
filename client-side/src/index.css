@@ -14,6 +14,8 @@ body {
     --text-primary-color: rgb(240, 240, 240);
     --text-secondary-color: rgb(210, 210, 210);
 
+    --border-color-1: rgb(75, 99, 93);
+
     --accent-primary-color-light: rgb(239, 68, 68); /* red-500 */
     --accent-primary-color: rgb(220, 38, 38); /* red-600 */
     --accent-primary-color-dark: rgb(185, 28, 28); /* red-700 */

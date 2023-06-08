@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 import { logout } from "../helpers/logout"
 import { fetchSeries, fetchTypes } from "../../APIManager"
 
-export const Nav = ({ cartItemCount }) => {
+export const Nav = ({ cartItemCount, setIsItemFilterActive }) => {
     const navigate = useNavigate()
     const localStorageUser = localStorage.getItem("user")
     const localUser = JSON.parse(localStorageUser)
@@ -70,6 +70,7 @@ export const Nav = ({ cartItemCount }) => {
                 <Link
                     to="/cymbals"
                     className="h-full px-5 flex items-center gap-2 hover:bg-bg-tint-color-2"
+                    onClick={() => setIsItemFilterActive(false)}
                 >
                     <span>Cymbals</span>
                     <span>{chevronDownIcon(showCymbalsNavDropdown)}</span>
@@ -80,7 +81,7 @@ export const Nav = ({ cartItemCount }) => {
                         : <div className="relative">
                             {/* Dropdown diamond */}
                             <div className="absolute w-4 h-4 right-4 -top-1 mx-auto rotate-45 bg-bg-quaternary-color"></div>
-                            <div className="absolute w-96 flex justify-around bg-bg-quaternary-color">
+                            <div className="absolute w-third-vw flex justify-around bg-bg-quaternary-color">
                                 {/* Type options container */}
                                 <div className="w-1/2 flex flex-col text-center">
                                     <h4 className="py-4 border-b border-bg-secondary-color text-accent-primary-color-light font-thin text-base">By Type</h4>
@@ -92,7 +93,7 @@ export const Nav = ({ cartItemCount }) => {
                                                         key={type.id}
                                                         className="w-full p-3 rounded-none hover:bg-accent-primary-color-dark hover:font-normal hover:cursor-pointer"
                                                         onClick={() => {
-                                                            navigate(`/cymbals/${type.name}`)
+                                                            navigate(`/cymbals/type/${type.name}`)
                                                             setShowCymbalsNavDropdown(false)
                                                         }}
                                                     >
@@ -114,7 +115,7 @@ export const Nav = ({ cartItemCount }) => {
                                                         key={series.id}
                                                         className="w-full p-3 rounded-none hover:bg-accent-primary-color-dark hover:font-normal hover:cursor-pointer"
                                                         onClick={() => {
-                                                            navigate(`/cymbals/${series.name}`)
+                                                            navigate(`/cymbals/series/${series.name}`)
                                                             setShowCymbalsNavDropdown(false)
                                                         }}
                                                     >
