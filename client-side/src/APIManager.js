@@ -17,8 +17,8 @@ export const addUser = async (userObj) => {
     await fetch('https://localhost:7240/Users', options)
 }
 
-export const fetchItems = async (sortBy, isAsc) => {
-    const response = await fetch(`https://localhost:7240/Items?sortBy=${sortBy}&asc=${isAsc}`)
+export const fetchItems = async () => {
+    const response = await fetch('https://localhost:7240/Items?sortBy=PurchaseCount&asc=false')
     const itemsArray = await response.json()
     return itemsArray
 }
@@ -91,4 +91,16 @@ export const deleteOrderItem = async (id) => {
     await fetch(`https://localhost:7240/OrderItems/${id}`, {
         method: "DELETE"
     })
+}
+
+export const fetchTypes = async () => {
+    const response = await fetch('https://localhost:7240/Types')
+    const typesArray = await response.json()
+    return typesArray
+}
+
+export const fetchSeries = async () => {
+    const response = await fetch('https://localhost:7240/Series')
+    const seriesArray = await response.json()
+    return seriesArray
 }

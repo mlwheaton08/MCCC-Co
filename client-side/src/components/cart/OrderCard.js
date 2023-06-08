@@ -19,15 +19,15 @@ export const OrderCard = ({ order }) => {
         <main>
             <Accordion collapseAll className="border-none">
                 <Accordion.Panel>
-                    <Accordion.Title className="h-20 bg-bg-secondary-color text-2xl hover:bg-bg-tertiary-color hover:text-black">
+                    <Accordion.Title className="h-20 bg-bg-secondary-color text-2xl hover:bg-border-color-1 hover:text-bg-primary-color">
                         <div className="flex gap-2">
-                            <span className="font-bold">
+                            <span>
                                 {new Date(order.dateCompleted).toLocaleDateString('en-us', { year:"numeric", month:"short", day:"numeric"})}
                             </span>
                             <span>
                                 -
                             </span>
-                            <span className="font-medium">
+                            <span className="font-thin">
                                 {getOrderItemCount()}
                             </span>
                         </div>
