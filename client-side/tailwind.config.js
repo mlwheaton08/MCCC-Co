@@ -2,6 +2,7 @@
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
+    // './node_modules/flowbite/**/*.js'
   ],
   theme: {
     minWidth: {
@@ -42,6 +43,6 @@ module.exports = {
       }
     },
   },
-  plugins: [require('flowbite/plugin')],
+  // plugins: [require('flowbite/plugin')],
 }
 
