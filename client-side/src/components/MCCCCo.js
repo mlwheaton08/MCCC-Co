@@ -4,7 +4,6 @@ import { Login } from "./auth/Login";
 import { Register } from "./auth/Register";
 import { Home } from "./home/Home";
 import { Nav } from "./nav/Nav";
-import { Items } from "./items/Items";
 import { ItemDetail } from "./items/ItemDetail";
 import { useEffect, useState } from "react";
 import { fetchOpenOrderItemTotal } from "../APIManager";
