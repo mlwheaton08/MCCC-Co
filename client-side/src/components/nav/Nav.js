@@ -81,6 +81,7 @@ export const Nav = ({ cartItemCount, setIsItemFilterActive }) => {
                         : <div className="relative">
                             {/* Dropdown diamond */}
                             <div className="absolute w-4 h-4 right-4 -top-1 mx-auto rotate-45 bg-bg-quaternary-color"></div>
+                            {/* Main container */}
                             <div className="absolute w-third-vw flex justify-around bg-bg-quaternary-color">
                                 {/* Type options container */}
                                 <div className="w-1/2 flex flex-col text-center">
@@ -135,7 +136,7 @@ export const Nav = ({ cartItemCount, setIsItemFilterActive }) => {
             <Link to="/distributors">Distributors</Link>
             <Search />
             
-            {/* User and Cart */}
+            {/* Cart and User */}
             {
                 !user
                     ? <span
@@ -147,9 +148,27 @@ export const Nav = ({ cartItemCount, setIsItemFilterActive }) => {
                             Sign In
                         </span>
                     </span>
-                    : <div className="h-full flex items-center gap-8 mr-6">
+                    : <div className="h-full flex items-center gap-6">
 
-                        {/* User Dropdown */}
+                        {/* Cart */}
+                        <Link
+                            to="/cart"
+                            className="relative p-3 rounded-full hover:bg-bg-tint-color-2"
+                        >
+                            <span>{shoppingCartIcon()}</span>
+                            <div className="absolute top-0 right-0 w-4 h-4 flex flex-col justify-center items-center rounded-full bg-accent-secondary-color-light">
+                                <span
+                                    className="text-sm font-semibold text-bg-primary-color">
+                                        {
+                                            !cartItemCount
+                                                ? 0
+                                                : cartItemCount
+                                        }
+                                </span>
+                            </div>
+                        </Link>
+
+                        {/* User */}
                         <div
                             className="h-full relative"
                             onMouseOver={() => setShowProfileNavDropdown(true)}
@@ -169,9 +188,9 @@ export const Nav = ({ cartItemCount, setIsItemFilterActive }) => {
                             {
                                 !showProfileNavDropdown
                                     ? ""
-                                    : <div className="absolute -right-5 w-48 flex flex-col">
+                                    : <div className="absolute right-0 w-48 flex flex-col">
                                         {/* Dropdown diamond */}
-                                        <div className={`absolute -top-1 right-9 w-4 h-4 mx-auto rotate-45 ${topDropdownHover}`}></div>
+                                        <div className={`absolute -top-1 right-4 w-4 h-4 mx-auto rotate-45 ${topDropdownHover}`}></div>
                                         {/* Dropdown options container */}
                                         <div className="min-w-fit flex flex-col bg-bg-quaternary-color font-thin">
                                             <span
@@ -221,23 +240,7 @@ export const Nav = ({ cartItemCount, setIsItemFilterActive }) => {
                             }
                         </div>
 
-                        {/* Cart */}
-                        <Link
-                            to="/cart"
-                            className="relative p-3 rounded-full hover:bg-bg-tint-color-2"
-                        >
-                            <span>{shoppingCartIcon()}</span>
-                            <div className="absolute top-0 right-0 w-4 h-4 flex flex-col justify-center items-center rounded-full bg-accent-secondary-color-light">
-                                <span
-                                    className="text-sm font-semibold text-bg-primary-color">
-                                        {
-                                            !cartItemCount
-                                                ? 0
-                                                : cartItemCount
-                                        }
-                                </span>
-                            </div>
-                        </Link>
+                        
 
                     </div>
             }
