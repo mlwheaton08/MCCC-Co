@@ -133,7 +133,13 @@ export const Nav = ({ cartItemCount, setIsItemFilterActive }) => {
             </div>
             
             {/* Distributors */}
-            <Link to="/distributors">Distributors</Link>
+            <Link
+                to="/distributors"
+                className="h-full px-5 flex items-center gap-2 hover:bg-bg-tint-color-2"
+            >
+                <span>Distributors</span>
+            </Link>
+
             <Search />
             
             {/* Cart and User */}

@@ -104,3 +104,9 @@ export const fetchSeries = async () => {
     const seriesArray = await response.json()
     return seriesArray
 }
+
+export const fetchDistributors = async () => {
+    const response = await fetch('https://localhost:7240/Distributors')
+    const distributorsArray = await response.json()
+    return distributorsArray
+}

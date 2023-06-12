@@ -29,7 +29,7 @@ Clicking on a cymbal card will navigate the user to the details page for that cy
 
 ![Cymbal-Details-1](screenshots/Cymbal-Details-1.png)
 
-This app uses firebase for login and supports both email/password and Google sign in. If they don't have an account, there is an option to register.
+This app uses firebase for login and supports both email/password and Google sign in. If they don't have an existing account, there is an option to register.
 
 ![Sign-In-1](screenshots/Sign-In-1.png)
 
