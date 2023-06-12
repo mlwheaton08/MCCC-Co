@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { fetchOpenOrderItemTotal } from "../APIManager";
 import { UserViews } from "./views/UserViews";
 import { ItemsPageContainer } from "./items/ItemsPageContainer";
+import { Distributors } from "./distributors/Distributors";
 
 export const MCCCCo = () => {
 	const localStorageUser = localStorage.getItem("user")
@@ -44,6 +45,8 @@ export const MCCCCo = () => {
             	<Route path="/" element={ <Home setIsItemFilterActive={setIsItemFilterActive} /> } />
             	<Route path="/login" element={ <Login getNavCartItemTotal={getNavCartItemTotal} /> } />
             	<Route path="/register" element={ <Register getNavCartItemTotal={getNavCartItemTotal} /> } />
+            	<Route path="/distributors" element={ <Distributors /> } />
+				<Route path="/cymbal/:id" element={ <ItemDetail getNavCartItemTotal={getNavCartItemTotal} /> } />
 
             	<Route path="/cymbals"
 					element={ <ItemsPageContainer
@@ -70,7 +73,6 @@ export const MCCCCo = () => {
 					/> }
 				/>
 
-            	<Route path="/cymbal/:id" element={ <ItemDetail getNavCartItemTotal={getNavCartItemTotal} /> } />
 
 				<Route
 					path="*"

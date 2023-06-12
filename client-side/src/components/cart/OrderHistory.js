@@ -24,18 +24,22 @@ export const OrderHistory = () => {
             <h2 className="mb-8 text-3xl font-thin">
                 Order History
             </h2>
-            <div className="flex flex-col gap-8">
-                {
-                    orders.map((order) => {
-                        return (
-                            <OrderCard
-                                key={order.id}
-                                order={order}
-                            />
-                        )
-                    })
-                }
-            </div>
+            {
+                orders.length === 0
+                    ? <p className="text-lg font-thin">You have not placed any orders with us.</p>
+                    : <div className="flex flex-col gap-8">
+                        {
+                            orders.map((order) => {
+                                return (
+                                    <OrderCard
+                                        key={order.id}
+                                        order={order}
+                                    />
+                                )
+                            })
+                        }
+                    </div>
+            }
         </main>
     )
 }
