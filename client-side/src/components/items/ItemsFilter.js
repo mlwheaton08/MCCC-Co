@@ -3,7 +3,7 @@ import { fetchSeries, fetchTypes } from "../../APIManager"
 import { resetFilterIcon } from "../../icons"
 import { useNavigate } from "react-router-dom"
 
-export const ItemsFilter = ({ seriesFilter, typeFilter, isFilterActive, setIsFilterActive }) => {
+export const ItemsFilter = ({ setSeriesFilter, seriesFilter, setTypeFilter, typeFilter, isFilterActive, setIsFilterActive }) => {
 
     const navigate = useNavigate()
 
@@ -28,22 +28,6 @@ export const ItemsFilter = ({ seriesFilter, typeFilter, isFilterActive, setIsFil
         getIsFilterActive()
     },[seriesFilter,typeFilter])
 
-    const createTypeFilterUrl = (criterion) => {
-        if ((!seriesFilter && !typeFilter) || (!seriesFilter && typeFilter)) {
-            return `/cymbals/type/${criterion}`
-        } else if ((seriesFilter && typeFilter) || (seriesFilter && !typeFilter)) {
-            return `/cymbals/series/${seriesFilter}/type/${criterion}`
-        }
-    }
-
-    const createSeriesFilterUrl = (criterion) => {
-        if ((!seriesFilter && !typeFilter) || (seriesFilter && !typeFilter)) {
-            return `/cymbals/series/${criterion}`
-        } else if ((seriesFilter && typeFilter) || (!seriesFilter && typeFilter)) {
-            return `/cymbals/series/${criterion}/type/${typeFilter}`
-        }
-    }
-
     const getFilteredClass = (filterOption, currentFilter) => {
         if (filterOption === currentFilter) {
             return "bg-accent-primary-color-dark"
@@ -62,7 +46,8 @@ export const ItemsFilter = ({ seriesFilter, typeFilter, isFilterActive, setIsFil
                         ? <span
                             className="p-3 rounded-full hover:bg-bg-tint-color-3 hover:cursor-pointer"
                             onClick={() => {
-                                navigate("/cymbals")
+                                setSeriesFilter("")
+                                setTypeFilter("")
                                 setIsFilterActive(false)
                             }}
                         >
@@ -82,7 +67,7 @@ export const ItemsFilter = ({ seriesFilter, typeFilter, isFilterActive, setIsFil
                                     <span
                                         key={type.id}
                                         className={`${getFilteredClass(type.name, typeFilter)} pl-6 py-1 hover:bg-accent-primary-color-dark hover:cursor-pointer`}
-                                        onClick={() => navigate(createTypeFilterUrl(type.name))}
+                                        onClick={() => setTypeFilter(type.name)}
                                     >
                                         {type.name}
                                     </span>
@@ -100,7 +85,7 @@ export const ItemsFilter = ({ seriesFilter, typeFilter, isFilterActive, setIsFil
                                     <span
                                         key={series.id}
                                         className={`${getFilteredClass(series.name, seriesFilter)} pl-6 py-1 hover:bg-accent-primary-color-dark hover:cursor-pointer`}
-                                        onClick={() => navigate(createSeriesFilterUrl(series.name))}
+                                        onClick={() => setSeriesFilter(series.name)}
                                     >
                                         {series.name}
                                     </span>

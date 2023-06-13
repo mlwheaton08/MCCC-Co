@@ -18,12 +18,17 @@ export const MCCCCo = () => {
 	const [cartItemCount, setCartItemCount] = useState()
 	const [isItemFilterActive, setIsItemFilterActive] = useState(false)
 
+	const [seriesFilter, setSeriesFilter] = useState("")
+	const [typeFilter, setTypeFilter] = useState("")
+	const [searchState, setSearchState] = useState("")
+
 	const getNavCartItemTotal = async (firebaseId) => {
 		const total = await fetchOpenOrderItemTotal(firebaseId)
 		setCartItemCount(total)
 	}
 
 	useEffect(() => {
+		setSearchState("")
 		if (localUser) {
 			getNavCartItemTotal(localUser.firebaseId)
 		}
@@ -36,7 +41,11 @@ export const MCCCCo = () => {
                 <>
                     <Nav
 						cartItemCount={cartItemCount}
+						setSeriesFilter={setSeriesFilter}
+						setTypeFilter={setTypeFilter}
 						setIsItemFilterActive={setIsItemFilterActive}
+						searchState={searchState}
+						setSearchState={setSearchState}
 					/>
                     <Outlet />
                 </>
@@ -50,24 +59,20 @@ export const MCCCCo = () => {
 
             	<Route path="/cymbals"
 					element={ <ItemsPageContainer
+						setSeriesFilter={setSeriesFilter}
+						seriesFilter={seriesFilter}
+						setTypeFilter={setTypeFilter}
+						typeFilter={typeFilter}
 						isFilterActive={isItemFilterActive}
 						setIsFilterActive={setIsItemFilterActive}
 					/> }
 				/>
-            	<Route path="/cymbals/series/:seriesFilter"
+            	<Route path="/cymbals/search/:searchTerms"
 					element={ <ItemsPageContainer
-						isFilterActive={isItemFilterActive}
-						setIsFilterActive={setIsItemFilterActive}
-					/> }
-				/>
-            	<Route path="/cymbals/type/:typeFilter"
-					element={ <ItemsPageContainer
-						isFilterActive={isItemFilterActive}
-						setIsFilterActive={setIsItemFilterActive}
-					/> }
-				/>
-            	<Route path="/cymbals/series/:seriesFilter/type/:typeFilter"
-					element={ <ItemsPageContainer
+						setSeriesFilter={setSeriesFilter}
+						seriesFilter={seriesFilter}
+						setTypeFilter={setTypeFilter}
+						typeFilter={typeFilter}
 						isFilterActive={isItemFilterActive}
 						setIsFilterActive={setIsItemFilterActive}
 					/> }

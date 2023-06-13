@@ -29,6 +29,16 @@ export const fetchItem = async (id) => {
     return item
 }
 
+export const searchItems = async (criterion, getTop) => {
+    let url = `https://localhost:7240/Items/search?q=${criterion}`
+    if (getTop) {
+        url += `&getTop=${getTop}`
+    }
+    const response = await fetch(url)
+    const itemsArray = await response.json()
+    return itemsArray
+}
+
 export const fetchOrders = async (userFirebaseId, isComplete) => {
     const response = await fetch(`https://localhost:7240/Orders?userFirebaseId=${userFirebaseId}&isComplete=${isComplete}`)
     const ordersArray = await response.json()

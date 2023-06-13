@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react"
-import { fetchItems } from "../../APIManager"
+import { fetchItems, searchItems } from "../../APIManager"
 import { ItemCard } from "./ItemCard"
+import { useNavigate } from "react-router-dom"
 
-export const Items = ({ seriesFilter, typeFilter }) => {
+export const Items = ({ setSeriesFilter, seriesFilter, setTypeFilter, typeFilter, setIsFilterActive, searchTerms }) => {
+
+    const navigate = useNavigate()
 
     const [items, setItems] = useState([])
     const [filteredItems, setFilteredItems] = useState([])
@@ -50,19 +53,43 @@ export const Items = ({ seriesFilter, typeFilter }) => {
     }
 
     const getItems = async () => {
-        const itemsArray = await fetchItems()
+        let itemsArray = []
+        if (searchTerms) {
+            itemsArray = await searchItems(searchTerms, null)
+        } else {
+            itemsArray = await fetchItems()
+        }
         setItems(itemsArray)
         getFilteredItems(itemsArray)
     }
 
     useEffect(() => {
         getItems()
-    },[seriesFilter,typeFilter])
+    },[seriesFilter,typeFilter,searchTerms])
 
 
     return (
         <main className="float-right w-5/6 my-nav-height-plus">
 
+            {
+                !searchTerms
+                    ? ""
+                    : <div className="mb-4 flex justify-center items-baseline gap-4">
+                        <h3 className="text-center text-2xl font-thin">You searched: "{searchTerms}"</h3>
+                        <button
+                            className="text-accent-primary-color-light underline"
+                            onClick={() => {
+                                document.getElementById("search").value = ""
+                                setSeriesFilter("")
+                                setTypeFilter("")
+                                setIsFilterActive(false)
+                                navigate("/cymbals")
+                            }}
+                        >
+                            clear search
+                        </button>
+                    </div>
+            }
             <h3 className="text-center text-3xl font-thin">Results: {filteredItems ? filteredItems.length : 0}</h3>
 
             {/* Items Container */}

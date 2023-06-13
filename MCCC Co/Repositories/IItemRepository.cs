@@ -6,5 +6,6 @@ namespace MCCC_Co_.Repositories
     {
         List<Item> GetAll(string? sortBy, bool asc);
         Item GetById(int id);
+        List<Item> Search(string criterion, int? rowAmount);
     }
 }
