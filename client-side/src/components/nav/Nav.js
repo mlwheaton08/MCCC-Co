@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 import { logout } from "../helpers/logout"
 import { fetchSeries, fetchTypes } from "../../APIManager"
 
-export const Nav = ({ cartItemCount, setIsItemFilterActive }) => {
+export const Nav = ({ cartItemCount, setSeriesFilter, setTypeFilter, setIsItemFilterActive, searchState, setSearchState }) => {
     const navigate = useNavigate()
     const localStorageUser = localStorage.getItem("user")
     const localUser = JSON.parse(localStorageUser)
@@ -61,86 +61,100 @@ export const Nav = ({ cartItemCount, setIsItemFilterActive }) => {
                 onClick={() => navigate("/")}
             />
             
-            {/* Cymbals Dropdown */}
-            <div
-                className="h-full relative"
-                onMouseOver={() => setShowCymbalsNavDropdown(true)}
-                onMouseOut={() => setShowCymbalsNavDropdown(false)}
-            >
-                <Link
-                    to="/cymbals"
-                    className="h-full px-5 flex items-center gap-2 hover:bg-bg-tint-color-2"
-                    onClick={() => setIsItemFilterActive(false)}
+            {/* Cymbals and Distributors */}
+            <div className="h-full flex">
+                {/* Cymbals Dropdown */}
+                <div
+                    className="h-full relative"
+                    onMouseOver={() => setShowCymbalsNavDropdown(true)}
+                    onMouseOut={() => setShowCymbalsNavDropdown(false)}
                 >
-                    <span>Cymbals</span>
-                    <span>{chevronDownIcon(showCymbalsNavDropdown)}</span>
-                </Link>
-                {
-                    !showCymbalsNavDropdown
-                        ? ""
-                        : <div className="relative">
-                            {/* Dropdown diamond */}
-                            <div className="absolute w-4 h-4 right-4 -top-1 mx-auto rotate-45 bg-bg-quaternary-color"></div>
-                            {/* Main container */}
-                            <div className="absolute w-third-vw flex justify-around bg-bg-quaternary-color">
-                                {/* Type options container */}
-                                <div className="w-1/2 flex flex-col text-center">
-                                    <h4 className="py-4 border-b border-bg-secondary-color text-accent-primary-color-light font-thin text-base">By Type</h4>
-                                    <div className="flex flex-col">
-                                        {
-                                            types.map((type) => {
-                                                return (
-                                                    <span
-                                                        key={type.id}
-                                                        className="w-full p-3 rounded-none hover:bg-accent-primary-color-dark hover:font-normal hover:cursor-pointer"
-                                                        onClick={() => {
-                                                            navigate(`/cymbals/type/${type.name}`)
-                                                            setShowCymbalsNavDropdown(false)
-                                                        }}
-                                                    >
-                                                        {type.name}
-                                                    </span>
-                                                )
-                                            })
-                                        }
+                    <Link
+                        to="/cymbals"
+                        className="h-full px-5 flex items-center gap-2 hover:bg-bg-tint-color-2"
+                        onClick={() => {
+                            setSeriesFilter("")
+                            setTypeFilter("")
+                            setIsItemFilterActive(false)
+                        }}
+                    >
+                        <span>Cymbals</span>
+                        <span>{chevronDownIcon(showCymbalsNavDropdown)}</span>
+                    </Link>
+                    {
+                        !showCymbalsNavDropdown
+                            ? ""
+                            : <div className="relative">
+                                {/* Dropdown diamond */}
+                                <div className="absolute w-4 h-4 right-4 -top-1 mx-auto rotate-45 bg-bg-quaternary-color"></div>
+                                {/* Main container */}
+                                <div className="absolute w-third-vw flex justify-around bg-bg-quaternary-color">
+                                    {/* Type options container */}
+                                    <div className="w-1/2 flex flex-col text-center">
+                                        <h4 className="py-4 border-b border-bg-secondary-color text-accent-primary-color-light font-thin text-base">By Type</h4>
+                                        <div className="flex flex-col">
+                                            {
+                                                types.map((type) => {
+                                                    return (
+                                                        <span
+                                                            key={type.id}
+                                                            className="w-full p-3 rounded-none hover:bg-accent-primary-color-dark hover:font-normal hover:cursor-pointer"
+                                                            onClick={() => {
+                                                                navigate("/cymbals")
+                                                                setTypeFilter(type.name)
+                                                                setSeriesFilter("")
+                                                                setShowCymbalsNavDropdown(false)
+                                                            }}
+                                                        >
+                                                            {type.name}
+                                                        </span>
+                                                    )
+                                                })
+                                            }
+                                        </div>
                                     </div>
-                                </div>
-                                {/* Series options container */}
-                                <div className="w-1/2 flex flex-col text-center">
-                                    <h4 className="py-4 border-b border-bg-secondary-color text-accent-primary-color-light font-thin text-base">By Series</h4>
-                                    <div className="flex flex-col">
-                                        {
-                                            series.map((series) => {
-                                                return (
-                                                    <span
-                                                        key={series.id}
-                                                        className="w-full p-3 rounded-none hover:bg-accent-primary-color-dark hover:font-normal hover:cursor-pointer"
-                                                        onClick={() => {
-                                                            navigate(`/cymbals/series/${series.name}`)
-                                                            setShowCymbalsNavDropdown(false)
-                                                        }}
-                                                    >
-                                                        {series.name}
-                                                    </span>
-                                                )
-                                            })
-                                        }
+                                    {/* Series options container */}
+                                    <div className="w-1/2 flex flex-col text-center">
+                                        <h4 className="py-4 border-b border-bg-secondary-color text-accent-primary-color-light font-thin text-base">By Series</h4>
+                                        <div className="flex flex-col">
+                                            {
+                                                series.map((series) => {
+                                                    return (
+                                                        <span
+                                                            key={series.id}
+                                                            className="w-full p-3 rounded-none hover:bg-accent-primary-color-dark hover:font-normal hover:cursor-pointer"
+                                                            onClick={() => {
+                                                                navigate("/cymbals")
+                                                                setSeriesFilter(series.name)
+                                                                setTypeFilter("")
+                                                                setShowCymbalsNavDropdown(false)
+                                                            }}
+                                                        >
+                                                            {series.name}
+                                                        </span>
+                                                    )
+                                                })
+                                            }
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                }
+                    }
+                </div>
+                
+                {/* Distributors */}
+                <Link
+                    to="/distributors"
+                    className="h-full px-5 flex items-center gap-2 hover:bg-bg-tint-color-2"
+                >
+                    <span>Distributors</span>
+                </Link>
             </div>
-            
-            {/* Distributors */}
-            <Link
-                to="/distributors"
-                className="h-full px-5 flex items-center gap-2 hover:bg-bg-tint-color-2"
-            >
-                <span>Distributors</span>
-            </Link>
 
-            <Search />
+            <Search
+                searchState={searchState}
+                setSearchState={setSearchState}
+            />
             
             {/* Cart and User */}
             {

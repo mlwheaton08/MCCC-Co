@@ -28,5 +28,11 @@ namespace MCCC_Co_.Controllers
             if (item != null) return Ok(item);
             return BadRequest();
         }
+
+        [HttpGet("search")]
+        public IActionResult Search(string q, int? getTop)
+        {
+            return Ok(_itemRepo.Search(q, getTop));
+        }
     }
 }
