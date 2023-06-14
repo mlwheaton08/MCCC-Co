@@ -2,10 +2,7 @@ import { useParams } from "react-router-dom"
 import { Items } from "./Items"
 import { ItemsFilter } from "./ItemsFilter"
 
-export const ItemsPageContainer = ({ setSeriesFilter, seriesFilter, setTypeFilter, typeFilter, isFilterActive, setIsFilterActive }) => {
-
-    const {searchTerms} = useParams()
-
+export const ItemsPageContainer = ({ setSeriesFilter, seriesFilter, setTypeFilter, typeFilter, isFilterActive, setIsFilterActive, setSearchState, searchState }) => {
 
     return <>
         <ItemsFilter
@@ -22,7 +19,8 @@ export const ItemsPageContainer = ({ setSeriesFilter, seriesFilter, setTypeFilte
             setTypeFilter={setTypeFilter}
             typeFilter={typeFilter}
             setIsFilterActive={setIsFilterActive}
-            searchTerms={searchTerms}
+            setSearchState={setSearchState}
+            searchState={searchState}
         />
     </>
 }

@@ -1,8 +1,7 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
-import { logout } from "../helpers/logout";
+import { Route, Routes } from "react-router-dom";
 import { Account } from "../account/Account";
 import { Cart } from "../cart/Cart";
-import { OrderHistory } from "../cart/OrderHistory";
+import { OrderHistory } from "../orderHistory/OrderHistory";
 
 export const UserViews = ({ getNavCartItemTotal, setIsItemFilterActive }) => {
     return (

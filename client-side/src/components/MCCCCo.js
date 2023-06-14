@@ -65,6 +65,8 @@ export const MCCCCo = () => {
 						typeFilter={typeFilter}
 						isFilterActive={isItemFilterActive}
 						setIsFilterActive={setIsItemFilterActive}
+						setSearchState={setSearchState}
+						searchState={searchState}
 					/> }
 				/>
             	<Route path="/cymbals/search/:searchTerms"
@@ -75,6 +77,8 @@ export const MCCCCo = () => {
 						typeFilter={typeFilter}
 						isFilterActive={isItemFilterActive}
 						setIsFilterActive={setIsItemFilterActive}
+						setSearchState={setSearchState}
+						searchState={searchState}
 					/> }
 				/>
 

@@ -117,6 +117,19 @@ export const Distributors = () => {
         }
     }
 
+    const disableDropdowns = () => {
+        if (countryFilter) {
+            document.getElementById("state-filter").disabled = false;
+        } else {
+            document.getElementById("state-filter").disabled = true;
+        }
+        if (countryFilter && stateFilter) {
+            document.getElementById("city-filter").disabled = false;
+        } else {
+            document.getElementById("city-filter").disabled = true;
+        }
+    }
+
     useEffect(() => {
         getDistributors()
     },[])
@@ -128,15 +141,21 @@ export const Distributors = () => {
 
     useEffect(() => {
         filterByCountry()
+        document.getElementById("state-filter").selectedIndex = 0
     },[countryFilter])
 
     useEffect(() => {
         filterByState()
+        document.getElementById("city-filter").selectedIndex = 0
     },[stateFilter])
 
     useEffect(() => {
         filterByCity()
     },[cityFilter])
+
+    useEffect(() => {
+        disableDropdowns()
+    },[countryFilter,stateFilter])
 
 
     return (
@@ -164,50 +183,44 @@ export const Distributors = () => {
                         })
                     }
                 </select>
-                {
-                    !countryFilter
-                        ? ""
-                        : <select
-                            className="rounded border border-text-secondary-color bg-bg-primary-color text-lg font-thin"
-                            onChange={(evt) => setStateFilter(evt.target.value)}
-                        >
-                            <option value="">All States</option>
-                            {
-                                stateFilterOptions.map((state, index) => {
-                                    return (
-                                        <option
-                                            key={`state--${index}`}
-                                            value={state}
-                                        >
-                                            {state}
-                                        </option>
-                                    )
-                                })
-                            }
-                        </select>
-                }
-                {
-                    !stateFilter
-                        ? ""
-                        : <select
-                            className="rounded border border-text-secondary-color bg-bg-primary-color text-lg font-thin"
-                            onChange={(evt) => setCityFilter(evt.target.value)}
-                        >
-                            <option value="">All Cities</option>
-                            {
-                                cityFilterOptions.map((city, index) => {
-                                    return (
-                                        <option
-                                            key={`city--${index}`}
-                                            value={city}
-                                        >
-                                            {city}
-                                        </option>
-                                    )
-                                })
-                            }
-                        </select>
-                }
+                <select
+                    id="state-filter"
+                    className="rounded border border-text-secondary-color bg-bg-primary-color text-lg font-thin"
+                    onChange={(evt) => setStateFilter(evt.target.value)}
+                >
+                    <option value="">All States</option>
+                    {
+                        stateFilterOptions.map((state, index) => {
+                            return (
+                                <option
+                                    key={`state--${index}`}
+                                    value={state}
+                                >
+                                    {state}
+                                </option>
+                            )
+                        })
+                    }
+                </select>
+                <select
+                    id="city-filter"
+                    className="rounded border border-text-secondary-color bg-bg-primary-color text-lg font-thin"
+                    onChange={(evt) => setCityFilter(evt.target.value)}
+                >
+                    <option value="">All Cities</option>
+                    {
+                        cityFilterOptions.map((city, index) => {
+                            return (
+                                <option
+                                    key={`city--${index}`}
+                                    value={city}
+                                >
+                                    {city}
+                                </option>
+                            )
+                        })
+                    }
+                </select>
             </section>
 
             {/* Distributors container */}

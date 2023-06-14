@@ -144,6 +144,14 @@ export const Nav = ({ cartItemCount, setSeriesFilter, setTypeFilter, setIsItemFi
                 
                 {/* Distributors */}
                 <Link
+                    to="/packs"
+                    className="h-full px-5 flex items-center gap-2 hover:bg-bg-tint-color-2"
+                >
+                    <span>Packs</span>
+                </Link>
+
+                {/* Distributors */}
+                <Link
                     to="/distributors"
                     className="h-full px-5 flex items-center gap-2 hover:bg-bg-tint-color-2"
                 >

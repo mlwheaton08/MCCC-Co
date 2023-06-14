@@ -5,8 +5,6 @@ import { useNavigate } from "react-router-dom"
 
 export const ItemsFilter = ({ setSeriesFilter, seriesFilter, setTypeFilter, typeFilter, isFilterActive, setIsFilterActive }) => {
 
-    const navigate = useNavigate()
-
     const [types, setTypes] = useState([])
     const [series, setSeries] = useState([])
 
