@@ -222,8 +222,8 @@ VALUES
 	(2,'','','4000 Cubilia Avenue','Apt 754','Huntsville','Alabama','35581','United States','0'),
 	(3,'','','5785 Nec Road','Apt 95','South Bend','Indiana','85249','United States','1'),
 	(3,'','','135-9762 Suspendisse Rd.','','Saint Paul','Minnesota','72381','United States','0'),
-	(4,'','','146-596 Nibh Rd.','','Austin','Texas','78502','United States','1'),
-	(4,'','','6439 Urna Rd.','','New Haven','Connecticut','88747','United States','0'),
+	(4,'Apartment','','596 Nibh Rd.','Apt 146','Austin','Texas','78502','United States','1'),
+	(4,'Mom''s House','','6439 Urna Rd.','','New Haven','Connecticut','88747','United States','0'),
 	(5,'','','6655 Suspendisse Rd.','','Fayetteville','Arkansas','71276','United States','1'),
 	(5,'','','6705 Elit Rd.','','Idaho Falls','Idaho','32751','United States','0')
 GO

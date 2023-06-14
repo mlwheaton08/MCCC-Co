@@ -4,6 +4,12 @@ export const fetchUserByFirebaseId = async (firebaseId) => {
     return user
 }
 
+export const fetchUserByFirebaseIdWithAddresses = async (firebaseId) => {
+    const response = await fetch(`https://localhost:7240/Users/${firebaseId}/expandAddresses`)
+    const user = await response.json()
+    return user
+}
+
 export const addUser = async (userObj) => {
 
     const options = {

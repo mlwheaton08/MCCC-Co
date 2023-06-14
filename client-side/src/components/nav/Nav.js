@@ -226,7 +226,7 @@ export const Nav = ({ cartItemCount, setSeriesFilter, setTypeFilter, setIsItemFi
                                                 onMouseOver={() => setTopDropdownHover("bg-accent-secondary-color-dark")}
                                                 onMouseOut={() => setTopDropdownHover("bg-bg-quaternary-color")}
                                                 onClick={() => {
-                                                    navigate(`/account/${user.firebaseId}`)
+                                                    navigate("/account")
                                                     setShowProfileNavDropdown(false)
                                                 }}
                                             >
@@ -235,7 +235,7 @@ export const Nav = ({ cartItemCount, setSeriesFilter, setTypeFilter, setIsItemFi
                                             <span
                                                 className="w-full p-3 rounded-none hover:bg-accent-secondary-color-dark hover:text-bg-primary-color hover:font-normal hover:cursor-pointer"
                                                 onClick={() => {
-                                                    navigate(`/favorites/${user.firebaseId}`)
+                                                    navigate("/favorites")
                                                     setShowProfileNavDropdown(false)
                                                 }}
                                             >
