@@ -209,7 +209,7 @@ export const Nav = ({ cartItemCount, setSeriesFilter, setTypeFilter, setIsItemFi
                                 {
                                     !user.name
                                         ? <span>User</span>
-                                        : <span>{user.name}</span>
+                                        : <span>{user.name.split(" ")[0]}</span>
                                 }
                                 <span>{chevronDownIcon(showProfileNavDropdown)}</span>
                             </Link>
