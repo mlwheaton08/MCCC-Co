@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
-import { deleteUserShippingAddress, fetchUserByFirebaseIdWithAddresses, updateUser, updateUserShippingAddress } from "../../APIManager"
-import { editIcon, trashCanIcon } from "../../icons"
-import { AddressEditForm } from "./AddressEditForm"
+import { addUserShippingAddress, deleteUserShippingAddress, fetchUserByFirebaseIdWithAddresses, updateUser, updateUserShippingAddress } from "../../APIManager"
+import { editIcon, plusSignIcon, trashCanIcon } from "../../icons"
+import { UserAddressForm } from "./UserAddressForm"
 
 export const Account = () => {
 
@@ -15,6 +15,18 @@ export const Account = () => {
     const [userNameState, setUserNameState] = useState("")
 
     const [shippingAddressEdit, setShippingAddressEdit] = useState(null)
+    const [shippingAddressState, setShippingAddressState] = useState({
+        userId: null,
+        nickName: "",
+        companyName: "",
+        lineOne: "",
+        lineTwo: "",
+        city: "",
+        state: "",
+        zipCode: "",
+        country: "",
+        isDefault: false
+    })
 
     const getUser = async () => {
         const response = await fetchUserByFirebaseIdWithAddresses(localUser.firebaseId)
@@ -52,13 +64,94 @@ export const Account = () => {
         newDefaultAddress.isDefault = true
         await updateUserShippingAddress(newDefaultAddress.id, newDefaultAddress)
 
-        window.alert("default address changed")
+        // window.alert("default address changed")
         await getUser()
     }
 
-    const handleShippingAddressDelete = async (addressId) => {
+    const handleShippingAddressDelete = async (addressId, address) => {
+        if (address.isDefault) {
+            const nextInLineDefaultAddress = shippingAddresses.find((a) => !a.isDefault)
+            if (nextInLineDefaultAddress) {
+                nextInLineDefaultAddress.isDefault = true
+                await updateUserShippingAddress(nextInLineDefaultAddress.id, nextInLineDefaultAddress)
+            }
+        }
         await deleteUserShippingAddress(addressId)
         await getUser()
+    }
+
+    const openAddressForm = (addressId, addressObj) => {
+        setShippingAddressEdit(addressId)
+        setShippingAddressState(addressObj)
+    }
+
+    const handleAddressSaveChanges = async () => {
+        if (!shippingAddressState.lineOne
+            || !shippingAddressState.city
+            || !shippingAddressState.state
+            || !shippingAddressState.zipCode
+            || !shippingAddressState.country) {
+            window.alert("Please fill out the required fields, highlighted in green.")
+        } else {
+            await updateUserShippingAddress(shippingAddressState.id, shippingAddressState)
+            await getUser()
+            setShippingAddressEdit(null)
+            setShippingAddressState({
+                userId: null,
+                nickName: "",
+                companyName: "",
+                lineOne: "",
+                lineTwo: "",
+                city: "",
+                state: "",
+                zipCode: "",
+                country: "",
+                isDefault: false
+            })
+        }
+    }
+
+    const handleAddressDiscardChanges = () => {
+        setShippingAddressEdit(null)
+        setShippingAddressState({
+            userId: null,
+            nickName: "",
+            companyName: "",
+            lineOne: "",
+            lineTwo: "",
+            city: "",
+            state: "",
+            zipCode: "",
+            country: "",
+            isDefault: false
+        })
+    }
+
+    const handleAddNewAddress = async () => {
+        if (!shippingAddressState.lineOne
+            || !shippingAddressState.city
+            || !shippingAddressState.state
+            || !shippingAddressState.zipCode
+            || !shippingAddressState.country) {
+            window.alert("Please fill out the required fields, highlighted in green.")
+        } else {
+            shippingAddressState.userId = user.id
+            await addUserShippingAddress(shippingAddressState)
+            await getUser()
+            setShippingAddressEdit(null)
+            setShippingAddressState({
+                userId: null,
+                nickName: "",
+                companyName: "",
+                lineOne: "",
+                lineTwo: "",
+                city: "",
+                state: "",
+                zipCode: "",
+                country: "",
+                isDefault: false
+            })
+        }
     }
 
 
@@ -72,7 +165,7 @@ export const Account = () => {
                         !userNameEdit
                             ? <div className="flex items-center gap-6">
                                 <span className="text-4xl">{user.name}</span>
-                                <span className="hover:cursor-pointer" onClick={() => setUserNameEdit(true)}>{editIcon("h-6 fill-accent-secondary-color")}</span>
+                                <span className="hover:cursor-pointer" onClick={() => setUserNameEdit(true)}>{editIcon("h-5 fill-accent-secondary-color")}</span>
                             </div>
                             : <div className="flex items-center gap-6">
                                 <input
@@ -97,37 +190,41 @@ export const Account = () => {
                                 shippingAddresses.map((address) => {
                                     return (
                                         shippingAddressEdit === address.id
-                                            ? <AddressEditForm
-                                                key={address.id}
-                                            />
+                                            ? <div className="flex flex-col gap-4">
+                                                <UserAddressForm
+                                                    key={address.id}
+                                                    addressState={shippingAddressState}
+                                                    setAddressState={setShippingAddressState}
+                                                />
+                                                <div className="flex justify-end gap-2">
+                                                    <button
+                                                        className="px-3 py-1 border border-accent-secondary-color text-accent-secondary-color font-normal"
+                                                        onClick={handleAddressDiscardChanges}
+                                                    >
+                                                        Discard Changes
+                                                    </button>
+                                                    <button
+                                                        className="px-3 py-1 border border-accent-secondary-color text-accent-secondary-color font-normal"
+                                                        onClick={handleAddressSaveChanges}
+                                                    >
+                                                        Save
+                                                    </button>
+                                                </div>
+                                            </div>
                                             : <div
                                                 key={address.id}
                                                 className={`relative p-4 pb-2 flex flex-col rounded bg-bg-tint-color text-xl
                                                     ${!address.isDefault ? "" : "border border-accent-secondary-color"}`}
                                             >
-                                                <div className="absolute top-1 right-1 flex gap-3">
-                                                    <span
-                                                        className="hover:cursor-pointer"
-                                                        onClick={() => setShippingAddressEdit(address.id)}
-                                                    >
-                                                        {editIcon("h-4 fill-accent-secondary-color transition-all duration-300 hover:h-5")}
-                                                    </span>
-                                                    <span
-                                                        className="hover:cursor-pointer"
-                                                        onClick={() => handleShippingAddressDelete(address.id)}
-                                                    >
-                                                        {trashCanIcon("h-4 fill-accent-secondary-color transition-all duration-300 hover:h-5")}
-                                                    </span>
-                                                </div>
-
                                                 {!address.nickName ? "" : <span className="mb-2 underline">{address.nickName}</span>}
                                                 {!address.companyName ? "" : <span>{address.companyName}</span>}
                                                 <span>{address.lineOne}</span>
                                                 {!address.lineTwo ? "" : <span>{address.lineTwo}</span>}
                                                 <span>{address.city}, {address.state} {address.zipCode}</span>
                                                 <span>{address.country}</span>
+
                                                 {
-                                                    address.isDefault
+                                                    address.isDefault || shippingAddressEdit
                                                         ? ""
                                                         : <span
                                                             className="self-end mt-2 text-base text-accent-secondary-color underline hover:cursor-pointer"
@@ -136,10 +233,64 @@ export const Account = () => {
                                                             set as default
                                                         </span>
                                                 }
+                                                {
+                                                    shippingAddressEdit
+                                                        ? ""
+                                                        : <div className="absolute top-1 right-1 flex gap-3">
+                                                            <span
+                                                                className="hover:cursor-pointer"
+                                                                onClick={() => openAddressForm(address.id, address)}
+                                                            >
+                                                                {editIcon("h-4 fill-accent-secondary-color transition-all duration-300 hover:h-5")}
+                                                            </span>
+                                                            <span
+                                                                className="hover:cursor-pointer"
+                                                                onClick={() => handleShippingAddressDelete(address.id, address)}
+                                                            >
+                                                                {trashCanIcon("h-4 fill-accent-secondary-color transition-all duration-300 hover:h-5")}
+                                                            </span>
+                                                        </div>
+                                                }
+
                                             </div>
                                     )
                                 })
                             }
+
+                            {/* Add address */}
+                            {
+                                shippingAddressEdit === null
+                                    ? <div
+                                        className="self-center w-20 h-20 flex justify-center items-center rounded fill-bg-primary-color bg-bg-tint-color-2 hover:bg-bg-tint-color-3 hover:cursor-pointer"
+                                        onClick={() => setShippingAddressEdit("addNew")}
+                                    >
+                                        {plusSignIcon("h-4/5")}
+                                    </div>
+                                    : shippingAddressEdit === "addNew"
+                                        ? <div className="flex flex-col gap-4">
+                                            <h5 className="text-xl">Add a new address</h5>
+                                            <UserAddressForm
+                                                addressState={shippingAddressState}
+                                                setAddressState={setShippingAddressState}
+                                            />
+                                            <div className="flex justify-end gap-2">
+                                                <button
+                                                    className="px-3 py-1 border border-accent-secondary-color text-accent-secondary-color font-normal"
+                                                    onClick={handleAddressDiscardChanges}
+                                                >
+                                                    Discard
+                                                </button>
+                                                <button
+                                                    className="px-3 py-1 border border-accent-secondary-color text-accent-secondary-color font-normal"
+                                                    onClick={handleAddNewAddress}
+                                                >
+                                                    Save
+                                                </button>
+                                            </div>
+                                        </div>
+                                        : ""
+                            }
+
                         </div>
                     </div>
                 </section>

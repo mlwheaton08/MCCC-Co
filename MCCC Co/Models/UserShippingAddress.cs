@@ -9,7 +9,7 @@ public class UserShippingAddress
     public string LineOne { get; set; }
     public string? LineTwo { get; set; }
     public string City { get; set; }
-    public string? State { get; set; }
+    public string State { get; set; }
     public string ZIPCode { get; set; }
     public string Country { get; set; }
     public bool? IsDefault { get; set; }
