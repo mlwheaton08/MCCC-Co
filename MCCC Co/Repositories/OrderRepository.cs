@@ -15,61 +15,56 @@ public class OrderRepository : BaseRepository, IOrderRepository
             using (var cmd = conn.CreateCommand())
             {
                 var sql = @"SELECT
-								o.Id,
-								o.UserId,
-								o.ShippingAddressId,
-								o.DateCreated,
-								o.DateCompleted,
-								o.RewardsUsed,
-								o.TotalValue,
-								o.TotalPaid,
-								o.ConfirmationNumber,
-								oi.Id as OrderItemId,
-								oi.ItemId as OrderItemItemId,
-								oi.ItemQuantity as OrderItemQuantity,
-								i.TypeId as ItemTypeId,
-								i.SeriesId as ItemSeriesId,
-								i.Height as ItemHeight,
-								i.Width as ItemWidth,
-								i.Depth as ItemDepth,
-								i.[Description] as ItemDescription,
-								i.[Image] as ItemImage,
-								i.Price as ItemPrice,
-								i.PurchaseCount as ItemPurchaseCount,
-								t.[Name] as TypeName,
-								t.[Image] as TypeImage,
-								s.[Name] as SeriesName,
-								s.Alloy as SeriesAlloy,
-								s.BrightnessLevel as SeriesBrightnessLevel,
-								s.[Description] as SeriesDescription,
-								s.[Image] as SeriesImage,
-								u.FirebaseId as UserFirebaseId,
-								u.IsAdmin as UserIsAdmin,
-								u.[Name] as UserName,
-								u.Email as UserEmail,
-								u.RewardsPoints as UserRewardsPoints,
-								a.NickName as AddressNickName,
-								a.CompanyName as AddressCompanyName,
-								a.LineOne as AddressLineOne,
-								a.LineTwo as AddressLineTwo,
-								a.City as AddressCity,
-								a.[State] as AddressState,
-								a.ZIPCode as AddressZIPCode,
-								a.Country as AddressCountry,
-								a.IsDefault as AddressIsDefault
-							FROM [Order] o
-							LEFT JOIN OrderItem oi
-								ON o.Id = oi.OrderId
-							LEFT JOIN Item i
-								ON oi.ItemId = i.Id
-							LEFT JOIN [Type] t
-								ON i.TypeId = t.Id
-							LEFT JOIN Series s
-								ON i.SeriesId = s.Id
-							LEFT JOIN [User] u
-								ON o.UserId = u.Id
-							LEFT JOIN UserShippingAddress a
-								ON o.ShippingAddressId = a.Id
+	                            o.Id,
+	                            o.UserId,
+	                            o.DateCreated,
+	                            o.DateCompleted,
+	                            o.RewardsUsed,
+	                            o.TotalValue,
+	                            o.TotalPaid,
+	                            o.ConfirmationNumber,
+	                            o.ShipCompanyName,
+	                            o.ShipLineOne,
+	                            o.ShipLineTwo,
+	                            o.ShipCity,
+	                            o.ShipState,
+	                            o.ShipZIPCode,
+	                            o.ShipCountry,
+	                            oi.Id as OrderItemId,
+	                            oi.ItemId as OrderItemItemId,
+	                            oi.ItemQuantity as OrderItemQuantity,
+	                            i.TypeId as ItemTypeId,
+	                            i.SeriesId as ItemSeriesId,
+	                            i.Height as ItemHeight,
+	                            i.Width as ItemWidth,
+	                            i.Depth as ItemDepth,
+	                            i.[Description] as ItemDescription,
+	                            i.[Image] as ItemImage,
+	                            i.Price as ItemPrice,
+	                            i.PurchaseCount as ItemPurchaseCount,
+	                            t.[Name] as TypeName,
+	                            t.[Image] as TypeImage,
+	                            s.[Name] as SeriesName,
+	                            s.Alloy as SeriesAlloy,
+	                            s.BrightnessLevel as SeriesBrightnessLevel,
+	                            s.[Description] as SeriesDescription,
+	                            s.[Image] as SeriesImage,
+	                            u.FirebaseId as UserFirebaseId,
+	                            u.IsAdmin as UserIsAdmin,
+	                            u.[Name] as UserName,
+	                            u.Email as UserEmail,
+	                            u.RewardsPoints as UserRewardsPoints
+                            FROM [Order] o
+                            LEFT JOIN OrderItem oi
+	                            ON o.Id = oi.OrderId
+                            LEFT JOIN Item i
+	                            ON oi.ItemId = i.Id
+                            LEFT JOIN [Type] t
+	                            ON i.TypeId = t.Id
+                            LEFT JOIN Series s
+	                            ON i.SeriesId = s.Id
+                            LEFT JOIN [User] u
+	                            ON o.UserId = u.Id
 							WHERE u.FirebaseId = @userFirebaseId AND o.DateCompleted";
 
                 if (isComplete)
@@ -99,13 +94,19 @@ public class OrderRepository : BaseRepository, IOrderRepository
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
                             UserId = DbUtils.GetInt(reader, "UserId"),
-                            ShippingAddressId = DbUtils.GetNullableInt(reader, "ShippingAddressId"),
                             DateCreated = DbUtils.GetDateTime(reader, "DateCreated"),
                             DateCompleted = DbUtils.GetNullableDateTime(reader, "DateCompleted"),
                             RewardsUsed = DbUtils.GetNullableInt(reader, "RewardsUsed"),
                             TotalValue = DbUtils.GetNullableDouble(reader, "TotalValue"),
                             TotalPaid = DbUtils.GetNullableDouble(reader, "TotalPaid"),
                             ConfirmationNumber = DbUtils.GetString(reader, "ConfirmationNumber"),
+                            ShipCompanyName = DbUtils.GetString(reader, "ShipCompanyName"),
+                            ShipLineOne = DbUtils.GetString(reader, "ShipLineOne"),
+                            ShipLineTwo = DbUtils.GetString(reader, "ShipLineTwo"),
+                            ShipCity = DbUtils.GetString(reader, "ShipCity"),
+                            ShipState = DbUtils.GetString(reader, "ShipState"),
+                            ShipZIPCode = DbUtils.GetString(reader, "ShipZIPCode"),
+                            ShipCountry = DbUtils.GetString(reader, "ShipCountry"),
                             User = new User()
                             {
                                 Id = DbUtils.GetInt(reader, "UserId"),
@@ -115,27 +116,8 @@ public class OrderRepository : BaseRepository, IOrderRepository
                                 Email = DbUtils.GetString(reader, "UserEmail"),
                                 RewardsPoints = DbUtils.GetNullableInt(reader, "UserRewardsPoints"),
                             },
-                            ShippingAddress = null,
                             OrderItems = new List<OrderItem>()
                         };
-
-                        if (isComplete && DbUtils.IsNotDbNull(reader, "ShippingAddressId"))
-                        {
-                            existingOrder.ShippingAddress = new UserShippingAddress()
-                            {
-                                Id = DbUtils.GetInt(reader, "ShippingAddressId"),
-                                UserId = DbUtils.GetInt(reader, "UserId"),
-                                NickName = DbUtils.GetString(reader, "AddressNickName"),
-                                CompanyName = DbUtils.GetString(reader, "AddressCompanyName"),
-                                LineOne = DbUtils.GetString(reader, "AddressLineOne"),
-                                LineTwo = DbUtils.GetString(reader, "AddressLineTwo"),
-                                City = DbUtils.GetString(reader, "AddressCity"),
-                                State = DbUtils.GetString(reader, "AddressState"),
-                                ZIPCode = DbUtils.GetString(reader, "AddressZIPCode"),
-                                Country = DbUtils.GetString(reader, "AddressCountry"),
-                                IsDefault = DbUtils.GetNullableBoolean(reader, "AddressIsDefault")
-                            };
-                        }
 
                         orders.Add(existingOrder);
                     }

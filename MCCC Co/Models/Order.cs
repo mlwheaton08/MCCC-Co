@@ -11,8 +11,14 @@ public class Order
     public double? TotalValue { get; set; }
     public double? TotalPaid { get; set; }
     public string? ConfirmationNumber { get; set; }
+    public string? ShipCompanyName { get; set; }
+    public string? ShipLineOne { get; set; }
+    public string? ShipLineTwo{ get; set; }
+    public string? ShipCity { get; set; }
+    public string? ShipState { get; set; }
+    public string? ShipZIPCode { get; set; }
+    public string? ShipCountry { get; set; }
 
     public User? User { get; set; }
-    public UserShippingAddress? ShippingAddress { get; set; }
     public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 }

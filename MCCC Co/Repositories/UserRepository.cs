@@ -151,4 +151,31 @@ public class UserRepository : BaseRepository, IUserRepository
             }
         }
     }
+
+    public void Update(User user)
+    {
+        using (var conn = Connection)
+        {
+            conn.Open();
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = @"UPDATE [User]
+	                                    SET FirebaseId = @FirebaseId,
+		                                    IsAdmin = @IsAdmin,
+		                                    [Name] = @Name,
+		                                    Email = @Email,
+		                                    RewardsPoints = @RewardsPoints
+                                    WHERE Id = @Id";
+
+                DbUtils.AddParameter(cmd, "@Id", user.Id);
+                DbUtils.AddParameter(cmd, "@FirebaseId", user.FirebaseId);
+                DbUtils.AddParameter(cmd, "@IsAdmin", user.IsAdmin);
+                DbUtils.AddParameter(cmd, "@Name", user.Name);
+                DbUtils.AddParameter(cmd, "@Email", user.Email);
+                DbUtils.AddParameter(cmd, "@RewardsPoints", user.RewardsPoints);
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+    }
 }

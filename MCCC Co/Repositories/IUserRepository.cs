@@ -7,5 +7,6 @@ namespace MCCC_Co_.Repositories
         User GetByFirebaseId(string firebaseId);
         User GetByFirebaseIdWithAddresses(string firebaseId);
         void Add(User user);
+        void Update(User user);
     }
 }

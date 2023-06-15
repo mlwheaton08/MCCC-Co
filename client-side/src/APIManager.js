@@ -4,6 +4,12 @@ export const fetchUserByFirebaseId = async (firebaseId) => {
     return user
 }
 
+export const fetchUserByFirebaseIdWithAddresses = async (firebaseId) => {
+    const response = await fetch(`https://localhost:7240/Users/${firebaseId}/expandAddresses`)
+    const user = await response.json()
+    return user
+}
+
 export const addUser = async (userObj) => {
 
     const options = {
@@ -15,6 +21,47 @@ export const addUser = async (userObj) => {
     }
 
     await fetch('https://localhost:7240/Users', options)
+}
+
+export const updateUser = async (id, userObj) => {
+    const options = {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(userObj)
+    }
+    await fetch(`https://localhost:7240/Users/${id}`, options)
+}
+
+export const addUserShippingAddress = async (addressObj) => {
+
+    const options = {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json"
+        },
+        body: JSON.stringify(addressObj)
+    }
+
+    await fetch('https://localhost:7240/UserShippingAddresses', options)
+}
+
+export const updateUserShippingAddress = async (id, addressObj) => {
+    const options = {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(addressObj)
+    }
+    await fetch(`https://localhost:7240/UserShippingAddresses/${id}`, options)
+}
+
+export const deleteUserShippingAddress = async (id) => {
+    await fetch(`https://localhost:7240/UserShippingAddresses/${id}`, {
+        method: "DELETE"
+    })
 }
 
 export const fetchItems = async () => {

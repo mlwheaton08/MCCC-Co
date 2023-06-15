@@ -42,7 +42,7 @@ CREATE TABLE [UserShippingAddress] (
   [LineOne] nvarchar(255) not null,
   [LineTwo] nvarchar(255),
   [City] nvarchar(255) not null,
-  [State] nvarchar(255),
+  [State] nvarchar(255) not null,
   [ZIPCode] nvarchar(255) not null,
   [Country] nvarchar(255) not null,
   [IsDefault] bit
@@ -135,13 +135,19 @@ GO
 CREATE TABLE [Order] (
   [Id] int PRIMARY KEY identity,
   [UserId] int not null,
-  [ShippingAddressId] int,
   [DateCreated] datetime not null,
   [DateCompleted] datetime,
   [RewardsUsed] int,
   [TotalValue] float,
   [TotalPaid] float,
-  [ConfirmationNumber] nvarchar(255)
+  [ConfirmationNumber] nvarchar(255),
+  [ShipCompanyName] nvarchar(255),
+  [ShipLineOne] nvarchar(255),
+  [ShipLineTwo] nvarchar(255),
+  [ShipCity] nvarchar(255),
+  [ShipState] nvarchar(255),
+  [ShipZIPCode] nvarchar(255),
+  [ShipCountry] nvarchar(255)
 )
 GO
 
@@ -200,9 +206,6 @@ GO
 ALTER TABLE [Order] ADD FOREIGN KEY ([UserId]) REFERENCES [User] ([Id])
 GO
 
-ALTER TABLE [Order] ADD FOREIGN KEY ([ShippingAddressId]) REFERENCES [UserShippingAddress] ([Id])
-GO
-
 
 
 -- STARTING DATA --
@@ -222,8 +225,8 @@ VALUES
 	(2,'','','4000 Cubilia Avenue','Apt 754','Huntsville','Alabama','35581','United States','0'),
 	(3,'','','5785 Nec Road','Apt 95','South Bend','Indiana','85249','United States','1'),
 	(3,'','','135-9762 Suspendisse Rd.','','Saint Paul','Minnesota','72381','United States','0'),
-	(4,'','','146-596 Nibh Rd.','','Austin','Texas','78502','United States','1'),
-	(4,'','','6439 Urna Rd.','','New Haven','Connecticut','88747','United States','0'),
+	(4,'Apartment','','596 Nibh Rd.','Apt 146','Austin','Texas','78502','United States','1'),
+	(4,'Mom''s House','','6439 Urna Rd.','','New Haven','Connecticut','88747','United States','0'),
 	(5,'','','6655 Suspendisse Rd.','','Fayetteville','Arkansas','71276','United States','1'),
 	(5,'','','6705 Elit Rd.','','Idaho Falls','Idaho','32751','United States','0')
 GO
@@ -376,33 +379,33 @@ VALUES
 	(7,5,null,8,8,null,'https://firebasestorage.googleapis.com/v0/b/mccc-co.appspot.com/o/PST%20X%20Pure%20Bell.png?alt=media&token=4138b6f8-a4b2-449f-a4bd-692d4b1cfce0',80,0)
 GO
 
-INSERT INTO [Order] (UserId,ShippingAddressId,DateCreated,DateCompleted,RewardsUsed,TotalValue,TotalPaid,ConfirmationNumber)
+INSERT INTO [Order] (UserId,DateCreated,DateCompleted,RewardsUsed,TotalValue,TotalPaid,ConfirmationNumber,ShipCompanyName,ShipLineOne,ShipLineTwo,ShipCity,ShipState,ShipZIPCode,ShipCountry)
 VALUES
-  (1,null,'2020-06-21T17:10:02.000Z','2020-11-27T16:35:15.000Z',null,255,null,'QW0A18TW0I8B0O'),
-  (2,2,'2020-04-18T09:04:17.000Z','2020-11-18T23:52:19.000Z',28,95,67,'JK0I34HN0N2E0F'),
-  (3,4,'2020-03-26T05:35:47.000Z','2020-11-26T05:14:51.000Z',0,225,225,'IY0R54KN0S8H0T'),
-  (4,6,'2020-06-02T02:09:35.000Z','2020-11-15T13:25:39.000Z',23,253,230,'MS0Q77TR0D3E0O'),
-  (5,8,'2020-08-01T13:41:07.000Z','2020-11-23T16:49:20.000Z',33,197,164,'PS0O13QD0D2K0F'),
-  (1,null,'2021-01-10T12:07:23.000Z','2021-02-03T02:51:49.000Z',null,251,null,'QS0C88TY0Y2U0O'),
-  (2,2,'2021-01-23T08:50:48.000Z','2021-02-02T18:04:17.000Z',6,315,309,'XX0M43YQ0E8A0Y'),
-  (3,4,'2021-01-06T00:33:20.000Z','2021-02-01T18:39:09.000Z',21,293,272,'OO0I71HL0C1K0M'),
-  (4,6,'2021-01-12T23:13:32.000Z','2021-01-30T10:32:16.000Z',22,72,50,'IP0B64JK0Q8S0O'),
-  (5,8,'2021-01-26T16:14:15.000Z','2021-02-02T06:29:53.000Z',10,214,204,'MN0L78UH0I0O0C'),
-  (1,null,'2021-03-15T21:06:35.000Z','2021-04-03T19:30:28.000Z',null,127,null,'TK0L84SC0U7W0S'),
-  (2,1,'2021-03-25T06:03:37.000Z','2021-04-07T05:04:04.000Z',35,281,246,'XJ0Y49MB0P6X0B'),
-  (3,3,'2021-03-24T21:28:46.000Z','2021-04-29T06:29:14.000Z',27,231,204,'KM0S54KO0J7L0X'),
-  (4,5,'2021-03-20T19:36:51.000Z','2021-04-07T12:12:39.000Z',4,53,49,'MY0K84VT0E3H0K'),
-  (5,7,'2021-03-26T04:08:04.000Z','2021-04-14T23:52:42.000Z',2,69,67,'LS0H26DQ0M5E0I'),
-  (1,null,'2021-09-07T21:40:02.000Z','2022-02-04T13:17:14.000Z',null,305,null,'YF0N04EC0C9M0Q'),
-  (2,1,'2021-09-05T06:37:43.000Z','2022-02-23T15:59:44.000Z',12,168,156,'MQ0Q31WK0R6U0P'),
-  (3,3,'2021-09-05T18:04:08.000Z','2022-02-19T10:24:12.000Z',22,149,127,'OR0T90EQ0U8T0K'),
-  (4,5,'2021-09-04T05:14:44.000Z','2022-02-18T10:46:34.000Z',31,322,291,'AE0N38SW0C2B0J'),
-  (5,7,'2021-09-08T04:45:11.000Z','2022-02-06T02:17:27.000Z',40,267,227,'RI0I92YJ0K6G0I'),
-  (1,null,'2022-03-13T23:38:56.000Z',null,null,null,null,null),
-  (2,null,'2022-06-28T13:07:30.000Z',null,null,null,null,null),
-  (3,null,'2022-07-26T06:45:37.000Z',null,null,null,null,null),
-  (4,null,'2022-03-13T07:17:53.000Z',null,null,null,null,null),
-  (5,null,'2022-06-01T10:52:33.000Z',null,null,null,null,null)
+  (1,'2020-06-21T17:10:02.000Z','2020-11-27T16:35:15.000Z',null,255,null,'QW0A18TW0I8B0O',null,null,null,null,null,null,null),
+  (2,'2020-04-18T09:04:17.000Z','2020-11-18T23:52:19.000Z',28,95,67,'JK0I34HN0N2E0F','','4000 Cubilia Avenue','Apt 754','Huntsville','Alabama','35581','United States'),
+  (3,'2020-03-26T05:35:47.000Z','2020-11-26T05:14:51.000Z',0,225,225,'IY0R54KN0S8H0T','','135-9762 Suspendisse Rd.','','Saint Paul','Minnesota','72381','United States'),
+  (4,'2020-06-02T02:09:35.000Z','2020-11-15T13:25:39.000Z',23,253,230,'MS0Q77TR0D3E0O','','6439 Urna Rd.','','New Haven','Connecticut','88747','United States'),
+  (5,'2020-08-01T13:41:07.000Z','2020-11-23T16:49:20.000Z',33,197,164,'PS0O13QD0D2K0F','','6705 Elit Rd.','','Idaho Falls','Idaho','32751','United States'),
+  (1,'2021-01-10T12:07:23.000Z','2021-02-03T02:51:49.000Z',null,251,null,'QS0C88TY0Y2U0O',null,null,null,null,null,null,null),
+  (2,'2021-01-23T08:50:48.000Z','2021-02-02T18:04:17.000Z',6,315,309,'XX0M43YQ0E8A0Y','','4000 Cubilia Avenue','Apt 754','Huntsville','Alabama','35581','United States'),
+  (3,'2021-01-06T00:33:20.000Z','2021-02-01T18:39:09.000Z',21,293,272,'OO0I71HL0C1K0M','','135-9762 Suspendisse Rd.','','Saint Paul','Minnesota','72381','United States'),
+  (4,'2021-01-12T23:13:32.000Z','2021-01-30T10:32:16.000Z',22,72,50,'IP0B64JK0Q8S0O','','6439 Urna Rd.','','New Haven','Connecticut','88747','United States'),
+  (5,'2021-01-26T16:14:15.000Z','2021-02-02T06:29:53.000Z',10,214,204,'MN0L78UH0I0O0C','','6705 Elit Rd.','','Idaho Falls','Idaho','32751','United States'),
+  (1,'2021-03-15T21:06:35.000Z','2021-04-03T19:30:28.000Z',null,127,null,'TK0L84SC0U7W0S',null,null,null,null,null,null,null),
+  (2,'2021-03-25T06:03:37.000Z','2021-04-07T05:04:04.000Z',35,281,246,'XJ0Y49MB0P6X0B','','971-5940 Lorem. Av.','','Nampa','Idaho','66888','United States'),
+  (3,'2021-03-24T21:28:46.000Z','2021-04-29T06:29:14.000Z',27,231,204,'KM0S54KO0J7L0X','','5785 Nec Road','Apt 95','South Bend','Indiana','85249','United States'),
+  (4,'2021-03-20T19:36:51.000Z','2021-04-07T12:12:39.000Z',4,53,49,'MY0K84VT0E3H0K','','596 Nibh Rd.','Apt 146','Austin','Texas','78502','United States'),
+  (5,'2021-03-26T04:08:04.000Z','2021-04-14T23:52:42.000Z',2,69,67,'LS0H26DQ0M5E0I','','6655 Suspendisse Rd.','','Fayetteville','Arkansas','71276','United States'),
+  (1,'2021-09-07T21:40:02.000Z','2022-02-04T13:17:14.000Z',null,305,null,'YF0N04EC0C9M0Q',null,null,null,null,null,null,null),
+  (2,'2021-09-05T06:37:43.000Z','2022-02-23T15:59:44.000Z',12,168,156,'MQ0Q31WK0R6U0P','','971-5940 Lorem. Av.','','Nampa','Idaho','66888','United States'),
+  (3,'2021-09-05T18:04:08.000Z','2022-02-19T10:24:12.000Z',22,149,127,'OR0T90EQ0U8T0K','','5785 Nec Road','Apt 95','South Bend','Indiana','85249','United States'),
+  (4,'2021-09-04T05:14:44.000Z','2022-02-18T10:46:34.000Z',31,322,291,'AE0N38SW0C2B0J','','596 Nibh Rd.','Apt 146','Austin','Texas','78502','United States'),
+  (5,'2021-09-08T04:45:11.000Z','2022-02-06T02:17:27.000Z',40,267,227,'RI0I92YJ0K6G0I','','6655 Suspendisse Rd.','','Fayetteville','Arkansas','71276','United States'),
+  (1,'2022-03-13T23:38:56.000Z',null,null,null,null,null,null,null,null,null,null,null,null),
+  (2,'2022-06-28T13:07:30.000Z',null,null,null,null,null,null,null,null,null,null,null,null),
+  (3,'2022-07-26T06:45:37.000Z',null,null,null,null,null,null,null,null,null,null,null,null),
+  (4,'2022-03-13T07:17:53.000Z',null,null,null,null,null,null,null,null,null,null,null,null),
+  (5,'2022-06-01T10:52:33.000Z',null,null,null,null,null,null,null,null,null,null,null,null)
 GO
 
 INSERT INTO OrderItem (OrderId,ItemId,ItemQuantity)
