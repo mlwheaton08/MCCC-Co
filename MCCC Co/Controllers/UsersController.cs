@@ -44,5 +44,17 @@ namespace MCCC_Co_.Controllers
             //return CreatedAtAction("Get", new { id = user.Id }, user);
             return Ok();
         }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, User user)
+        {
+            if (id != user.Id)
+            {
+                return BadRequest();
+            }
+
+            _userRepo.Update(user);
+            return NoContent();
+        }
     }
 }

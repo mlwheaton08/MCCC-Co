@@ -13,6 +13,7 @@ builder.Services.AddTransient<ISeriesRepository, SeriesRepository>();
 builder.Services.AddTransient<IOrderRepository, OrderRepository>();
 builder.Services.AddTransient<IOrderItemRepository, OrderItemRepository>();
 builder.Services.AddTransient<IDistributorRepository, DistributorRepository>();
+builder.Services.AddTransient<IUserShippingAddressRepository, UserShippingAddressRepository>();
 
 var app = builder.Build();
 
