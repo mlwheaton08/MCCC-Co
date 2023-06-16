@@ -14,6 +14,7 @@ builder.Services.AddTransient<IOrderRepository, OrderRepository>();
 builder.Services.AddTransient<IOrderItemRepository, OrderItemRepository>();
 builder.Services.AddTransient<IDistributorRepository, DistributorRepository>();
 builder.Services.AddTransient<IUserShippingAddressRepository, UserShippingAddressRepository>();
+builder.Services.AddTransient<IPackRepository, PackRepository>();
 
 var app = builder.Build();
 

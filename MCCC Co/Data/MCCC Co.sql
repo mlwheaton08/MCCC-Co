@@ -119,8 +119,7 @@ CREATE TABLE [Pack] (
   [Id] int PRIMARY KEY identity,
   [Name] nvarchar(255) unique not null,
   [Description] nvarchar(255),
-  [Price] float not null,
-  [PurchaseCount] int
+  [Image] nvarchar(255)
 )
 GO
 
@@ -462,14 +461,14 @@ VALUES
 	(25,12,1)
 GO
 
-INSERT INTO Pack ([Name],[Description],Price,PurchaseCount)
+INSERT INTO Pack ([Name],[Description],[Image])
 VALUES
-	('Starter','',100,8),
-	('Rockstar','',250,5),
-	('Mega','',400,2),
-	('Jazzcat','',350,1),
-	('Cocktail','',350,1),
-	('New School','',200,3)
+	('Starter','Kick off your drumming career with the Starter Pack. You''ll instantly sound like a rockstar without hurting your wallet!','https://firebasestorage.googleapis.com/v0/b/mccc-co.appspot.com/o/Pack%20-%20Starter.png?alt=media&token=a6125076-6384-4229-8c68-2d6b2ce76e8c'),
+	('Rockstar','The Rockstar Pack provides everything a touring rock drummer needs. These large cymbals will cut through any live mix.','https://firebasestorage.googleapis.com/v0/b/mccc-co.appspot.com/o/Pack%20-%20Rockstar.png?alt=media&token=0aee1476-6bab-4b8d-aac1-25f18e64a1cd'),
+	('Mega','This one is for the gearheads who can''t find a room big enough to fit their kit. The Mega Pack provides a little bit of everything.','https://firebasestorage.googleapis.com/v0/b/mccc-co.appspot.com/o/Pack%20-%20Mega.png?alt=media&token=c8bc2d51-08f4-4c55-887e-33de252c0615'),
+	('Jazzcat','The Jazzcat Pack consists of MCCC Co''s highest quality cymbals, hand selected by Buddy Rich himself.',''),
+	('Cocktail','Got a low-volume lounge gig? We''ve got you covered. The Cocktail Pack has the small cymbals you need for delicate gigging.',''),
+	('New School','This one is for all the weirdos and experimentalists. The New School Pack was made by Dan Mayo himself, and he (allegedly) "plays them sometimes on his kit at home"!','')
 GO
 
 INSERT INTO PackItem (PackId,ItemId)

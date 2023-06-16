@@ -143,9 +143,9 @@ public class ItemRepository : BaseRepository, IItemRepository
 	                                    ON s.Id = sa.SeriesId
                                     JOIN [Application] a
 	                                    ON sa.ApplicationId = a.Id
-                                    WHERE i.Id = @id
+                                    WHERE i.Id = @Id
                                     ORDER BY [Application]";
-                DbUtils.AddParameter(cmd, "@id", id);
+                DbUtils.AddParameter(cmd, "@Id", id);
 
                 var reader = cmd.ExecuteReader();
 
