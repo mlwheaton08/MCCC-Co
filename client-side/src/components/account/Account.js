@@ -190,27 +190,13 @@ export const Account = () => {
                                 shippingAddresses.map((address) => {
                                     return (
                                         shippingAddressEdit === address.id
-                                            ? <div className="flex flex-col gap-4">
-                                                <UserAddressForm
-                                                    key={address.id}
-                                                    addressState={shippingAddressState}
-                                                    setAddressState={setShippingAddressState}
-                                                />
-                                                <div className="flex justify-end gap-2">
-                                                    <button
-                                                        className="px-3 py-1 border border-accent-secondary-color text-accent-secondary-color font-normal"
-                                                        onClick={handleAddressDiscardChanges}
-                                                    >
-                                                        Discard Changes
-                                                    </button>
-                                                    <button
-                                                        className="px-3 py-1 border border-accent-secondary-color text-accent-secondary-color font-normal"
-                                                        onClick={handleAddressSaveChanges}
-                                                    >
-                                                        Save
-                                                    </button>
-                                                </div>
-                                            </div>
+                                            ? <UserAddressForm
+                                                key={address.id}
+                                                addressState={shippingAddressState}
+                                                setAddressState={setShippingAddressState}
+                                                handleDiscard={handleAddressDiscardChanges}
+                                                handleSave={handleAddressSaveChanges}
+                                            />
                                             : <div
                                                 key={address.id}
                                                 className={`relative p-4 pb-2 flex flex-col rounded bg-bg-tint-color text-xl
@@ -223,6 +209,7 @@ export const Account = () => {
                                                 <span>{address.city}, {address.state} {address.zipCode}</span>
                                                 <span>{address.country}</span>
 
+                                                {/* Set as default */}
                                                 {
                                                     address.isDefault || shippingAddressEdit
                                                         ? ""
@@ -233,6 +220,7 @@ export const Account = () => {
                                                             set as default
                                                         </span>
                                                 }
+                                                {/* Edit and Delete */}
                                                 {
                                                     shippingAddressEdit
                                                         ? ""
@@ -241,13 +229,13 @@ export const Account = () => {
                                                                 className="hover:cursor-pointer"
                                                                 onClick={() => openAddressForm(address.id, address)}
                                                             >
-                                                                {editIcon("h-4 fill-accent-secondary-color transition-all duration-300 hover:h-5")}
+                                                                {editIcon("h-4 fill-accent-secondary-color")}
                                                             </span>
                                                             <span
                                                                 className="hover:cursor-pointer"
                                                                 onClick={() => handleShippingAddressDelete(address.id, address)}
                                                             >
-                                                                {trashCanIcon("h-4 fill-accent-secondary-color transition-all duration-300 hover:h-5")}
+                                                                {trashCanIcon("h-4 fill-accent-secondary-color")}
                                                             </span>
                                                         </div>
                                                 }
@@ -272,21 +260,9 @@ export const Account = () => {
                                             <UserAddressForm
                                                 addressState={shippingAddressState}
                                                 setAddressState={setShippingAddressState}
+                                                handleDiscard={handleAddressDiscardChanges}
+                                                handleSave={handleAddNewAddress}
                                             />
-                                            <div className="flex justify-end gap-2">
-                                                <button
-                                                    className="px-3 py-1 border border-accent-secondary-color text-accent-secondary-color font-normal"
-                                                    onClick={handleAddressDiscardChanges}
-                                                >
-                                                    Discard
-                                                </button>
-                                                <button
-                                                    className="px-3 py-1 border border-accent-secondary-color text-accent-secondary-color font-normal"
-                                                    onClick={handleAddNewAddress}
-                                                >
-                                                    Save
-                                                </button>
-                                            </div>
                                         </div>
                                         : ""
                             }
