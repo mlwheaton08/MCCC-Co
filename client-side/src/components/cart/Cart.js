@@ -61,13 +61,19 @@ export const Cart = ({ getNavCartItemTotal, setIsItemFilterActive }) => {
         const currentOrder = {
             id: order.id,
             userId: order.userId,
-            shippingAddressId: null,
             dateCreated: order.dateCreated,
             dateCompleted: new Date(),
             rewardsUsed: null,
             totalValue: cartPrice,
             totalPaid: cartPrice,
-            confirmationNumber: newConfirmationNumber
+            confirmationNumber: newConfirmationNumber,
+            shipCompanyName: null,
+            shipLineOne: null,
+            shipLineTwo: null,
+            shipCity: null,
+            shipState: null,
+            shipZIPCode: null,
+            shipCountry: null
         }
 
         await updateOrder(order.id, currentOrder)
@@ -83,7 +89,14 @@ export const Cart = ({ getNavCartItemTotal, setIsItemFilterActive }) => {
                 rewardsUsed: null,
                 totalValue: null,
                 totalPaid: null,
-                confirmationNumber: null
+                confirmationNumber: null,
+                shipCompanyName: null,
+                shipLineOne: null,
+                shipLineTwo: null,
+                shipCity: null,
+                shipState: null,
+                shipZIPCode: null,
+                shipCountry: null
             }
             await addOrder(newOpenOrder)
         }
