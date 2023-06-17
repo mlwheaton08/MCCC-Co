@@ -43,18 +43,31 @@ export const OrderCard = ({ order }) => {
                                 )
                             })
                         }
-                        <section className="mt-6 flex justify-between">
-                            <span>Confirmation Number: {order.confirmationNumber}</span>
-                            <span>Total Value: ${order.totalValue}</span>
-                            <span>Total Paid: ${order.totalPaid}</span>
-                            <span>
-                                Rewards Used:
-                                {
-                                    !order.rewardsUsed
+                        {/* Payment and Shipping */}
+                        <section className="mt-6 flex justify-between items-end">
+                            {/* Payment */}
+                            <div className="flex flex-col">
+                                <p>Total Value: ${order.totalValue}</p>
+                                <p>Total Paid: ${order.totalPaid}</p>
+                                <p>
+                                    Rewards Used:
+                                    {
+                                        !order.rewardsUsed
                                         ? " 0"
                                         : ` ${order.rewardsUsed}`
-                                }
-                            </span>
+                                    }
+                                </p>
+                                <p>Confirmation Number: {order.confirmationNumber}</p>
+                            </div>
+                            {/* Shipping */}
+                            <div className="flex flex-col text-right">
+                                <p className="font-semibold">Shipped to:</p>
+                                {!order.shipCompanyName ? "" : <p>{order.shipCompanyName}</p>}
+                                <p>{order.shipLineOne}</p>
+                                {!order.shipLineTwo ? "" : <p>{order.shipLineTwo}</p>}
+                                <p>{order.shipCity}, {order.shipState} {order.shipZIPCode}</p>
+                                <p>{order.shipCountry}</p>
+                            </div>
                         </section>
                     </Accordion.Content>
                 </Accordion.Panel>

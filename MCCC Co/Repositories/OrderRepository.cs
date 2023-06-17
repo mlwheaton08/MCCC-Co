@@ -177,32 +177,50 @@ public class OrderRepository : BaseRepository, IOrderRepository
             {
                 cmd.CommandText = @"INSERT INTO [Order]
 	                                    (UserId,
-	                                    ShippingAddressId,
 	                                    DateCreated,
 	                                    DateCompleted,
 	                                    RewardsUsed,
 	                                    TotalValue,
 	                                    TotalPaid,
-	                                    ConfirmationNumber)
+	                                    ConfirmationNumber,
+                                        ShipCompanyName,
+	                                    ShipLineOne,
+	                                    ShipLineTwo,
+	                                    ShipCity,
+	                                    ShipState,
+	                                    ShipZIPCode,
+	                                    ShipCountry)
                                     OUTPUT INSERTED.ID
                                     VALUES
 	                                    (@UserId,
-	                                    @ShippingAddressId,
 	                                    @DateCreated,
 	                                    @DateCompleted,
 	                                    @RewardsUsed,
 	                                    @TotalValue,
 	                                    @TotalPaid,
-	                                    @ConfirmationNumber)";
+	                                    @ConfirmationNumber,
+                                        @ShipCompanyName,
+	                                    @ShipLineOne,
+	                                    @ShipLineTwo,
+	                                    @ShipCity,
+	                                    @ShipState,
+	                                    @ShipZIPCode,
+	                                    @ShipCountry)";
 
                 DbUtils.AddParameter(cmd, "@UserId", order.UserId);
-                DbUtils.AddParameter(cmd, "@ShippingAddressId", order.ShippingAddressId);
                 DbUtils.AddParameter(cmd, "@DateCreated", order.DateCreated);
                 DbUtils.AddParameter(cmd, "@DateCompleted", order.DateCompleted);
                 DbUtils.AddParameter(cmd, "@RewardsUsed", order.RewardsUsed);
                 DbUtils.AddParameter(cmd, "@TotalValue", order.TotalValue);
                 DbUtils.AddParameter(cmd, "@TotalPaid", order.TotalPaid);
                 DbUtils.AddParameter(cmd, "@ConfirmationNumber", order.ConfirmationNumber);
+                DbUtils.AddParameter(cmd, "@ShipCompanyName", order.ShipCompanyName);
+                DbUtils.AddParameter(cmd, "@ShipLineOne", order.ShipLineOne);
+                DbUtils.AddParameter(cmd, "@ShipLineTwo", order.ShipLineTwo);
+                DbUtils.AddParameter(cmd, "@ShipCity", order.ShipCity);
+                DbUtils.AddParameter(cmd, "@ShipState", order.ShipState);
+                DbUtils.AddParameter(cmd, "@ShipZIPCode", order.ShipZIPCode);
+                DbUtils.AddParameter(cmd, "@ShipCountry", order.ShipCountry);
 
                 order.Id = (int)cmd.ExecuteScalar();
             }
@@ -219,24 +237,36 @@ public class OrderRepository : BaseRepository, IOrderRepository
                 cmd.CommandText = @"UPDATE [Order]
 	                                    SET
 		                                    UserId = @UserId,
-		                                    ShippingAddressId = @ShippingAddressId,
 		                                    DateCreated = @DateCreated,
 		                                    DateCompleted = @DateCompleted,
 		                                    RewardsUsed = @RewardsUsed,
 		                                    TotalValue = @TotalValue,
 		                                    TotalPaid = @TotalPaid,
-		                                    ConfirmationNumber = @ConfirmationNumber
+		                                    ConfirmationNumber = @ConfirmationNumber,
+                                            ShipCompanyName = @ShipCompanyName,
+	                                        ShipLineOne = @ShipLineOne,
+	                                        ShipLineTwo = @ShipLineTwo,
+	                                        ShipCity = @ShipCity,
+	                                        ShipState = @ShipState,
+	                                        ShipZIPCode = @ShipZIPCode,
+	                                        ShipCountry = @ShipCountry
                                     WHERE Id = @Id";
 
                 DbUtils.AddParameter(cmd, "@Id", order.Id);
                 DbUtils.AddParameter(cmd, "@UserId", order.UserId);
-                DbUtils.AddParameter(cmd, "@ShippingAddressId", order.ShippingAddressId);
                 DbUtils.AddParameter(cmd, "@DateCreated", order.DateCreated);
                 DbUtils.AddParameter(cmd, "@DateCompleted", order.DateCompleted);
                 DbUtils.AddParameter(cmd, "@RewardsUsed", order.RewardsUsed);
                 DbUtils.AddParameter(cmd, "@TotalValue", order.TotalValue);
                 DbUtils.AddParameter(cmd, "@TotalPaid", order.TotalPaid);
                 DbUtils.AddParameter(cmd, "@ConfirmationNumber", order.ConfirmationNumber);
+                DbUtils.AddParameter(cmd, "@ShipCompanyName", order.ShipCompanyName);
+                DbUtils.AddParameter(cmd, "@ShipLineOne", order.ShipLineOne);
+                DbUtils.AddParameter(cmd, "@ShipLineTwo", order.ShipLineTwo);
+                DbUtils.AddParameter(cmd, "@ShipCity", order.ShipCity);
+                DbUtils.AddParameter(cmd, "@ShipState", order.ShipState);
+                DbUtils.AddParameter(cmd, "@ShipZIPCode", order.ShipZIPCode);
+                DbUtils.AddParameter(cmd, "@ShipCountry", order.ShipCountry);
 
                 cmd.ExecuteNonQuery();
             }

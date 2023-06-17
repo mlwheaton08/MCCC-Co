@@ -54,9 +54,11 @@ export const Search = ({ searchState, setSearchState }) => {
                     : <div className="absolute w-2/5 bg-bg-quaternary-color">
                         {
                             topSearchResults.map((item, index) => {
-                                return <div className="flex flex-col items-center">
+                                return <div
+                                    key={item.id}
+                                    className="flex flex-col items-center"
+                                >
                                     <div
-                                        key={item.id}
                                         className="flex justify-between items-center font-thin hover:bg-bg-tint-color-2 hover:cursor-pointer"
                                         onClick={() => {
                                             navigate(`/cymbal/${item.id}`)
