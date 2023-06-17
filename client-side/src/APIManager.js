@@ -167,3 +167,15 @@ export const fetchDistributors = async () => {
     const distributorsArray = await response.json()
     return distributorsArray
 }
+
+export const fetchPacks = async () => {
+    const response = await fetch('https://localhost:7240/Packs')
+    const packsArray = await response.json()
+    return packsArray
+}
+
+export const fetchPack = async (id) => {
+    const response = await fetch(`https://localhost:7240/Packs/${id}`)
+    const pack = await response.json()
+    return pack
+}

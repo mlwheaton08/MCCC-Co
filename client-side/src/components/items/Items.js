@@ -178,6 +178,7 @@ export const Items = ({ setSeriesFilter, seriesFilter, setTypeFilter, typeFilter
                             return <ItemCard
                                 key={item.id}
                                 item={item}
+                                showPrice={true}
                             />
                         })
                 }

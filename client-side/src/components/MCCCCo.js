@@ -10,6 +10,8 @@ import { fetchOpenOrderItemTotal } from "../APIManager";
 import { UserViews } from "./views/UserViews";
 import { ItemsPageContainer } from "./items/ItemsPageContainer";
 import { Distributors } from "./distributors/Distributors";
+import { Packs } from "./packs/Packs";
+import { PackDetail } from "./packs/PackDetail";
 
 export const MCCCCo = () => {
 	const localStorageUser = localStorage.getItem("user")
@@ -55,6 +57,8 @@ export const MCCCCo = () => {
             	<Route path="/login" element={ <Login getNavCartItemTotal={getNavCartItemTotal} /> } />
             	<Route path="/register" element={ <Register getNavCartItemTotal={getNavCartItemTotal} /> } />
             	<Route path="/distributors" element={ <Distributors /> } />
+				<Route path="/packs" element={ <Packs /> } />
+				<Route path="/pack/:id" element={ <PackDetail getNavCartItemTotal={getNavCartItemTotal} /> } />
 				<Route path="/cymbal/:id" element={ <ItemDetail getNavCartItemTotal={getNavCartItemTotal} /> } />
 
             	<Route path="/cymbals"

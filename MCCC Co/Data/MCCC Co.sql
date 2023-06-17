@@ -466,9 +466,9 @@ VALUES
 	('Starter','Kick off your drumming career with the Starter Pack. You''ll instantly sound like a rockstar without hurting your wallet!','https://firebasestorage.googleapis.com/v0/b/mccc-co.appspot.com/o/Pack%20-%20Starter.png?alt=media&token=a6125076-6384-4229-8c68-2d6b2ce76e8c'),
 	('Rockstar','The Rockstar Pack provides everything a touring rock drummer needs. These large cymbals will cut through any live mix.','https://firebasestorage.googleapis.com/v0/b/mccc-co.appspot.com/o/Pack%20-%20Rockstar.png?alt=media&token=0aee1476-6bab-4b8d-aac1-25f18e64a1cd'),
 	('Mega','This one is for the gearheads who can''t find a room big enough to fit their kit. The Mega Pack provides a little bit of everything.','https://firebasestorage.googleapis.com/v0/b/mccc-co.appspot.com/o/Pack%20-%20Mega.png?alt=media&token=c8bc2d51-08f4-4c55-887e-33de252c0615'),
-	('Jazzcat','The Jazzcat Pack consists of MCCC Co''s highest quality cymbals, hand selected by Buddy Rich himself.',''),
-	('Cocktail','Got a low-volume lounge gig? We''ve got you covered. The Cocktail Pack has the small cymbals you need for delicate gigging.',''),
-	('New School','This one is for all the weirdos and experimentalists. The New School Pack was made by Dan Mayo himself, and he (allegedly) "plays them sometimes on his kit at home"!','')
+	('Jazzcat','The Jazzcat Pack consists of MCCC Co''s highest quality cymbals, hand selected by Buddy Rich himself.','https://firebasestorage.googleapis.com/v0/b/mccc-co.appspot.com/o/Pack%20-%20Jazzcat.png?alt=media&token=a7e90c01-42d8-4bcc-90bc-c7a7e187b97d'),
+	('Cocktail','Got a low-volume lounge gig? We''ve got you covered. The Cocktail Pack has the small cymbals you need for delicate gigging.','https://firebasestorage.googleapis.com/v0/b/mccc-co.appspot.com/o/Pack%20-%20Cocktail.png?alt=media&token=693a771e-89a1-45d9-9742-59c6de538bc8'),
+	('New School','This one is for all the innovators and experimentalists. The New School Pack was made by Dan Mayo himself, and he (allegedly) "plays them sometimes on his kit at home"!','https://firebasestorage.googleapis.com/v0/b/mccc-co.appspot.com/o/Pack%20-%20New%20School.png?alt=media&token=3a5452e2-1ddb-4808-a835-37abc8cdfa9a')
 GO
 
 INSERT INTO PackItem (PackId,ItemId)
