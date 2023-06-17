@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
 
-export const ItemCard = ({ item }) => {
+export const ItemCard = ({ item, showPrice }) => {
     const navigate = useNavigate()
 
 
@@ -23,7 +23,11 @@ export const ItemCard = ({ item }) => {
                     <span>{item.series.name} </span>
                     <span>{item.type.name} </span>
                 </div>
-                <span>${item.price}</span>
+                {
+                    !showPrice
+                        ? ""
+                        : <span>${item.price}</span>
+                }
             </div>
         </div>
     )
