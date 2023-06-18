@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { searchItems } from "../../APIManager"
 import { useNavigate } from "react-router-dom"
+import useDebounce from "../../customHooks/useDebounce"
 
 export const Search = ({ searchState, setSearchState }) => {
 
@@ -19,9 +20,11 @@ export const Search = ({ searchState, setSearchState }) => {
         }
     }
 
-    useEffect(() => {
-        getTopFiveSearchResults()
-    },[searchState])
+    // useEffect(() => {
+    //     getTopFiveSearchResults()
+    // },[searchState])
+
+    useDebounce(() => getTopFiveSearchResults(), 250, [searchState])
 
     document.body.addEventListener("click", () => {
         if (document.activeElement.id !== "search" || !searchState) {

@@ -9,8 +9,6 @@ USE [MCCC Co]
 GO
 
 DROP TABLE IF EXISTS [OrderItem];
-DROP TABLE IF EXISTS [UserItemComment];
-DROP TABLE IF EXISTS [UserItemFavorite];
 DROP TABLE IF EXISTS [PackItem];
 DROP TABLE IF EXISTS [SeriesApplication];
 DROP TABLE IF EXISTS [Distributor];
@@ -46,21 +44,6 @@ CREATE TABLE [UserShippingAddress] (
   [ZIPCode] nvarchar(255) not null,
   [Country] nvarchar(255) not null,
   [IsDefault] bit
-)
-GO
-
-CREATE TABLE [UserItemComment] (
-  [Id] int PRIMARY KEY identity,
-  [UserId] int not null,
-  [ItemId] int not null,
-  [Text] nvarchar(255)
-)
-GO
-
-CREATE TABLE [UserItemFavorite] (
-  [Id] int PRIMARY KEY identity,
-  [UserId] int not null,
-  [ItemId] int not null
 )
 GO
 
@@ -178,18 +161,6 @@ GO
 ALTER TABLE [SeriesApplication] ADD FOREIGN KEY ([ApplicationId]) REFERENCES [Application] ([Id])
 GO
 
-ALTER TABLE [UserItemComment] ADD FOREIGN KEY ([UserId]) REFERENCES [User] ([Id])
-GO
-
-ALTER TABLE [UserItemFavorite] ADD FOREIGN KEY ([UserId]) REFERENCES [User] ([Id])
-GO
-
-ALTER TABLE [UserItemComment] ADD FOREIGN KEY ([ItemId]) REFERENCES [Item] ([Id])
-GO
-
-ALTER TABLE [UserItemFavorite] ADD FOREIGN KEY ([ItemId]) REFERENCES [Item] ([Id])
-GO
-
 ALTER TABLE [PackItem] ADD FOREIGN KEY ([PackId]) REFERENCES [Pack] ([Id])
 GO
 
@@ -243,10 +214,10 @@ GO
 
 INSERT INTO Series ([Name],Alloy,BrightnessLevel,[Description],[Image])
 VALUES
-	('MC1','MS63 Brass',4,'MC1 cymbals represent a breakthrough combination of quality and value, and convince with superior sound and appearance.',null),
-	('MC2','MS63 Brass',3,'Ushering in a higher standard of sound and durability, the MC2 series stay true to the renown MCCC quality whilst offering an affordable option for the aspiring drummer looking for high performance and quality sound at an attainable price.',null),
-	('MC3','CuSn8 Bronze',5,'MC3 cymbals offer the big, bright, vintage sound that takes you straight back to the height of Classic Rock.',null),
-	('Signature','CuSn20',2,'Forged from a proprietary bronze developed specifically for cymbals, handcrafted from start to finish by highly skilled craftsmen, conceived and executed according to uncompromising sound concepts, Signature Cymbals are instruments of unsurpassed quality for the discerning drummer’s quest for personal creativity and musical excellence.',null),
+	('MC1','MS63 Brass',2,'MC1 cymbals represent a breakthrough combination of quality and value, and convince with superior sound and appearance.',null),
+	('MC2','MS63 Brass',2,'Ushering in a higher standard of sound and durability, the MC2 series stay true to the renown MCCC quality whilst offering an affordable option for the aspiring drummer looking for high performance and quality sound at an attainable price.',null),
+	('MC3','CuSn8 Bronze',3,'MC3 cymbals offer the big, bright, vintage sound that takes you straight back to the height of Classic Rock.',null),
+	('Signature','CuSn20',1,'Forged from a proprietary bronze developed specifically for cymbals, handcrafted from start to finish by highly skilled craftsmen, conceived and executed according to uncompromising sound concepts, Signature Cymbals are instruments of unsurpassed quality for the discerning drummer’s quest for personal creativity and musical excellence.',null),
 	('MCFX','CuSn8 Bronze',1,'MCFX is a complete collection of extremely affordable effect cymbals. The core of the MCFX is made up of the Swiss models, cymbals that achieve a noisy, dirty, trashy sound quality by the use of specific layouts and varied sizes for the holes.',null)
 GO
 
@@ -400,11 +371,11 @@ VALUES
   (3,'2021-09-05T18:04:08.000Z','2022-02-19T10:24:12.000Z',22,149,127,'OR0T90EQ0U8T0K','','5785 Nec Road','Apt 95','South Bend','Indiana','85249','United States'),
   (4,'2021-09-04T05:14:44.000Z','2022-02-18T10:46:34.000Z',31,322,291,'AE0N38SW0C2B0J','','596 Nibh Rd.','Apt 146','Austin','Texas','78502','United States'),
   (5,'2021-09-08T04:45:11.000Z','2022-02-06T02:17:27.000Z',40,267,227,'RI0I92YJ0K6G0I','','6655 Suspendisse Rd.','','Fayetteville','Arkansas','71276','United States'),
-  (1,'2022-03-13T23:38:56.000Z',null,null,null,null,null,null,null,null,null,null,null,null),
-  (2,'2022-06-28T13:07:30.000Z',null,null,null,null,null,null,null,null,null,null,null,null),
-  (3,'2022-07-26T06:45:37.000Z',null,null,null,null,null,null,null,null,null,null,null,null),
-  (4,'2022-03-13T07:17:53.000Z',null,null,null,null,null,null,null,null,null,null,null,null),
-  (5,'2022-06-01T10:52:33.000Z',null,null,null,null,null,null,null,null,null,null,null,null)
+  (1,'2022-03-13T23:38:56.000Z',null,null,null,null,null,'',null,null,null,null,null,null),
+  (2,'2022-06-28T13:07:30.000Z',null,null,null,null,null,'','971-5940 Lorem. Av.','','Nampa','Idaho','66888','United States'),
+  (3,'2022-07-26T06:45:37.000Z',null,null,null,null,null,'','5785 Nec Road','Apt 95','South Bend','Indiana','85249','United States'),
+  (4,'2022-03-13T07:17:53.000Z',null,null,null,null,null,'','596 Nibh Rd.','Apt 146','Austin','Texas','78502','United States'),
+  (5,'2022-06-01T10:52:33.000Z',null,null,null,null,null,'','6655 Suspendisse Rd.','','Fayetteville','Arkansas','71276','United States')
 GO
 
 INSERT INTO OrderItem (OrderId,ItemId,ItemQuantity)

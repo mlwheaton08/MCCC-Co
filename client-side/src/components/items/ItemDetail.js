@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { addOrderItem, fetchItem, fetchOrders } from "../../APIManager"
+import { caretDownIcon } from "../../icons"
 
 export const ItemDetail = ({ getNavCartItemTotal }) => {
     const localStorageUser = localStorage.getItem("user")
@@ -97,12 +98,23 @@ export const ItemDetail = ({ getNavCartItemTotal }) => {
                             <h4 className="text-xl font-thin">{item.series.alloy}</h4>
                         </div>
                     </div>
-                    {/* Item Description */}
+                    {/* Details */}
                     <div className="flex justify-between items-center">
-                        <div className="w-2/3">
-                            <h4 className="text-2xl">Description</h4>
-                            <p className="text-xl font-thin">{item.series.description}</p>
+                        {/* Brightness and Description */}
+                        <div className="w-2/3 flex flex-col gap-14">
+                            <div className="w-3/5">
+                                <h4 className="text-2xl">Brightness</h4>
+                                <div>
+                                    {caretDownIcon(`relative left-${item.series.brightnessLevel}/4 h-6 fill-accent-primary-color`)}
+                                </div>
+                                <div className="w-full h-4 px-2 flex justify-between rounded-full bg-yellow-300 bg-gradient-to-r from-amber-900"></div>
+                            </div>
+                            <div>
+                                <h4 className="text-2xl">Description</h4>
+                                <p className="text-xl font-thin">{item.series.description}</p>
+                            </div>
                         </div>
+                        {/* Applications */}
                         <div className="text-right">
                             <h4 className="mb-1 text-2xl font-semibold">Applications</h4>
                             <ul>

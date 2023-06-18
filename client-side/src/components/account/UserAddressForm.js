@@ -35,6 +35,7 @@ export const UserAddressForm = ({ addressState, setAddressState, handleDiscard, 
             <fieldset className="flex flex-col">
                 <label htmlFor="lineOne">Address Line 1</label>
                 <input
+                    autoFocus
                     id="lineOne"
                     value={addressState.lineOne}
                     className="px-2 py-1 border border-accent-secondary-color-dark bg-bg-tint-color focus:outline-none"

@@ -169,6 +169,7 @@ export const Account = () => {
                             </div>
                             : <div className="flex items-center gap-6">
                                 <input
+                                    autoFocus
                                     value={userNameState}
                                     className=" px-2 py-1 text-2xl bg-bg-tint-color-2 focus:outline-none"
                                     onChange={(evt) => setUserNameState(evt.target.value)}

@@ -235,15 +235,6 @@ export const Nav = ({ cartItemCount, setSeriesFilter, setTypeFilter, setIsItemFi
                                             <span
                                                 className="w-full p-3 rounded-none hover:bg-accent-secondary-color-dark hover:text-bg-primary-color hover:font-normal hover:cursor-pointer"
                                                 onClick={() => {
-                                                    navigate("/favorites")
-                                                    setShowProfileNavDropdown(false)
-                                                }}
-                                            >
-                                                Saved
-                                            </span>
-                                            <span
-                                                className="w-full p-3 rounded-none hover:bg-accent-secondary-color-dark hover:text-bg-primary-color hover:font-normal hover:cursor-pointer"
-                                                onClick={() => {
                                                     navigate("/orderHistory")
                                                     setShowProfileNavDropdown(false)
                                                 }}
