@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
-import { addOrder, fetchOrders, updateOrder } from "../../APIManager"
+import { fetchOrders } from "../../APIManager"
 import { useNavigate } from "react-router-dom"
 import { CartItem } from "./CartItem"
 
 export const Cart = ({ getNavCartItemTotal, setIsItemFilterActive }) => {
+    
     const localStorageUser = localStorage.getItem("user")
     const localUser = JSON.parse(localStorageUser)
 
@@ -20,6 +21,10 @@ export const Cart = ({ getNavCartItemTotal, setIsItemFilterActive }) => {
         }
     }
 
+    useEffect(() => {
+        getOrder()    
+    },[])
+
     const orderItemCountMessage = () => {
         let count = 0
         for (const orderItem of orderItems) {
@@ -33,77 +38,12 @@ export const Cart = ({ getNavCartItemTotal, setIsItemFilterActive }) => {
         }
     }
 
-    useEffect(() => {
-        getOrder()    
-    },[])
-
     const getCartTotalPrice = () => {
         let total = 0
         for (const orderItem of orderItems) {
             total += (orderItem.itemQuantity * orderItem.item.price)
         }
         return total
-    }
-
-    const getConfirmationNumber = () => {
-        let result = ''
-        const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-        for (let i = 20; i > 0; --i) {
-            result += chars[Math.floor(Math.random() * chars.length)]
-        }
-        return result;
-    }
-
-    const handlePurchase = async () => {
-        const newConfirmationNumber = getConfirmationNumber()
-        const cartPrice = getCartTotalPrice()
-
-        const currentOrder = {
-            id: order.id,
-            userId: order.userId,
-            dateCreated: order.dateCreated,
-            dateCompleted: new Date(),
-            rewardsUsed: null,
-            totalValue: cartPrice,
-            totalPaid: cartPrice,
-            confirmationNumber: newConfirmationNumber,
-            shipCompanyName: null,
-            shipLineOne: null,
-            shipLineTwo: null,
-            shipCity: null,
-            shipState: null,
-            shipZIPCode: null,
-            shipCountry: null
-        }
-
-        await updateOrder(order.id, currentOrder)
-        
-        // create new open order
-        const userOpenOrder = await fetchOrders(localUser.firebaseId, false)
-        if (!userOpenOrder[0]) {
-            const newOpenOrder = {
-                userId: localUser.id,
-                shippingAddressId: null,
-                dateCreated: new Date(),
-                dateCompleted: null,
-                rewardsUsed: null,
-                totalValue: null,
-                totalPaid: null,
-                confirmationNumber: null,
-                shipCompanyName: null,
-                shipLineOne: null,
-                shipLineTwo: null,
-                shipCity: null,
-                shipState: null,
-                shipZIPCode: null,
-                shipCountry: null
-            }
-            await addOrder(newOpenOrder)
-        }
-
-        window.alert(`ORDER COMPLETE\nCONFIRMATION NUMBER: ${newConfirmationNumber}`)
-        await getNavCartItemTotal(localUser.firebaseId)
-        navigate("/")
     }
 
 
@@ -145,9 +85,9 @@ export const Cart = ({ getNavCartItemTotal, setIsItemFilterActive }) => {
                     </div>
                     <button
                         className="mt-12 px-4 py-1 self-center bg-accent-primary-color-dark text-2xl text-text-secondary-color transition-all duration-300 hover:text-text-primary-color"
-                        onClick={handlePurchase}
+                        onClick={() => navigate("/checkout")}
                     >
-                        Complete Order (${getCartTotalPrice()})
+                        Proceed to checkout (${getCartTotalPrice()})
                     </button>
                 </div>
             }

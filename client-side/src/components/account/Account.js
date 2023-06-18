@@ -194,6 +194,7 @@ export const Account = () => {
                                                 key={address.id}
                                                 addressState={shippingAddressState}
                                                 setAddressState={setShippingAddressState}
+                                                showDiscardButton={true}
                                                 handleDiscard={handleAddressDiscardChanges}
                                                 handleSave={handleAddressSaveChanges}
                                             />
@@ -202,12 +203,12 @@ export const Account = () => {
                                                 className={`relative p-4 pb-2 flex flex-col rounded bg-bg-tint-color text-xl
                                                     ${!address.isDefault ? "" : "border border-accent-secondary-color"}`}
                                             >
-                                                {!address.nickName ? "" : <span className="mb-2 underline">{address.nickName}</span>}
-                                                {!address.companyName ? "" : <span>{address.companyName}</span>}
-                                                <span>{address.lineOne}</span>
-                                                {!address.lineTwo ? "" : <span>{address.lineTwo}</span>}
-                                                <span>{address.city}, {address.state} {address.zipCode}</span>
-                                                <span>{address.country}</span>
+                                                {!address.nickName ? "" : <p className="mb-2 underline">{address.nickName}</p>}
+                                                {!address.companyName ? "" : <p>{address.companyName}</p>}
+                                                <p>{address.lineOne}</p>
+                                                {!address.lineTwo ? "" : <p>{address.lineTwo}</p>}
+                                                <p>{address.city}, {address.state} {address.zipCode}</p>
+                                                <p>{address.country}</p>
 
                                                 {/* Set as default */}
                                                 {
@@ -260,8 +261,10 @@ export const Account = () => {
                                             <UserAddressForm
                                                 addressState={shippingAddressState}
                                                 setAddressState={setShippingAddressState}
+                                                showDiscardButton={true}
                                                 handleDiscard={handleAddressDiscardChanges}
                                                 handleSave={handleAddNewAddress}
+                                                currentRoute="account"
                                             />
                                         </div>
                                         : ""

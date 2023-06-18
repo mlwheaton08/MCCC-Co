@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
-import { addOrder, addOrderItem, fetchItem, fetchOrders, fetchUserByFirebaseId } from "../../APIManager"
+import { addOrderItem, fetchItem, fetchOrders } from "../../APIManager"
 
 export const ItemDetail = ({ getNavCartItemTotal }) => {
     const localStorageUser = localStorage.getItem("user")

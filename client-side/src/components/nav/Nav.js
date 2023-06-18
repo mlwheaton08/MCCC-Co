@@ -26,7 +26,7 @@ export const Nav = ({ cartItemCount, setSeriesFilter, setTypeFilter, setIsItemFi
     const [series, setSeries] = useState([])
     const [showCymbalsNavDropdown, setShowCymbalsNavDropdown] = useState(false)
     const [showProfileNavDropdown, setShowProfileNavDropdown] = useState(false)
-    const [topDropdownHover, setTopDropdownHover] = useState("bg-black")
+    const [topDropdownHover, setTopDropdownHover] = useState("bg-bg-quaternary-color")
     const [signOutHover, setSignOutHover] = useState("")
 
     const getCymbalNavOptions = async () => {
