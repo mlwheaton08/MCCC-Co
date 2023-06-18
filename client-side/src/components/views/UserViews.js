@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { Account } from "../account/Account";
 import { Cart } from "../cart/Cart";
 import { OrderHistory } from "../orderHistory/OrderHistory";
+import { Checkout } from "../cart/Checkout";
 
 export const UserViews = ({ getNavCartItemTotal, setIsItemFilterActive }) => {
     return (
@@ -10,6 +11,12 @@ export const UserViews = ({ getNavCartItemTotal, setIsItemFilterActive }) => {
             <Route path="/account" element={ <Account /> } />
             <Route path="/cart"
                 element={ <Cart
+                    getNavCartItemTotal={getNavCartItemTotal}
+                    setIsItemFilterActive={setIsItemFilterActive}
+                /> }
+            />
+            <Route path="/checkout"
+                element={ <Checkout
                     getNavCartItemTotal={getNavCartItemTotal}
                     setIsItemFilterActive={setIsItemFilterActive}
                 /> }

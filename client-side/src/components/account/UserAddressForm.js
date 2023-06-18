@@ -1,20 +1,24 @@
-export const UserAddressForm = ({ addressState, setAddressState, handleDiscard, handleSave }) => {
+export const UserAddressForm = ({ addressState, setAddressState, handleDiscard, handleSave, currentRoute, showDiscardButton }) => {
 
     return (
         <form className="flex flex-col gap-2">
-            <fieldset className="flex flex-col">
-                <label htmlFor="nickName">Nickname</label>
-                <input
-                    id="nickName"
-                    value={addressState.nickName}
-                    className="px-2 py-1 border border-bg-tint-color-3 bg-bg-tint-color focus:outline-none"
-                    onChange={(evt) => {
-                        const copy = {...addressState}
-                        copy.nickName = evt.target.value
-                        setAddressState(copy)
-                    }}
-                />
-            </fieldset>
+            {
+                currentRoute === "checkout"
+                    ? ""
+                    : <fieldset className="flex flex-col">
+                        <label htmlFor="nickName">Nickname</label>
+                        <input
+                            id="nickName"
+                            value={addressState.nickName}
+                            className="px-2 py-1 border border-bg-tint-color-3 bg-bg-tint-color focus:outline-none"
+                            onChange={(evt) => {
+                                const copy = {...addressState}
+                                copy.nickName = evt.target.value
+                                setAddressState(copy)
+                            }}
+                        />
+                    </fieldset>
+            }
             <fieldset className="flex flex-col">
                 <label htmlFor="companyName">Company</label>
                 <input
@@ -108,16 +112,23 @@ export const UserAddressForm = ({ addressState, setAddressState, handleDiscard, 
             </fieldset>
 
             <section className="mt-3 flex justify-end gap-2">
+                {
+                    !showDiscardButton
+                        ? ""
+                        : <button
+                            type="button"
+                            className="px-3 py-1 border border-accent-secondary-color text-accent-secondary-color font-normal"
+                            onClick={handleDiscard}
+                        >
+                            Discard
+                        </button>
+                }
                 <button
-                    type="button"
                     className="px-3 py-1 border border-accent-secondary-color text-accent-secondary-color font-normal"
-                    onClick={handleDiscard}
-                >
-                    Discard
-                </button>
-                <button
-                    className="px-3 py-1 border border-accent-secondary-color text-accent-secondary-color font-normal"
-                    onClick={handleSave}
+                    onClick={(e) => {
+                        e.preventDefault()
+                        handleSave()
+                    }}
                 >
                     Save
                 </button>

@@ -26,7 +26,7 @@ export const Nav = ({ cartItemCount, setSeriesFilter, setTypeFilter, setIsItemFi
     const [series, setSeries] = useState([])
     const [showCymbalsNavDropdown, setShowCymbalsNavDropdown] = useState(false)
     const [showProfileNavDropdown, setShowProfileNavDropdown] = useState(false)
-    const [topDropdownHover, setTopDropdownHover] = useState("bg-black")
+    const [topDropdownHover, setTopDropdownHover] = useState("bg-bg-quaternary-color")
     const [signOutHover, setSignOutHover] = useState("")
 
     const getCymbalNavOptions = async () => {
@@ -203,7 +203,7 @@ export const Nav = ({ cartItemCount, setSeriesFilter, setTypeFilter, setIsItemFi
                             onMouseOut={() => setShowProfileNavDropdown(false)}
                         >
                             <Link
-                                to={`/account/${user.firebaseId}`}
+                                to="/account"
                                 className="h-full px-5 flex items-center gap-2 hover:bg-bg-tint-color-2"
                             >
                                 {

@@ -4,7 +4,7 @@ import {
   GoogleAuthProvider,
   signOut,
 } from "firebase/auth";
-import { addOrder, addUser, fetchOrders, fetchUserByFirebaseId } from "../../APIManager";
+import { addOrder, addUser, fetchOrders, fetchUserByFirebaseId, fetchUserByFirebaseIdWithAddresses } from "../../APIManager";
 
 
 export const googleAuth = {
@@ -15,7 +15,7 @@ export const googleAuth = {
       const auth = getAuth();
       signInWithPopup(auth, provider)
         .then(async (userCredential) => {
-          let dbUser = await fetchUserByFirebaseId(userCredential.user.uid)
+          let dbUser = await fetchUserByFirebaseIdWithAddresses(userCredential.user.uid)
           // if user not in DB, add them
           if (dbUser.title === "Not Found") {
             dbUser = {
@@ -32,17 +32,33 @@ export const googleAuth = {
           // check for user open order. if none, create one
           const userOpenOrder = await fetchOrders(userCredential.user.uid, false)
           if (!userOpenOrder[0]) {
-              const newOpenOrder = {
-                  userId: dbUser.id,
-                  shippingAddressId: null,
-                  dateCreated: new Date(),
-                  dateCompleted: null,
-                  rewardsUsed: null,
-                  totalValue: null,
-                  totalPaid: null,
-                  confirmationNumber: null
-              }
-              await addOrder(newOpenOrder)
+            let newOpenOrder = {
+              userId: dbUser.id,
+              dateCreated: new Date(),
+              dateCompleted: null,
+              rewardsUsed: null,
+              totalValue: null,
+              totalPaid: null,
+              confirmationNumber: null,
+              shipCompanyName: null,
+              shipLineOne: null,
+              shipLineTwo: null,
+              shipCity: null,
+              shipState: null,
+              shipZIPCode: null,
+              shipCountry: null
+            }
+            const defaultAddress = dbUser.addresses.find((a) => a.isDefault)
+            if (defaultAddress) {
+              newOpenOrder.shipCompanyName = defaultAddress.companyName
+              newOpenOrder.shipLineOne = defaultAddress.lineOne
+              newOpenOrder.shipLineTwo = defaultAddress.lineTwo
+              newOpenOrder.shipCity = defaultAddress.city
+              newOpenOrder.shipState = defaultAddress.state
+              newOpenOrder.shipZIPCode = defaultAddress.zipCode
+              newOpenOrder.shipCountry = defaultAddress.country
+            }
+            await addOrder(newOpenOrder)
           }
           // add user to local storage
           const userAuth = {
