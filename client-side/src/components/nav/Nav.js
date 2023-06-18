@@ -203,7 +203,7 @@ export const Nav = ({ cartItemCount, setSeriesFilter, setTypeFilter, setIsItemFi
                             onMouseOut={() => setShowProfileNavDropdown(false)}
                         >
                             <Link
-                                to={`/account/${user.firebaseId}`}
+                                to="/account"
                                 className="h-full px-5 flex items-center gap-2 hover:bg-bg-tint-color-2"
                             >
                                 {
