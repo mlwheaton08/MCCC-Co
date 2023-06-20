@@ -10,7 +10,7 @@ import { addOrder, addUser, fetchOrders, fetchUserByFirebaseIdWithAddresses } fr
 
 export const emailAuth = {
   // Register
-  register: function(userObj, getNavCartItemTotal, navigate) {
+  register: function(userObj, getNavCartItemTotal, setNavUserName, navigate) {
     const auth = getAuth()
     createUserWithEmailAndPassword(auth, userObj.email, userObj.password)
       .then(async (userCredential) => {
@@ -60,7 +60,7 @@ export const emailAuth = {
               }
               await addOrder(newOpenOrder)
             }
-            // add to local storage
+            // add to local storage and set nav username
             const userAuth = {
               id: dbUser.id,
               firebaseId: userCredential.user.uid,
@@ -71,6 +71,7 @@ export const emailAuth = {
             }
             localStorage.setItem("user", JSON.stringify(userAuth))
             await getNavCartItemTotal(userCredential.user.uid)
+            setNavUserName(userAuth.name)
             navigate(sessionStorage.getItem("prevLocation"))
           },
           function(error) {
@@ -89,7 +90,7 @@ export const emailAuth = {
       })
   },
   // Sign in
-  signIn: function(userObj, getNavCartItemTotal, navigate) {
+  signIn: function(userObj, getNavCartItemTotal, setNavUserName, navigate) {
     return new Promise((res) => {
       const auth = getAuth()
       signInWithEmailAndPassword(auth, userObj.email, userObj.password)
@@ -136,6 +137,7 @@ export const emailAuth = {
           }
           localStorage.setItem("user", JSON.stringify(userAuth))
           await getNavCartItemTotal(userCredential.user.uid)
+          setNavUserName(userAuth.name)
           navigate(sessionStorage.getItem("prevLocation"))
         })
         .catch((error) => {
@@ -153,7 +155,6 @@ export const emailAuth = {
       .then(() => {
         localStorage.removeItem("user")
         setUserState(null)
-        window.alert("Sign out successful")
         navigate("/")
       })
       .catch((error) => {

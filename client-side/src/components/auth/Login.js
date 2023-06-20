@@ -5,7 +5,7 @@ import { emailAuth } from "../helpers/emailAuth";
 import { googleAuth } from "../helpers/googleAuth";
 import { emailIcon, googleIcon, passwordIcon } from "../../icons";
 
-export const Login = ({ getNavCartItemTotal }) => {
+export const Login = ({ getNavCartItemTotal, setNavUserName }) => {
   const [login, setLogin] = useState({
     email: "",
     password: "",
@@ -21,12 +21,12 @@ export const Login = ({ getNavCartItemTotal }) => {
   // Login With Email & Password
   const onSubmitLoginEmail = async (e) => {
     e.preventDefault()
-    emailAuth.signIn(login, getNavCartItemTotal, navigate)
+    emailAuth.signIn(login, getNavCartItemTotal, setNavUserName, navigate)
   }
 
   // Login with Google
   const onSubmitLoginGoogle = async () => {
-    googleAuth.signInRegister(getNavCartItemTotal, navigate)
+    googleAuth.signInRegister(getNavCartItemTotal, setNavUserName, navigate)
   }
 
   return (

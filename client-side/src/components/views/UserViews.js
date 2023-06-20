@@ -4,11 +4,11 @@ import { Cart } from "../cart/Cart";
 import { OrderHistory } from "../orderHistory/OrderHistory";
 import { Checkout } from "../cart/Checkout";
 
-export const UserViews = ({ getNavCartItemTotal, setIsItemFilterActive }) => {
+export const UserViews = ({ getNavCartItemTotal, getNavUserName, setIsItemFilterActive }) => {
     return (
         <Routes>
 
-            <Route path="/account" element={ <Account /> } />
+            <Route path="/account" element={ <Account getNavUserName={getNavUserName} /> } />
             <Route path="/cart"
                 element={ <Cart
                     getNavCartItemTotal={getNavCartItemTotal}

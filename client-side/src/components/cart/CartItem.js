@@ -2,8 +2,10 @@ import { useNavigate } from "react-router-dom"
 import { exitIcon } from "../../icons"
 import { useState } from "react"
 import { deleteOrderItem, updateOrderItem } from "../../APIManager"
+import { alertTopYellow } from "../alerts/AlertTop"
 
-export const CartItem = ({ orderItem, getOrder, getNavCartItemTotal, localUser, isLastItem }) => {
+export const CartItem = ({ orderItem, getOrder, getNavCartItemTotal, localUser, isLastItem, setAlert }) => {
+
     const navigate = useNavigate()
 
     const [orderItemState, setOrderItemState] = useState({
@@ -17,6 +19,29 @@ export const CartItem = ({ orderItem, getOrder, getNavCartItemTotal, localUser, 
         if (!isLastItem) {
             return <span className="w-11/12 h-px mx-auto bg-bg-tint-color-2"></span>
         }
+    }
+
+    const hideAlert = () => {
+        setAlert("")
+    }
+
+    const handleOrderItemQuantityUpdate = async (newQuantity) => {
+        const copy = {...orderItemState}
+        copy.itemQuantity = newQuantity
+        setOrderItemState(copy)
+        await updateOrderItem(orderItem.id, copy)
+        await getOrder()
+        await getNavCartItemTotal(localUser.firebaseId)
+        setAlert(alertTopYellow("Cart item updated."))
+        setTimeout(hideAlert, 1000)
+    }
+
+    const handleOrderItemDelete = async () => {
+        await deleteOrderItem(orderItem.id)
+        await getOrder()
+        await getNavCartItemTotal(localUser.firebaseId)
+        setAlert(alertTopYellow("Cart item deleted."))
+        setTimeout(hideAlert, 2000)
     }
 
 
@@ -42,14 +67,7 @@ export const CartItem = ({ orderItem, getOrder, getNavCartItemTotal, localUser, 
                         name="quantity"
                         value={orderItem.itemQuantity}
                         className="bg-bg-secondary-color"
-                        onChange={async (evt) => {
-                            const copy = {...orderItemState}
-                            copy.itemQuantity = evt.target.value
-                            setOrderItemState(copy)
-                            await updateOrderItem(orderItem.id, copy)
-                            await getOrder()
-                            await getNavCartItemTotal(localUser.firebaseId)
-                        }}
+                        onChange={(evt) => handleOrderItemQuantityUpdate(evt.target.value)}
                     >
                         <option value={1}>1</option>
                         <option value={2}>2</option>
@@ -68,11 +86,7 @@ export const CartItem = ({ orderItem, getOrder, getNavCartItemTotal, localUser, 
             {/* Details right */}
             <div className="mr-6 my-4 flex flex-col justify-between items-end">
                 <button
-                    onClick={async () => {
-                        await deleteOrderItem(orderItem.id)
-                        await getOrder()
-                        await getNavCartItemTotal(localUser.firebaseId)
-                    }}
+                    onClick={handleOrderItemDelete}
                 >
                     {exitIcon()}
                 </button>
