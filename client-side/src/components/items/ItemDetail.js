@@ -43,21 +43,37 @@ export const ItemDetail = ({ getNavCartItemTotal }) => {
         itemQuantity: 1
     })
 
+    const [addToCartDisabled, setAddToCartDisabled] = useState(false)
+
     const getItem = async () => {
         const fetchedItem = await fetchItem(id)
         setItem(fetchedItem)
         setItemApplications(fetchedItem.applications)
     }
 
+    const getCymbalBrightness = () => {
+        return item.series.brightnessLevel
+    }
+
     useEffect(() => {
         getItem()
     },[])
+
+    useEffect(() => {
+        if (item) {
+            getCymbalBrightness()
+        }
+    },[item])
 
     const toLogin = () => {
         if (location.pathname !== "/register" && location.pathname !== "/login") {
             sessionStorage.setItem("prevLocation", location.pathname)
         }
         navigate("/login")
+    }
+
+    const enableAddToCart = () => {
+        setAddToCartDisabled(false)
     }
 
     const handleAddToCart = async () => {
@@ -68,7 +84,8 @@ export const ItemDetail = ({ getNavCartItemTotal }) => {
             itemQuantity: orderItem.itemQuantity
         }
         await addOrderItem(orderItemToAdd)
-        window.alert("item added to cart")
+        setAddToCartDisabled(true)
+        setTimeout(enableAddToCart, 2000)
         await getNavCartItemTotal(localUser.firebaseId)
     }
 
@@ -105,7 +122,7 @@ export const ItemDetail = ({ getNavCartItemTotal }) => {
                             <div className="w-3/5">
                                 <h4 className="text-2xl">Brightness</h4>
                                 <div>
-                                    {caretDownIcon(`relative left-${item.series.brightnessLevel}/4 h-6 fill-accent-primary-color`)}
+                                    {caretDownIcon(`relative left-${getCymbalBrightness()}/4 h-6 fill-accent-primary-color`)}
                                 </div>
                                 <div className="w-full h-4 px-2 flex justify-between rounded-full bg-yellow-300 bg-gradient-to-r from-amber-900"></div>
                             </div>
@@ -163,12 +180,18 @@ export const ItemDetail = ({ getNavCartItemTotal }) => {
                                         <option value={10}>10</option>
                                     </select>
                                 </div>
-                                <button
-                                    className="px-4 py-1 bg-accent-primary-color-dark text-2xl text-text-secondary-color transition-all duration-300 hover:bg-accent-primary-color hover:text-text-primary-color"
-                                    onClick={handleAddToCart}
-                                >
-                                    Add to cart
-                                </button>
+                                {
+                                    addToCartDisabled
+                                        ? <span className="px-4 py-1 text-2xl text-accent-primary-color-light">
+                                            Item added to cart!
+                                        </span>
+                                        : <button
+                                            className="px-4 py-1 bg-accent-primary-color-dark text-2xl text-text-secondary-color transition-all duration-300 hover:bg-accent-primary-color hover:text-text-primary-color"
+                                            onClick={handleAddToCart}
+                                        >
+                                            Add to cart
+                                        </button>
+                                }
                             </div>
                     }
                 </section>

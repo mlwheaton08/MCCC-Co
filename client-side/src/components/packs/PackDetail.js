@@ -20,6 +20,8 @@ export const PackDetail = ({ getNavCartItemTotal }) => {
     // const [packValue, setPackValue] = useState(0)
     // const [packPrice, setPackPrice] = useState(0)
 
+    const [addToCartDisabled, setAddToCartDisabled] = useState(false)
+
     const getPack = async () => {
         const response = await fetchPack(id)
         setPack(response)
@@ -49,6 +51,10 @@ export const PackDetail = ({ getNavCartItemTotal }) => {
         navigate("/login")
     }
 
+    const enableAddToCart = () => {
+        setAddToCartDisabled(false)
+    }
+
     const handleAddToCart = async () => {
         const userOpenOrder = await fetchOrders(localUser.firebaseId, false)
         for await (const packItem of packItems) {
@@ -60,7 +66,8 @@ export const PackDetail = ({ getNavCartItemTotal }) => {
             await addOrderItem(orderItemToAdd)
         }
 
-        window.alert("pack items added to cart")
+        setAddToCartDisabled(true)
+        setTimeout(enableAddToCart, 2000)
         await getNavCartItemTotal(localUser.firebaseId)
     }
 
@@ -90,12 +97,16 @@ export const PackDetail = ({ getNavCartItemTotal }) => {
                     >
                         Sign in to add to cart!
                     </button>
-                    : <button
-                        className="mt-24 px-4 py-1 bg-accent-primary-color-dark text-2xl text-text-secondary-color transition-all duration-300 hover:bg-accent-primary-color hover:text-text-primary-color"
-                        onClick={handleAddToCart}
-                    >
-                        Add to cart
-                    </button>
+                    : addToCartDisabled
+                        ? <span className="mt-24 px-4 py-1 text-2xl text-accent-primary-color-light">
+                            Pack added to cart!
+                        </span>
+                        : <button
+                            className="mt-24 px-4 py-1 bg-accent-primary-color-dark text-2xl text-text-secondary-color transition-all duration-300 hover:bg-accent-primary-color hover:text-text-primary-color"
+                            onClick={handleAddToCart}
+                        >
+                            Add to cart
+                        </button>
                 }
             </section>
             {/* Item Cards */}

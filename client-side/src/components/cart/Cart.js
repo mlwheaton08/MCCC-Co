@@ -12,6 +12,7 @@ export const Cart = ({ getNavCartItemTotal, setIsItemFilterActive }) => {
 
     const [order, setOrder] = useState()
     const [orderItems, setOrderItems] = useState([])
+    const [alert, setAlert] = useState("")
 
     const getOrder = async () => {
         const response = await fetchOrders(localUser.firebaseId, false)
@@ -49,6 +50,9 @@ export const Cart = ({ getNavCartItemTotal, setIsItemFilterActive }) => {
 
     return (
         <main className="my-nav-height-plus">
+
+            {alert}
+            
             {
                 !orderItems || orderItems.length === 0
                 ? <div className="flex flex-col items-center text-text-primary-color">
@@ -78,6 +82,7 @@ export const Cart = ({ getNavCartItemTotal, setIsItemFilterActive }) => {
                                         getNavCartItemTotal={getNavCartItemTotal}
                                         localUser={localUser}
                                         isLastItem={index === (orderItems.length - 1)}
+                                        setAlert={setAlert}
                                     />
                                 )
                             })

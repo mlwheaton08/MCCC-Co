@@ -1,4 +1,4 @@
-export const UserAddressForm = ({ addressState, setAddressState, handleDiscard, handleSave, currentRoute, showDiscardButton }) => {
+export const UserAddressForm = ({ addressState, setAddressState, handleDiscard, handleSave, currentRoute, showDiscardButton, highlightRequiredFields }) => {
 
     return (
         <form className="flex flex-col gap-2">
@@ -38,7 +38,8 @@ export const UserAddressForm = ({ addressState, setAddressState, handleDiscard, 
                     autoFocus
                     id="lineOne"
                     value={addressState.lineOne}
-                    className="px-2 py-1 border border-accent-secondary-color-dark bg-bg-tint-color focus:outline-none"
+                    className={`px-2 py-1 bg-bg-tint-color focus:outline-none
+                        border ${highlightRequiredFields ? "border-accent-primary-color-dark" : "border-bg-tint-color-3"}`}
                     onChange={(evt) => {
                         const copy = {...addressState}
                         copy.lineOne = evt.target.value
@@ -64,7 +65,8 @@ export const UserAddressForm = ({ addressState, setAddressState, handleDiscard, 
                 <input
                     id="city"
                     value={addressState.city}
-                    className="px-2 py-1 border border-accent-secondary-color-dark bg-bg-tint-color focus:outline-none"
+                    className={`px-2 py-1 bg-bg-tint-color focus:outline-none
+                        border ${highlightRequiredFields ? "border-accent-primary-color-dark" : "border-bg-tint-color-3"}`}
                     onChange={(evt) => {
                         const copy = {...addressState}
                         copy.city = evt.target.value
@@ -77,7 +79,8 @@ export const UserAddressForm = ({ addressState, setAddressState, handleDiscard, 
                 <input
                     id="state"
                     value={addressState.state}
-                    className="px-2 py-1 border border-accent-secondary-color-dark bg-bg-tint-color focus:outline-none"
+                    className={`px-2 py-1 bg-bg-tint-color focus:outline-none
+                        border ${highlightRequiredFields ? "border-accent-primary-color-dark" : "border-bg-tint-color-3"}`}
                     onChange={(evt) => {
                         const copy = {...addressState}
                         copy.state = evt.target.value
@@ -90,7 +93,8 @@ export const UserAddressForm = ({ addressState, setAddressState, handleDiscard, 
                 <input
                     id="zipCode"
                     value={addressState.zipCode}
-                    className="px-2 py-1 border border-accent-secondary-color-dark bg-bg-tint-color focus:outline-none"
+                    className={`px-2 py-1 bg-bg-tint-color focus:outline-none
+                        border ${highlightRequiredFields ? "border-accent-primary-color-dark" : "border-bg-tint-color-3"}`}
                     onChange={(evt) => {
                         const copy = {...addressState}
                         copy.zipCode = evt.target.value
@@ -103,7 +107,8 @@ export const UserAddressForm = ({ addressState, setAddressState, handleDiscard, 
                 <input
                     id="country"
                     value={addressState.country}
-                    className="px-2 py-1 border border-accent-secondary-color-dark bg-bg-tint-color focus:outline-none"
+                    className={`px-2 py-1 bg-bg-tint-color focus:outline-none
+                        border ${highlightRequiredFields ? "border-accent-primary-color-dark" : "border-bg-tint-color-3"}`}
                     onChange={(evt) => {
                         const copy = {...addressState}
                         copy.country = evt.target.value

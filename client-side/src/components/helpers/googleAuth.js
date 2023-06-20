@@ -9,7 +9,7 @@ import { addOrder, addUser, fetchOrders, fetchUserByFirebaseId, fetchUserByFireb
 
 export const googleAuth = {
   // Sign in/Register
-  signInRegister: function(getNavCartItemTotal, navigate) {
+  signInRegister: function(getNavCartItemTotal, setNavUserName, navigate) {
     return new Promise((res) => {
       const provider = new GoogleAuthProvider();
       const auth = getAuth();
@@ -71,6 +71,7 @@ export const googleAuth = {
           }
           localStorage.setItem("user", JSON.stringify(userAuth))
           await getNavCartItemTotal(userCredential.user.uid)
+          setNavUserName(userAuth.name)
           navigate(sessionStorage.getItem("prevLocation"))
         })
         .catch((error) => {
@@ -89,7 +90,6 @@ export const googleAuth = {
       .then(() => {
         localStorage.removeItem("user")
         setUserState(null)
-        window.alert("Sign out successful")
         navigate("/")
       })
       .catch((error) => {

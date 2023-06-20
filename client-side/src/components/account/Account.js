@@ -2,8 +2,9 @@ import { useEffect, useState } from "react"
 import { addUserShippingAddress, deleteUserShippingAddress, fetchUserByFirebaseIdWithAddresses, updateUser, updateUserShippingAddress } from "../../APIManager"
 import { editIcon, plusSignIcon, trashCanIcon } from "../../icons"
 import { UserAddressForm } from "./UserAddressForm"
+import { alertTopYellow, alertTopRed } from "../alerts/AlertTop"
 
-export const Account = () => {
+export const Account = ({ getNavUserName }) => {
 
     const localStorageUser = localStorage.getItem("user")
     const localUser = JSON.parse(localStorageUser)
@@ -13,6 +14,7 @@ export const Account = () => {
 
     const [userNameEdit, setUserNameEdit] = useState(false)
     const [userNameState, setUserNameState] = useState("")
+    const [userNameInputError, setUserNameInputError] = useState(false)
 
     const [shippingAddressEdit, setShippingAddressEdit] = useState(null)
     const [shippingAddressState, setShippingAddressState] = useState({
@@ -28,6 +30,9 @@ export const Account = () => {
         isDefault: false
     })
 
+    const [addressFormError, setAddressFormError] = useState(false)
+    const [alert, setAlert] = useState("")
+
     const getUser = async () => {
         const response = await fetchUserByFirebaseIdWithAddresses(localUser.firebaseId)
         setUser(response)
@@ -35,12 +40,42 @@ export const Account = () => {
         setUserNameState(response.name)
     }
 
+    const hideAlert = () => {
+        setAlert("")
+    }
+
     useEffect(() => {
         getUser()
     },[])
 
+    useEffect(() => {
+        if (!userNameEdit) {
+            setUserNameInputError(false)
+        }
+    },[userNameEdit])
+
+    useEffect(() => {
+        if (userNameState.match(/^ *$/) !== null) {
+            setUserNameInputError(true)
+        } else {
+            setUserNameInputError(false)
+        }
+    },[userNameState])
+
+    useEffect(() => {
+        if (!shippingAddressEdit) {
+            setAddressFormError(false)
+        }
+    },[shippingAddressEdit])
+
     const handleUserNameEdit = async () => {
-        if (userNameState !== user.name) {
+        if (userNameState.match(/^ *$/) !== null) {
+            setUserNameInputError(true)
+            setAlert(alertTopRed("Please enter a name."))
+            setTimeout(hideAlert, 2000)
+        } else if (userNameState === user.name) {
+            setUserNameEdit(false)
+        } else {
             const newUserObj = {
                 id: user.id,
                 firebaseId: user.firebaseId,
@@ -51,9 +86,11 @@ export const Account = () => {
             }
             await updateUser(user.id, newUserObj)
             await getUser()
+            localStorage.setItem("user", JSON.stringify(newUserObj))
+            await getNavUserName()
+            setAlert(alertTopYellow("Profile name updated."))
+            setTimeout(hideAlert, 2000)
         }
-
-        setUserNameEdit(false)
     }
 
     const changeDefaultShippingAddress = async (newDefaultAddress) => {
@@ -63,9 +100,9 @@ export const Account = () => {
 
         newDefaultAddress.isDefault = true
         await updateUserShippingAddress(newDefaultAddress.id, newDefaultAddress)
-
-        // window.alert("default address changed")
         await getUser()
+        setAlert(alertTopYellow("Default shipping address changed."))
+        setTimeout(hideAlert, 2000)
     }
 
     const handleShippingAddressDelete = async (addressId, address) => {
@@ -78,6 +115,8 @@ export const Account = () => {
         }
         await deleteUserShippingAddress(addressId)
         await getUser()
+        setAlert(alertTopYellow("Shipping address deleted."))
+        setTimeout(hideAlert, 2000)
     }
 
     const openAddressForm = (addressId, addressObj) => {
@@ -91,7 +130,9 @@ export const Account = () => {
             || !shippingAddressState.state
             || !shippingAddressState.zipCode
             || !shippingAddressState.country) {
-            window.alert("Please fill out the required fields, highlighted in green.")
+            setAddressFormError(true)
+            setAlert(alertTopRed("Please fill out the required fields."))
+            setTimeout(hideAlert, 2000)
         } else {
             await updateUserShippingAddress(shippingAddressState.id, shippingAddressState)
             await getUser()
@@ -108,6 +149,8 @@ export const Account = () => {
                 country: "",
                 isDefault: false
             })
+            setAlert(alertTopYellow("Address changes saved."))
+            setTimeout(hideAlert, 2000)
         }
     }
 
@@ -133,7 +176,9 @@ export const Account = () => {
             || !shippingAddressState.state
             || !shippingAddressState.zipCode
             || !shippingAddressState.country) {
-            window.alert("Please fill out the required fields, highlighted in green.")
+            setAddressFormError(true)
+            setAlert(alertTopRed("Please fill out the required fields."))
+            setTimeout(hideAlert, 2000)
         } else {
             shippingAddressState.userId = user.id
             await addUserShippingAddress(shippingAddressState)
@@ -151,12 +196,16 @@ export const Account = () => {
                 country: "",
                 isDefault: false
             })
+            setAlert(alertTopYellow("New shipping address saved."))
+            setTimeout(hideAlert, 2000)
         }
     }
 
 
     return (
         <main className="my-nav-height-plus font-thin">
+
+                {alert}
 
                 {/* Name and Shipping */}
                 <section className="flex flex-col justify-center items-center gap-36">
@@ -171,7 +220,7 @@ export const Account = () => {
                                 <input
                                     autoFocus
                                     value={userNameState}
-                                    className=" px-2 py-1 text-2xl bg-bg-tint-color-2 focus:outline-none"
+                                    className={`px-2 py-1 text-2xl bg-bg-tint-color-2 focus:outline-none ${userNameInputError ? "border border-accent-primary-color-dark" : ""}`}
                                     onChange={(evt) => setUserNameState(evt.target.value)}
                                 />
                                 <button
@@ -198,6 +247,7 @@ export const Account = () => {
                                                 showDiscardButton={true}
                                                 handleDiscard={handleAddressDiscardChanges}
                                                 handleSave={handleAddressSaveChanges}
+                                                highlightRequiredFields={addressFormError}
                                             />
                                             : <div
                                                 key={address.id}
@@ -266,6 +316,7 @@ export const Account = () => {
                                                 handleDiscard={handleAddressDiscardChanges}
                                                 handleSave={handleAddNewAddress}
                                                 currentRoute="account"
+                                                highlightRequiredFields={addressFormError}
                                             />
                                         </div>
                                         : ""

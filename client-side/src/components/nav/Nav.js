@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 import { logout } from "../helpers/logout"
 import { fetchSeries, fetchTypes } from "../../APIManager"
 
-export const Nav = ({ cartItemCount, setSeriesFilter, setTypeFilter, setIsItemFilterActive, searchState, setSearchState }) => {
+export const Nav = ({ cartItemCount, navUserName, setSeriesFilter, setTypeFilter, setIsItemFilterActive, searchState, setSearchState }) => {
     const navigate = useNavigate()
     const localStorageUser = localStorage.getItem("user")
     const localUser = JSON.parse(localStorageUser)
@@ -209,7 +209,7 @@ export const Nav = ({ cartItemCount, setSeriesFilter, setTypeFilter, setIsItemFi
                                 {
                                     !user.name
                                         ? <span>User</span>
-                                        : <span>{user.name.split(" ")[0]}</span>
+                                        : <span>{navUserName.split(" ")[0]}</span>
                                 }
                                 <span>{chevronDownIcon(showProfileNavDropdown)}</span>
                             </Link>

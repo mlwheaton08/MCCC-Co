@@ -4,6 +4,7 @@ import { addOrder, fetchOrders, fetchUserByFirebaseIdWithAddresses, updateOrder,
 import { CheckoutItem } from "./CheckoutItem"
 import { UserAddressForm } from "../account/UserAddressForm"
 import { arrowRightIcon } from "../../icons"
+import { alertTopRed, alertTopYellow } from "../alerts/AlertTop"
 
 export const Checkout = ({ getNavCartItemTotal, setIsItemFilterActive }) => {
 
@@ -28,6 +29,8 @@ export const Checkout = ({ getNavCartItemTotal, setIsItemFilterActive }) => {
         zipCode: "",
         country: ""
     })
+    const [alert, setAlert] = useState("")
+    const [addressFormError, setAddressFormError] = useState(false)
     const [orderHasAddress, setOrderHasAddress] = useState(true)
     const [orderConfirmationNumber, setOrderConfirmationNumber] = useState("")
 
@@ -64,6 +67,16 @@ export const Checkout = ({ getNavCartItemTotal, setIsItemFilterActive }) => {
         getOrder()
     },[])
 
+    useEffect(() => {
+        if (!shippingAddressEdit) {
+            setAddressFormError(false)
+        }
+    },[shippingAddressEdit])
+
+    const hideAlert = () => {
+        setAlert("")
+    }
+
     const handleAddressDropdownChange = (addressId) => {
         if (!addressId) {
             setShippingAddressState({
@@ -77,9 +90,6 @@ export const Checkout = ({ getNavCartItemTotal, setIsItemFilterActive }) => {
             })
         } else {
             const selectedAddress = shippingAddresses.find((a) => a.id === parseInt(addressId))
-            console.log(addressId)
-            console.log(selectedAddress)
-            console.log(selectedAddress.lineOne)
             setShippingAddressState({
                 companyName: selectedAddress.companyName,
                 lineOne: selectedAddress.lineOne,
@@ -111,7 +121,9 @@ export const Checkout = ({ getNavCartItemTotal, setIsItemFilterActive }) => {
             || !shippingAddressState.state
             || !shippingAddressState.zipCode
             || !shippingAddressState.country) {
-            window.alert("Please fill out the required fields, highlighted in green.")
+            setAddressFormError(true)
+            setAlert(alertTopRed("Please fill out the required fields."))
+            setTimeout(hideAlert, 2000)
         } else {
             const orderToUpdate = order
             orderToUpdate.shipCompanyName = shippingAddressState.companyName
@@ -126,6 +138,8 @@ export const Checkout = ({ getNavCartItemTotal, setIsItemFilterActive }) => {
             setShippingAddressEdit(null)
             setOrderHasAddress(true)
             await getOrder()
+            setAlert(alertTopYellow("Address saved."))
+            setTimeout(hideAlert, 2000)
         }
     }
 
@@ -246,6 +260,9 @@ export const Checkout = ({ getNavCartItemTotal, setIsItemFilterActive }) => {
 
     return (
         <main className="my-nav-height-plus">
+
+            {alert}
+
             {
                 orderConfirmationNumber
                     ? <div className="flex flex-col items-center text-text-primary-color">
@@ -354,6 +371,7 @@ export const Checkout = ({ getNavCartItemTotal, setIsItemFilterActive }) => {
                                                 handleDiscard={handleAddressDiscardChanges}
                                                 handleSave={handleSaveAddress}
                                                 currentRoute="checkout"
+                                                highlightRequiredFields={addressFormError}
                                             />
                                         </div>
                                 }
