@@ -77,17 +77,19 @@ export const Account = ({ getNavUserName }) => {
             setUserNameEdit(false)
         } else {
             const newUserObj = {
-                id: user.id,
-                firebaseId: user.firebaseId,
-                isAdmin: user.isAdmin,
+                id: localUser.id,
+                firebaseId: localUser.firebaseId,
+                isAdmin: localUser.isAdmin,
                 name: userNameState,
-                email: user.email,
-                rewardsPoints: user.rewardsPoints
+                email: localUser.email,
+                rewardsPoints: localUser.rewardsPoints,
+                type: localUser.type
             }
             await updateUser(user.id, newUserObj)
             await getUser()
             localStorage.setItem("user", JSON.stringify(newUserObj))
             await getNavUserName()
+            setUserNameEdit(false)
             setAlert(alertTopYellow("Profile name updated."))
             setTimeout(hideAlert, 2000)
         }
@@ -95,8 +97,10 @@ export const Account = ({ getNavUserName }) => {
 
     const changeDefaultShippingAddress = async (newDefaultAddress) => {
         const oldDefaultAddress = shippingAddresses.find((a) => a.isDefault)
-        oldDefaultAddress.isDefault = false
-        await updateUserShippingAddress(oldDefaultAddress.id, oldDefaultAddress)
+        if (oldDefaultAddress) {
+            oldDefaultAddress.isDefault = false
+            await updateUserShippingAddress(oldDefaultAddress.id, oldDefaultAddress)
+        }
 
         newDefaultAddress.isDefault = true
         await updateUserShippingAddress(newDefaultAddress.id, newDefaultAddress)
@@ -181,6 +185,10 @@ export const Account = ({ getNavUserName }) => {
             setTimeout(hideAlert, 2000)
         } else {
             shippingAddressState.userId = user.id
+            // make default if there are no other addresses
+            if (shippingAddresses.length === 0) {
+                shippingAddressState.isDefault = true
+            }
             await addUserShippingAddress(shippingAddressState)
             await getUser()
             setShippingAddressEdit(null)

@@ -3,7 +3,7 @@ import { addOrderItem, fetchOrders, fetchPack } from "../../APIManager"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { ItemCard } from "../items/ItemCard"
 
-export const PackDetail = ({ getNavCartItemTotal }) => {
+export const PackDetail = ({ getNavCartItemTotal, setSeriesFilter, setTypeFilter, setIsFilterActive }) => {
 
     window.scrollTo(0, 0);
 
@@ -120,6 +120,9 @@ export const PackDetail = ({ getNavCartItemTotal }) => {
                                     key={item.id}
                                     item={item.item}
                                     showPrice={false}
+                                    setSeriesFilter={setSeriesFilter}
+                                    setTypeFilter={setTypeFilter}
+                                    setIsFilterActive={setIsFilterActive}
                                 />
                             )
                         })

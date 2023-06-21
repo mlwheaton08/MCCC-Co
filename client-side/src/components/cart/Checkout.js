@@ -6,7 +6,7 @@ import { UserAddressForm } from "../account/UserAddressForm"
 import { arrowRightIcon } from "../../icons"
 import { alertTopRed, alertTopYellow } from "../alerts/AlertTop"
 
-export const Checkout = ({ getNavCartItemTotal, setIsItemFilterActive }) => {
+export const Checkout = ({ getNavCartItemTotal, setSearchState, setSeriesFilter, setTypeFilter, setIsItemFilterActive }) => {
 
     const localStorageUser = localStorage.getItem("user")
     const localUser = JSON.parse(localStorageUser)
@@ -44,20 +44,54 @@ export const Checkout = ({ getNavCartItemTotal, setIsItemFilterActive }) => {
     const getOrder = async () => {
         const response = await fetchOrders(localUser.firebaseId, false)
         if (response.length > 0) {
-            setOrder(response[0])
-            setOrderItems(response[0].orderItems)
-            if (!response[0].shipLineOne) {
+            const openOrder = response[0]
+            // set address if there is one (default preferred)
+            const defaultAddress = shippingAddresses.find((a) => a.isDefault)
+            if (defaultAddress) {
+                openOrder.shipCompanyName = defaultAddress.companyName
+                openOrder.shipLineOne = defaultAddress.lineOne
+                openOrder.shipLineTwo = defaultAddress.lineTwo
+                openOrder.shipCity = defaultAddress.city
+                openOrder.shipState = defaultAddress.state
+                openOrder.shipZIPCode = defaultAddress.zipCode
+                openOrder.shipCountry = defaultAddress.country
+            } else if (shippingAddresses.length > 0) {
+                openOrder.shipCompanyName = shippingAddresses[0].companyName
+                openOrder.shipLineOne = shippingAddresses[0].lineOne
+                openOrder.shipLineTwo = shippingAddresses[0].lineTwo
+                openOrder.shipCity = shippingAddresses[0].city
+                openOrder.shipState = shippingAddresses[0].state
+                openOrder.shipZIPCode = shippingAddresses[0].zipCode
+                openOrder.shipCountry = shippingAddresses[0].country
+            } else {
+                openOrder.shipCompanyName = null
+                openOrder.shipLineOne = null
+                openOrder.shipLineTwo = null
+                openOrder.shipCity = null
+                openOrder.shipState = null
+                openOrder.shipZIPCode = null
+                openOrder.shipCountry = null
+            }
+            await updateOrder(openOrder.id, openOrder)
+            const response2 = await fetchOrders(localUser.firebaseId, false)
+            const updatedAddressOpenOrder = response2[0]
+
+            setOrder(updatedAddressOpenOrder)
+            setOrderItems(updatedAddressOpenOrder.orderItems)
+            if (!updatedAddressOpenOrder.shipLineOne) {
                 setOrderHasAddress(false)
                 setShippingAddressEdit(true)
             } else {
+                setOrderHasAddress(true)
+                setShippingAddressEdit(false)
                 setShippingAddressState({
-                    companyName: response[0].shipCompanyName,
-                    lineOne: response[0].shipLineOne,
-                    lineTwo: response[0].shipLineTwo,
-                    city: response[0].shipCity,
-                    state: response[0].shipState,
-                    zipCode: response[0].shipZIPCode,
-                    country: response[0].shipCountry
+                    companyName: updatedAddressOpenOrder.shipCompanyName,
+                    lineOne: updatedAddressOpenOrder.shipLineOne,
+                    lineTwo: updatedAddressOpenOrder.shipLineTwo,
+                    city: updatedAddressOpenOrder.shipCity,
+                    state: updatedAddressOpenOrder.shipState,
+                    zipCode: updatedAddressOpenOrder.shipZIPCode,
+                    country: updatedAddressOpenOrder.shipCountry
                 })
             }
         }
@@ -65,8 +99,11 @@ export const Checkout = ({ getNavCartItemTotal, setIsItemFilterActive }) => {
 
     useEffect(() => {
         getUser()
-        getOrder()
     },[])
+
+    useEffect(() => {
+        getOrder()
+    },[shippingAddresses])
 
     useEffect(() => {
         if (!shippingAddressEdit) {
@@ -283,6 +320,10 @@ export const Checkout = ({ getNavCartItemTotal, setIsItemFilterActive }) => {
                         <button
                             className="mt-10 flex items-center gap-2 px-3 py-1 bg-accent-primary-color-dark text-2xl font-thin rounded transition-property:gap duration-300 hover:gap-3"
                             onClick={() => {
+                                document.getElementById("search").value = ""
+                                setSearchState("")
+                                setSeriesFilter("")
+                                setTypeFilter("")
                                 setIsItemFilterActive(false)
                                 navigate("/cymbals")
                             }}

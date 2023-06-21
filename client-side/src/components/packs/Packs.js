@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { fetchPacks } from "../../APIManager"
 import { PackCard } from "./PackCard"
 
-export const Packs = () => {
+export const Packs = ({ setSeriesFilter, setTypeFilter, setIsFilterActive }) => {
 
     const [packs, setPacks] = useState([])
 

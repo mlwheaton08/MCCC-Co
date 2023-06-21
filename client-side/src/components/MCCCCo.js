@@ -66,7 +66,14 @@ export const MCCCCo = () => {
             	<Route path="/register" element={ <Register getNavCartItemTotal={getNavCartItemTotal} setNavUserName={setNavUserName} /> } />
             	<Route path="/distributors" element={ <Distributors /> } />
 				<Route path="/packs" element={ <Packs /> } />
-				<Route path="/pack/:id" element={ <PackDetail getNavCartItemTotal={getNavCartItemTotal} /> } />
+				<Route path="/pack/:id"
+					element={ <PackDetail
+						getNavCartItemTotal={getNavCartItemTotal}
+						setSeriesFilter={setSeriesFilter}
+						setTypeFilter={setTypeFilter}
+						setIsFilterActive={setIsItemFilterActive}
+					/> }
+				/>
 				<Route path="/cymbal/:id" element={ <ItemDetail getNavCartItemTotal={getNavCartItemTotal} /> } />
 
             	<Route path="/cymbals"
@@ -103,6 +110,9 @@ export const MCCCCo = () => {
 							<UserViews
 								getNavCartItemTotal={getNavCartItemTotal}
 								getNavUserName={getNavUserName}
+								setSearchState={setSearchState}
+								setSeriesFilter={setSeriesFilter}
+								setTypeFilter={setTypeFilter}
 								setIsItemFilterActive={setIsItemFilterActive}
 							/>
 						</>

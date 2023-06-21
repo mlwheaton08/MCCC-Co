@@ -4,7 +4,7 @@ import { Cart } from "../cart/Cart";
 import { OrderHistory } from "../orderHistory/OrderHistory";
 import { Checkout } from "../cart/Checkout";
 
-export const UserViews = ({ getNavCartItemTotal, getNavUserName, setIsItemFilterActive }) => {
+export const UserViews = ({ getNavCartItemTotal, getNavUserName, setSearchState, setSeriesFilter, setTypeFilter, setIsItemFilterActive }) => {
     return (
         <Routes>
 
@@ -18,6 +18,9 @@ export const UserViews = ({ getNavCartItemTotal, getNavUserName, setIsItemFilter
             <Route path="/checkout"
                 element={ <Checkout
                     getNavCartItemTotal={getNavCartItemTotal}
+                    setSearchState={setSearchState}
+                    setSeriesFilter={setSeriesFilter}
+                    setTypeFilter={setTypeFilter}
                     setIsItemFilterActive={setIsItemFilterActive}
                 /> }
             />

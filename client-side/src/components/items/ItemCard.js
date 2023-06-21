@@ -1,13 +1,18 @@
 import { useNavigate } from "react-router-dom"
 
-export const ItemCard = ({ item, showPrice }) => {
+export const ItemCard = ({ item, showPrice, setSeriesFilter, setTypeFilter, setIsFilterActive }) => {
     const navigate = useNavigate()
 
 
     return (
         <div
             className="w-96 flex flex-col justify-between items-center rounded text-xl hover:bg-bg-tint-color-2 hover:cursor-pointer"
-            onClick={() => navigate(`/cymbal/${item.id}`)}
+            onClick={() => {
+                navigate(`/cymbal/${item.id}`)
+                setSeriesFilter("")
+                setTypeFilter("")
+                setIsFilterActive(false)
+            }}
         >
             {/* Image */}
             <img

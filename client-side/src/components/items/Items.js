@@ -179,6 +179,9 @@ export const Items = ({ setSeriesFilter, seriesFilter, setTypeFilter, typeFilter
                                 key={item.id}
                                 item={item}
                                 showPrice={true}
+                                setSeriesFilter={setSeriesFilter}
+                                setTypeFilter={setTypeFilter}
+                                setIsFilterActive={setIsFilterActive}
                             />
                         })
                 }
