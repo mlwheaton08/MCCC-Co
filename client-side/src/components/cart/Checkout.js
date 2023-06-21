@@ -33,6 +33,7 @@ export const Checkout = ({ getNavCartItemTotal, setIsItemFilterActive }) => {
     const [addressFormError, setAddressFormError] = useState(false)
     const [orderHasAddress, setOrderHasAddress] = useState(true)
     const [orderConfirmationNumber, setOrderConfirmationNumber] = useState("")
+    const [rewardsEarned, setRewardsEarned] = useState(0)
 
     const getUser = async () => {
         const response = await fetchUserByFirebaseIdWithAddresses(localUser.firebaseId)
@@ -209,13 +210,16 @@ export const Checkout = ({ getNavCartItemTotal, setIsItemFilterActive }) => {
         await updateOrder(order.id, currentOrder)
 
         // update user rewards points
+        const earnedRewards = Math.round((cartPrice * 0.05))
+        setRewardsEarned(earnedRewards)
+
         const newUserObj = {
             id: user.id,
             firebaseId: user.firebaseId,
             isAdmin: user.isAdmin,
             name: user.name,
             email: user.email,
-            rewardsPoints: user.rewardsPoints - rewardsUsed
+            rewardsPoints: user.rewardsPoints - rewardsUsed + earnedRewards
         }
         await updateUser(user.id, newUserObj)
         
@@ -267,9 +271,17 @@ export const Checkout = ({ getNavCartItemTotal, setIsItemFilterActive }) => {
                 orderConfirmationNumber
                     ? <div className="flex flex-col items-center text-text-primary-color">
                         <h3 className="mb-3 font-light text-4xl">Your order has been placed!</h3>
-                        <p className="mb-10 font-light text-2xl">Confirmation number: {orderConfirmationNumber}</p>
+                        <p className="font-light text-2xl">Confirmation number: {orderConfirmationNumber}</p>
+                        {
+                            !rewardsEarned
+                                ? ""
+                                : <p className="mt-4 text-4xl text-accent-secondary-color-light">
+                                    <span className="font-semibold">+{rewardsEarned} </span>
+                                    <span className="font-thin">Rewards</span>
+                                </p>
+                        }
                         <button
-                            className="flex items-center gap-2 px-3 py-1 bg-accent-primary-color-dark text-2xl font-thin rounded transition-property:gap duration-300 hover:gap-3"
+                            className="mt-10 flex items-center gap-2 px-3 py-1 bg-accent-primary-color-dark text-2xl font-thin rounded transition-property:gap duration-300 hover:gap-3"
                             onClick={() => {
                                 setIsItemFilterActive(false)
                                 navigate("/cymbals")
