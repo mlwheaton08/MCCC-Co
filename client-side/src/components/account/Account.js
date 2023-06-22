@@ -86,7 +86,7 @@ export const Account = ({ getNavUserName }) => {
                 isAdmin: localUser.isAdmin,
                 name: userNameState,
                 email: localUser.email,
-                rewardsPoints: localUser.rewardsPoints,
+                rewardsPoints: user.rewardsPoints,
                 type: localUser.type
             }
             await updateUser(user.id, newUserObj)
