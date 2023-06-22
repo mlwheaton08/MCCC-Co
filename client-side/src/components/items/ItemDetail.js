@@ -87,6 +87,10 @@ export const ItemDetail = ({ getNavCartItemTotal }) => {
         setAddToCartDisabled(true)
         setTimeout(enableAddToCart, 2000)
         await getNavCartItemTotal(localUser.firebaseId)
+
+        const copy = {...orderItem}
+        copy.itemQuantity = 1
+        setOrderItem(copy)
     }
 
 
@@ -160,25 +164,18 @@ export const ItemDetail = ({ getNavCartItemTotal }) => {
                             : <div className="w-full flex justify-start items-center gap-10">
                                 <div>
                                     <span className="text-2xl font-thin">Quantity: </span>
-                                    <select
+                                    <input
+                                        type="number"
+                                        min={1}
+                                        max={20}
+                                        value={orderItem.itemQuantity}
                                         className="bg-bg-secondary-color text-lg font-thin"
                                         onChange={async (evt) => {
                                             const copy = {...orderItem}
                                             copy.itemQuantity = parseInt(evt.target.value)
                                             setOrderItem(copy)
                                         }}
-                                    >
-                                        <option value={1}>1</option>
-                                        <option value={2}>2</option>
-                                        <option value={3}>3</option>
-                                        <option value={4}>4</option>
-                                        <option value={5}>5</option>
-                                        <option value={6}>6</option>
-                                        <option value={7}>7</option>
-                                        <option value={8}>8</option>
-                                        <option value={9}>9</option>
-                                        <option value={10}>10</option>
-                                    </select>
+                                    />
                                 </div>
                                 {
                                     addToCartDisabled
