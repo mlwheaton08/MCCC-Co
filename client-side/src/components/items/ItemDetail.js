@@ -169,7 +169,7 @@ export const ItemDetail = ({ getNavCartItemTotal }) => {
                                         min={1}
                                         max={20}
                                         value={orderItem.itemQuantity}
-                                        className="bg-bg-secondary-color text-lg font-thin"
+                                        className="w-11 pl-1 bg-bg-secondary-color text-lg font-thin"
                                         onChange={async (evt) => {
                                             const copy = {...orderItem}
                                             copy.itemQuantity = parseInt(evt.target.value)

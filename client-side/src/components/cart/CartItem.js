@@ -69,7 +69,7 @@ export const CartItem = ({ orderItem, getOrder, getNavCartItemTotal, localUser, 
                         min={1}
                         max={20}
                         value={orderItem.itemQuantity}
-                        className="bg-bg-secondary-color"
+                        className="w-11 pl-1 bg-bg-secondary-color"
                         onChange={(evt) => handleOrderItemQuantityUpdate(evt.target.value)}
                     />
                 </div>
