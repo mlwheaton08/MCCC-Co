@@ -45,53 +45,24 @@ export const Checkout = ({ getNavCartItemTotal, setSearchState, setSeriesFilter,
         const response = await fetchOrders(localUser.firebaseId, false)
         if (response.length > 0) {
             const openOrder = response[0]
-            // set address if there is one (default preferred)
-            const defaultAddress = shippingAddresses.find((a) => a.isDefault)
-            if (defaultAddress) {
-                openOrder.shipCompanyName = defaultAddress.companyName
-                openOrder.shipLineOne = defaultAddress.lineOne
-                openOrder.shipLineTwo = defaultAddress.lineTwo
-                openOrder.shipCity = defaultAddress.city
-                openOrder.shipState = defaultAddress.state
-                openOrder.shipZIPCode = defaultAddress.zipCode
-                openOrder.shipCountry = defaultAddress.country
-            } else if (shippingAddresses.length > 0) {
-                openOrder.shipCompanyName = shippingAddresses[0].companyName
-                openOrder.shipLineOne = shippingAddresses[0].lineOne
-                openOrder.shipLineTwo = shippingAddresses[0].lineTwo
-                openOrder.shipCity = shippingAddresses[0].city
-                openOrder.shipState = shippingAddresses[0].state
-                openOrder.shipZIPCode = shippingAddresses[0].zipCode
-                openOrder.shipCountry = shippingAddresses[0].country
-            } else {
-                openOrder.shipCompanyName = null
-                openOrder.shipLineOne = null
-                openOrder.shipLineTwo = null
-                openOrder.shipCity = null
-                openOrder.shipState = null
-                openOrder.shipZIPCode = null
-                openOrder.shipCountry = null
-            }
-            await updateOrder(openOrder.id, openOrder)
-            const response2 = await fetchOrders(localUser.firebaseId, false)
-            const updatedAddressOpenOrder = response2[0]
+            setOrder(openOrder)
+            setOrderItems(openOrder.orderItems)
 
-            setOrder(updatedAddressOpenOrder)
-            setOrderItems(updatedAddressOpenOrder.orderItems)
-            if (!updatedAddressOpenOrder.shipLineOne) {
+            // if open order address keys are null, show address edit form
+            if (!openOrder.shipLineOne) {
                 setOrderHasAddress(false)
                 setShippingAddressEdit(true)
             } else {
                 setOrderHasAddress(true)
                 setShippingAddressEdit(false)
                 setShippingAddressState({
-                    companyName: updatedAddressOpenOrder.shipCompanyName,
-                    lineOne: updatedAddressOpenOrder.shipLineOne,
-                    lineTwo: updatedAddressOpenOrder.shipLineTwo,
-                    city: updatedAddressOpenOrder.shipCity,
-                    state: updatedAddressOpenOrder.shipState,
-                    zipCode: updatedAddressOpenOrder.shipZIPCode,
-                    country: updatedAddressOpenOrder.shipCountry
+                    companyName: openOrder.shipCompanyName,
+                    lineOne: openOrder.shipLineOne,
+                    lineTwo: openOrder.shipLineTwo,
+                    city: openOrder.shipCity,
+                    state: openOrder.shipState,
+                    zipCode: openOrder.shipZIPCode,
+                    country: openOrder.shipCountry
                 })
             }
         }
@@ -99,11 +70,8 @@ export const Checkout = ({ getNavCartItemTotal, setSearchState, setSeriesFilter,
 
     useEffect(() => {
         getUser()
-    },[])
-
-    useEffect(() => {
         getOrder()
-    },[shippingAddresses])
+    },[])
 
     useEffect(() => {
         if (!shippingAddressEdit) {
@@ -441,9 +409,6 @@ export const Checkout = ({ getNavCartItemTotal, setSearchState, setSeriesFilter,
                                                 <CheckoutItem
                                                     key={orderItem.id}
                                                     orderItem={orderItem}
-                                                    getOrder={getOrder}
-                                                    getNavCartItemTotal={getNavCartItemTotal}
-                                                    localUser={localUser}
                                                     isLastItem={index === (orderItems.length - 1)}
                                                 />
                                             )

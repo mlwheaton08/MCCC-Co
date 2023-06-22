@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { addUserShippingAddress, deleteUserShippingAddress, fetchUserByFirebaseIdWithAddresses, updateUser, updateUserShippingAddress } from "../../APIManager"
+import { addUserShippingAddress, deleteUserShippingAddress, fetchOrders, fetchUserByFirebaseIdWithAddresses, updateOrder, updateUser, updateUserShippingAddress } from "../../APIManager"
 import { editIcon, plusSignIcon, trashCanIcon } from "../../icons"
 import { UserAddressForm } from "./UserAddressForm"
 import { alertTopYellow, alertTopRed } from "../alerts/AlertTop"
@@ -49,6 +49,10 @@ export const Account = ({ getNavUserName }) => {
     },[])
 
     useEffect(() => {
+        updateOrderAddress()
+    },[shippingAddresses])
+
+    useEffect(() => {
         if (!userNameEdit) {
             setUserNameInputError(false)
         }
@@ -95,16 +99,63 @@ export const Account = ({ getNavUserName }) => {
         }
     }
 
+    const updateOrderAddress = async () => {
+        // get open order
+        const openOrder = await fetchOrders(localUser.firebaseId, false)
+        const order = openOrder[0]
+
+        // set open order address as null
+        order.shipCompanyName = null
+        order.shipLineOne = null
+        order.shipLineTwo = null
+        order.shipCity = null
+        order.shipState = null
+        order.shipZIPCode = null
+        order.shipCountry = null
+
+        // if there are saved shipping addresses, check for default address
+        if (shippingAddresses.length > 0) {
+            const defaultAddress = shippingAddresses.find((a) => a.isDefault)
+            // if there is a current default address, update the open order address to be the default address
+            if (defaultAddress) {
+                order.shipCompanyName = defaultAddress.companyName
+                order.shipLineOne = defaultAddress.lineOne
+                order.shipLineTwo = defaultAddress.lineTwo
+                order.shipCity = defaultAddress.city
+                order.shipState = defaultAddress.state
+                order.shipZIPCode = defaultAddress.zipCode
+                order.shipCountry = defaultAddress.country
+            } else {
+                // else set the order address as the first saved address in the shippingAddresses array
+                order.shipCompanyName = shippingAddresses[0].companyName
+                order.shipLineOne = shippingAddresses[0].lineOne
+                order.shipLineTwo = shippingAddresses[0].lineTwo
+                order.shipCity = shippingAddresses[0].city
+                order.shipState = shippingAddresses[0].state
+                order.shipZIPCode = shippingAddresses[0].zipCode
+                order.shipCountry = shippingAddresses[0].country
+            }
+        }
+
+        await updateOrder(order.id, order)
+    }
+
     const changeDefaultShippingAddress = async (newDefaultAddress) => {
         const oldDefaultAddress = shippingAddresses.find((a) => a.isDefault)
+        // if there is a current default, set it as false
         if (oldDefaultAddress) {
             oldDefaultAddress.isDefault = false
             await updateUserShippingAddress(oldDefaultAddress.id, oldDefaultAddress)
         }
 
+        // update address to be default
         newDefaultAddress.isDefault = true
         await updateUserShippingAddress(newDefaultAddress.id, newDefaultAddress)
         await getUser()
+
+        // update order address
+        await updateOrderAddress()
+
         setAlert(alertTopYellow("Default shipping address changed."))
         setTimeout(hideAlert, 2000)
     }
@@ -117,8 +168,10 @@ export const Account = ({ getNavUserName }) => {
                 await updateUserShippingAddress(nextInLineDefaultAddress.id, nextInLineDefaultAddress)
             }
         }
+
         await deleteUserShippingAddress(addressId)
         await getUser()
+
         setAlert(alertTopYellow("Shipping address deleted."))
         setTimeout(hideAlert, 2000)
     }
@@ -129,6 +182,7 @@ export const Account = ({ getNavUserName }) => {
     }
 
     const handleAddressSaveChanges = async () => {
+        // error handling
         if (!shippingAddressState.lineOne
             || !shippingAddressState.city
             || !shippingAddressState.state
@@ -140,6 +194,11 @@ export const Account = ({ getNavUserName }) => {
         } else {
             await updateUserShippingAddress(shippingAddressState.id, shippingAddressState)
             await getUser()
+
+            // update order address
+            await updateOrderAddress()
+
+            // close form, reset state
             setShippingAddressEdit(null)
             setShippingAddressState({
                 userId: null,
@@ -153,6 +212,7 @@ export const Account = ({ getNavUserName }) => {
                 country: "",
                 isDefault: false
             })
+
             setAlert(alertTopYellow("Address changes saved."))
             setTimeout(hideAlert, 2000)
         }
