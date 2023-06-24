@@ -132,4 +132,4 @@ The account page gives us lots of CRUD capabilties, complete with error handling
 
 ## Project ERD
 
-![ERD](screenshots/ERD.png)
+![ERD](screenshots/ERD.PNG)
