@@ -1,81 +1,135 @@
 # MCCC Co.
 
-This project is a full stack ecommerce site for a (made-up) cymbal manufacturing company. Users can sign in, view products, add products to their cart, and complete orders.
+This app was created as a final capstone while attending Nashville Software School's full-stack web development bootcamp. My goal with this project was to create a very well-rounded, "complete package" example of all of the technologies I've learned in the past 11 months.
 
-This app was created as a Backend Capstone project while attending Nashville Software School's Full Stack Web Development Bootcamp.
+This is a full-stack ecommerce site for an imaginary cymbal manufacturing company (Mason's Cool Cheap Cymbal Company). Users can sign in, view cymbals, add cymbals to their cart, complete orders, view order history, and edit their account information.
+
+<br>
 
 ## Table of Contents
 
 - [App Flow](#app-flow)
-- [Features in progress](#features-in-progress)
 - [Technologies Used](#technologies-used)
-- [Links](#links)
+- [Project ERD](#project-erd)
+
+<br>
 
 ## App Flow
 
-The user is first greeted with a large splash page and navigation options.
-
 ![Home-1](screenshots/Home-1.PNG)
 
-Hovering over Cymbals in the navbar will provide filter options for more specific browsing. Clicking one of the options will navigate the user to the cymbals page with the selected filter applied.
+<br>
 
-![Nav-Cymbals-1](screenshots/Nav-Cymbals-1.png)
+![Nav-Cymbals-1](screenshots/Nav-Cymbals-1.png)\
+Navigate to cymbals page with a filter applied.
 
-The user can filter by both Type and Series at the same time if they wish.
+<br>
 
-![Cymbals-1](screenshots/Cymbals-1.png)
+![Cymbals-1](screenshots/Cymbals-1.png)\
+Cymbals can be filtered by both Type and Series at the same time. Here, we just have a Type filter applied.
 
-Clicking on a cymbal card will navigate the user to the details page for that cymbal. Here, they can add the cymbal to their cart. In the case below, the user needs to first sign in.
+<br>
 
-![Cymbal-Details-1](screenshots/Cymbal-Details-1.png)
+![Cymbal-Details-1](screenshots/Cymbal-Details-1.png)\
+Clicking on a cymbal card will navigate us to the details page for that cymbal. If we want to add it to our cart, we must sign in first.
 
-This app uses firebase for login and supports both email/password and Google sign in. If they don't have an existing account, there is an option to register.
+<br>
 
-![Sign-In-1](screenshots/Sign-In-1.png)
+![Sign-In-1](screenshots/Sign-In-1.png)\
+This app uses Firebase auth for login/register. We'll sign in as an existing user.
 
-After login/registration, the user is redirected back to the page they were viewing previously. Now the user can select the quantity and add the product to their cart.
+<br>
 
-![Cymbal-Details-2](screenshots/Cymbal-Details-2.png)
+![Cymbal-Details-2](screenshots/Cymbal-Details-2.png)\
+After login/registration, we're redirected back to the previous route (excluding Login/Register routes). Now we can select the quantity and add the product to our cart.
 
-Once signed in, the navbar is updated to display a cart (with the item quantity) and a user dropdown. Clicking the cart will navigate the user to their cart.
+<br>
 
 ![Nav-User-1](screenshots/Nav-User-1.png)
 
-At the cart page the user can update cart item quatities, delete cart items, and complete their order.
+<br>
 
-![Cart-1](screenshots/Cart-1.png)
+![Search-1](screenshots/Search-1.png)\
+The search bar uses a 250ms debounce function before querying the database for the top 5 most popular (measured by purchase count) cymbals matching the search criterion. Clicking one of the dropdown options navigates us to the details page for that cymbals. However, let's hit "Enter" for this search.
 
-The user dropdown in the navbar has the option to view order history.
+<br>
+
+![Cymbals-2](screenshots/Cymbals-2.png)\
+Here we have a search, filter, and sort in place at the same time.
+
+<br>
+
+![Packs-1](screenshots/Packs-1.png)\
+MCCC Co. also sells packs of cymbals.
+
+<br>
+
+![Pack-Details-1](screenshots/Pack-Details-1.png)\
+Clicking "Add to Cart" will add each pack item to our cart.
+
+<br>
+
+![Cart-1](screenshots/Cart-1.png)\
+When viewing our cart we can delete items and update quantities.
+
+<br>
+
+![Checkout-1](screenshots/Checkout-1.png)\
+Now we're at checkout. Since we have saved addresses, the order shipping address will automatically be set as our default address
+
+<br>
+
+![Checkout-Address-1](screenshots/Checkout-Address-1.png)\
+We can view our saved addresses in the dropdown when editing our order shipping address.
+
+<br>
+
+![Checkout-Cart-1](screenshots/Checkout-Cart-1.png)\
+Each rewards point is worth $1.
+
+<br>
+
+![Checkout-Order-Complete-1](screenshots/Checkout-Order-Complete-1.png)\
+Upon order completion, we're given a randomly generated alphanumeric confirmation number. We're also given more rewards (a generous 5% of the order's total value, rounded to the nearest integer).
+
+<br>
 
 ![Nav-User-2](screenshots/Nav-User-2.png)
 
-Here, the user can view the details of their past completed orders, including its randomly-generated alphanumeric confirmation number.
+<br>
 
-![Order-History-1](screenshots/Order-History-1.png)
+![Order-History-1](screenshots/Order-History-1.png)\
+The Order History page features Flowbite accordion components.
 
-## Features in progress
+<br>
 
-- Search
-- Saved
-    - A page listing saved (favorited) cymbals
-- Account
-    - User can edit their information, including shipping address
-- Rewards system
-    - Each purchase earns the user rewards points, and they may use them for a discount at checkout
-- Checkout
-    - A page to allow customers to use rewards and enter a shipping address (or choose from saved ones) before completing their order
-- Distributors
-    - A page listing retailers that carry MCCC Co. cymbals
+![Distributors-1](screenshots/Distributors-1.png)\
+Find a distributor near you by using the country, state, and city filters.
+
+<br>
+
+![Account-1](screenshots/Account-1.png)\
+The account page gives us lots of CRUD capabilties, complete with error handling -- the name edit input doesn't allow empty or blank space, and...
+
+<br>
+
+![Account-2](screenshots/Account-2.png)
+...the address form has required fields in order to save/update.
+
+<br>
 
 ## Technologies Used
 
+<a href="https://learn.microsoft.com/en-us/dotnet/csharp/" title="c#"><img src="https://github.com/get-icon/geticon/raw/master/icons/c-sharp.svg" alt="c#" width="50px" height="50px"></a>
 <a href="https://reactjs.org/" title="React JS"><img src="https://github.com/get-icon/geticon/raw/master/icons/react.svg" alt="React JS" width="50px" height="50px"></a>
 <a href="https://reactrouter.com/en/main" title="React Router"><img src="https://reactrouter.com/_brand/react-router-mark-color.svg" alt="React Router" width="50px" height="50px"></a>
-<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" title="JavaScript"><img src="https://github.com/get-icon/geticon/raw/master/icons/javascript.svg" alt="JavaScript" width="50px" height="50px"></a>
+<a href="https://www.javascript.com/" title="JavaScript"><img src="https://github.com/get-icon/geticon/raw/master/icons/javascript.svg" alt="JavaScript" width="50px" height="50px"></a>
 <a href="https://www.npmjs.com/" title="npm"><img src="https://github.com/get-icon/geticon/raw/master/icons/npm.svg" alt="npm" width="50px" height="50px"></a>
-<a href="https://tailwindcss.com/" title="npm"><img src="https://github.com/get-icon/geticon/raw/master/icons/tailwindcss-icon.svg" alt="npm" width="50px" height="50px"></a>
-<a href="https://tailwindcss.com/" title="npm"><img src="https://github.com/get-icon/geticon/raw/master/icons/c-sharp.svg" alt="npm" width="50px" height="50px"></a>
+<a href="https://firebase.google.com/" title="firebase"><img src="https://raw.githubusercontent.com/get-icon/geticon/master/icons/firebase.svg" alt="firebase" width="50px" height="50px"></a>
+<a href="https://tailwindcss.com/" title="tailwind"><img src="https://github.com/get-icon/geticon/raw/master/icons/tailwindcss-icon.svg" alt="tailwind" width="50px" height="50px"></a>
 
-## Links
+<br>
 
-<a href="https://dbdiagram.io/d/6462ba2bdca9fb07c422425a" target="_blank">Project ERD</a>
+## Project ERD
+
+![ERD](screenshots/ERD.png)
